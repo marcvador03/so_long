@@ -1,58 +1,60 @@
-NAME := libft.a
+#Filenames definition
+NAME := ft_lib.a
 
-TEST_NAME = t_$(SRC_NAME)
+SRC_NAMES := ft_isalpha.c \
+	     ft_isascii.c \
+	     ft_isdigit.c \
+	     ft_isprint.c \
+	     ft_memset.c \
+	     ft_strlen.c \
+	     ft_bzero.c 
+ADD_NAMES := t_dir/ft_putchar.c
 
+#Directory definition
 SRC_DIR := .
 
 INC_DIR := .
 
-OBJ_DIR := obj 
+OBJ_DIR := obj
 
 BIN_DIR := .
 
 TEST_DIR := t_dir
 
-SRC_NAME := ft_isalnum.c \
-	   ft_isalpha.c \
-	   ft_isascii.c \
-	   ft_isdigit.c \
-	   ft_isprint.c \
-	   ft_strlen.c \
-	   ft_memset.c 
-
-SOURCES :=$(SRC_DIR)/$(SRC_NAME) \
+SOURCES := $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_NAMES))
 
 OBJECTS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SOURCES))
+
+T_SRC := $(patsubst %.c, $(TEST_DIR)/t_%.c, $(SRC_NAMES))
+
+T_OBJ := $(patsubst $(TEST_DIR)/%.c, $(TEST_DIR)/%.o, $(T_SRC))
 
 CFLAGS += -Wall -Werror -Wextra
 
 CUR_DIR := $(shell pwd)
 
-.PHONY: all flags clean fclean re
-all: $(NAME)
+#TARGETS
+.PHONY: all flags clean fclean tclean re test
+all: $(OBJECTS) $(NAME)
 
-$(NAME): $(OBJECTS) | $(BIN_DIR)
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)  
+	cc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+
+$(NAME): $(OBJECTS) 
 	ar rc $(NAME) $(OBJECTS)
 	ranlib $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	cc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+test_%: %.c | $(T_SRC)
+	cc  \
+	-I $(INC_DIR) \
+	-c $< $(TEST_DIR)/$@ $(ADD_NAMES)\
+	-o t_$@.o
 
-$(TEST_NAME): $(TEST_DIR)/$(TEST_NAME) | $(TEST_DIR)
-	cc $(CFLAGS) -I $(INC_DIR) -o $@ $^
+$(TEST_DIR)/t_%.c: $(TEST_DIR)
+	touch $@
 
-$(OBJ_DIR): 
-ifneq ($(OBJ_DIR), .)
-	mkdir -p $@
-endif
-
-$(BIN_DIR): 
-ifneq ($(BIN_DIR), .)
-	mkdir -p $@
-endif
-
-$(TEST_DIR): 
-ifneq ($(TEST_DIR), .)
+$(OBJ_DIR) $(BIN_DIR) $(TEST_DIR):  
+ifneq ($@, .)
 	mkdir -p $@
 endif
 
@@ -64,11 +66,13 @@ clean:
 ifneq ($(OBJ_DIR), .)
 	rmdir $(OBJ_DIR)
 endif
+
+fclean: clean
+	rm -rf $(NAME)
 ifneq ($(BIN_DIR), .)
 	rmdir $(BIN_DIR)
 endif
 
-fclean: clean
-	rm -rf $(NAME)
-
+tclean:
+	rm -rf $(TEST_DIR)/*.o
 re: fclean all
