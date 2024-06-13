@@ -1,14 +1,26 @@
 NAME := libft.a
 
+TEST_NAME = t_$(SRC_NAME)
+
 SRC_DIR := .
 
 INC_DIR := .
 
-OBJ_DIR := .
+OBJ_DIR := obj 
 
 BIN_DIR := .
 
-SOURCES := $(SRC_DIR)/main.c 
+TEST_DIR := t_dir
+
+SRC_NAME := ft_isalnum.c \
+	   ft_isalpha.c \
+	   ft_isascii.c \
+	   ft_isdigit.c \
+	   ft_isprint.c \
+	   ft_strlen.c \
+	   ft_memset.c 
+
+SOURCES :=$(SRC_DIR)/$(SRC_NAME) \
 
 OBJECTS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SOURCES))
 
@@ -20,10 +32,14 @@ CUR_DIR := $(shell pwd)
 all: $(NAME)
 
 $(NAME): $(OBJECTS) | $(BIN_DIR)
-	cc $(CFLAGS) -o $@ $^
+	ar rc $(NAME) $(OBJECTS)
+	ranlib $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	cc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+
+$(TEST_NAME): $(TEST_DIR)/$(TEST_NAME) | $(TEST_DIR)
+	cc $(CFLAGS) -I $(INC_DIR) -o $@ $^
 
 $(OBJ_DIR): 
 ifneq ($(OBJ_DIR), .)
@@ -32,6 +48,11 @@ endif
 
 $(BIN_DIR): 
 ifneq ($(BIN_DIR), .)
+	mkdir -p $@
+endif
+
+$(TEST_DIR): 
+ifneq ($(TEST_DIR), .)
 	mkdir -p $@
 endif
 

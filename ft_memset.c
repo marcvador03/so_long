@@ -6,18 +6,23 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 12:22:13 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/13 13:03:07 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/13 16:33:41 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void	*memset(void *s, int c, size_t n)
+void	*ft_memset(void *s, int c, size_t n)
 {
 	size_t	i;
 	
-	i = 0;
-	while (i <= n)
-		((int *)s)[i++] = c;
+	i = 1;
+	if (n == 0)
+		return (0);
+	while (i++ <= n)
+	{
+		*((int *)s) = c;
+		s++;
+	}
 	return (s);
 }
