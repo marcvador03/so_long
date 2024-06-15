@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:57:01 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/13 12:00:31 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/15 13:02:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isdigit(int c)
 {
-	if (c >= 58 && c <= 97)
+	if (c >= 48 && c <= 57)
 		return (1);
 	else
 		return (0);
