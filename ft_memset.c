@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 12:22:13 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/15 15:53:24 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/16 15:02:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*ft_memset(void *s, int c, size_t n)
 		return (0);
 	while (i++ <= n)
 	{
-		*((int *)s) = c;
+		*((unsigned char *)s) = c;
 		s++;
 	}
 	return (s);
