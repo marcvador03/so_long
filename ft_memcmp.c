@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
+/*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 16:41:04 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/17 20:20:09 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/17 21:09:19 by mfleury           #+#    #+#             */
+/*   Updated: 2024/06/17 21:14:53 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <libft.h>
 
-char	*ft_strrchr(const char *s, int c)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
+	unsigned char	*ptr1;
+	unsigned char	*ptr2;
 	int	i;
+
 	i = 0;
-	while (s[i] != '\0')
-		i++;
-	i--;
-	while (i >= 0)
+	ptr1 = (unsigned char *)s1;
+	ptr2 = (unsigned char *)s2;
+	while (*ptr1 != '\0' && *ptr2 != '\0' && i < n && *ptr1 != *ptr2)
 	{
-		if (s[i] == c)
-			return (&((char *)s)[i]);
-		i--;
+		ptr1++;
+		ptr2++;
+		i++;
 	}
-	return (0);
+	return (*ptr1 - *ptr2);
 }
+

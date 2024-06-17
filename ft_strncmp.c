@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
+/*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 16:41:04 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/17 20:20:09 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/17 20:40:11 by mfleury           #+#    #+#             */
+/*   Updated: 2024/06/17 21:15:19 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <libft.h>
 
-char	*ft_strrchr(const char *s, int c)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int	i;
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	i--;
-	while (i >= 0)
+	size_t	i;
+
+	i = 1;
+	while (*s1 != *s2 && *s1 != '\0' && *s2 != '\0' && i <= n)
 	{
-		if (s[i] == c)
-			return (&((char *)s)[i]);
-		i--;
+		s1++;
+		s2++;
+		i++;
 	}
-	return (0);
+	return (*s1 - *s2);
 }
