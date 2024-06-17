@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 14:52:04 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/17 15:29:34 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/17 16:30:17 by mfleury           #+#    #+#             */
+/*   Updated: 2024/06/17 16:36:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+int	ft_toupper(int c)
 {
-	size_t	i;
-
-	i = 0;
-	while (src[i] != '\0' && i < size)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (i);
+	if (c >= 97 && c<= 122)
+		return (c - 32);
+	return (c);
 }

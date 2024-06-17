@@ -6,7 +6,7 @@
 /*   By: mfleury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 13:43:36 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/17 11:34:37 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/17 16:09:46 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <libft.h>
@@ -16,10 +16,7 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
-	while (*str != '\0')
-	{
+	while (str[i] != '\0')
 		i++;
-		str++;
-	}
 	return (i);
 }
