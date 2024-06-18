@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 12:06:13 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/13 12:09:53 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/18 17:00:15 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	ft_isascii(int c)
 {
-	if (c >=0 && c <= 127)
+	if (c >= 0 && c <= 127)
 		return (1);
 	else
 		return (0);
 }
-	

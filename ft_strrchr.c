@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:41:04 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/17 20:20:09 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:58:34 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <libft.h>
@@ -14,6 +14,7 @@
 char	*ft_strrchr(const char *s, int c)
 {
 	int	i;
+
 	i = 0;
 	while (s[i] != '\0')
 		i++;

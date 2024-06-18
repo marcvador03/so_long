@@ -6,14 +6,15 @@
 /*   By: mfleury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:25:54 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/18 16:34:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:56:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-typedef unsigned long size_t;
-size_t	ft_strlen(const char *str);
+
+typedef unsigned long	size_t;
+size_t		ft_strlen(const char *str);
 int	ft_isprint(int c);
 int	ft_isdigit(int c);
 int	ft_isascii(int c);
