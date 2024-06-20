@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 16:48:31 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/20 16:06:07 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/20 15:45:10 by mfleury           #+#    #+#             */
+/*   Updated: 2024/06/20 16:29:08 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <stdlib.h>
 
-char *ft_substr(char const *s, unsigned int start, size_t len)
+char	**ft_split(char const *s, char c)
 {
-	char	*str;
-	unsigned int	i;
+	char	**ptr;
+	int	i;
+	int	count;
+	char	*temp;
 
+	i = 0;
+	temp = s;
 	if (s == 0)
-		return ((void *)0);
-	str = (char *)malloc((len + 1) * sizeof(char));
-	if (str == NULL)
 		return (0);
-	i = start;
-	while (i < (start + (unsigned int)len) && *s != '\0')
-	{
-		str[i - start] = s[i];
-		i++;
-	}
-	return (str);
+	while (ft_strrchr(s, (int)c) + 1 != 0)
+		ft_split(ft_strchr(s, (int)c) + 1, c);
+
+
 }
