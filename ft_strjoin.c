@@ -6,11 +6,12 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:20:52 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/19 17:32:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/20 11:52:43 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lib_ft.h>
+#include <libft.h>
+#include <stdlib.h>
 
 char *ft_strjoin(char const *s1, char const *s2)
 {
@@ -32,7 +33,7 @@ char *ft_strjoin(char const *s1, char const *s2)
 	}
 	while (i < len)
 	{
-		str[i] = s2[i];
+		str[i] = s2[i - s1_len];
 		i++;
 	}
 	str[i] = '\0';
