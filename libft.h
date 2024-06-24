@@ -6,7 +6,7 @@
 /*   By: mfleury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:25:54 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/20 10:00:13 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/24 15:33:06 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 typedef unsigned long	size_t;
 size_t	ft_strlen(const char *str);
-
 int		ft_isprint(int c);
 int		ft_isdigit(int c);
 int		ft_isascii(int c);

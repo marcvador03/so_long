@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:00 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/18 17:00:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/18 20:02:42 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,11 @@ int	ft_atoi(const char *nptr)
 	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
 		nptr++;
 	if (*nptr == 45 || *nptr == 43)
-	{
-		if (*nptr == 45)
+		if (*nptr++ == 45)
 			sign *= -1;
-		nptr++;
-	}
 	res = 0;
 	if (*nptr != '\0' && *nptr >= 48 && *nptr <= 57)
-	{
-		res = res + (*nptr - 48);
-		nptr++;
-	}
+		res = res + (*nptr++ - 48);
 	while (*nptr != '\0' && *nptr >= 48 && *nptr <= 57)
 	{
 		if (res != 0)
@@ -48,8 +42,7 @@ int	ft_atoi(const char *nptr)
 			}
 			res *= 10;
 		}
-		res = res + (*nptr - 48);
-		nptr++;
+		res = res + (*nptr++ - 48);
 	}
 	return (res * sign);
 }
