@@ -66,6 +66,7 @@ bonus: $(OBJECTS_BNS) $(NAME)
 $(NAME): $(OBJECTS) 
 	ar rc $(NAME) $(OBJECTS)
 	ranlib $(NAME)
+	rm -rf *.o
 
 %.o: %.c  
 	cc $(CFLAGS) -I . -c $< -o $@
