@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 11:16:45 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/26 00:02:04 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/28 00:49:01 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
+	int		len;
+	int		i;
 	char	*str;
-	int	len;
-	int	i;
 
 	if (s == NULL)
 		return (0);
@@ -34,4 +34,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	str[len + 1] = '\0';
 	return (str);
 }
-

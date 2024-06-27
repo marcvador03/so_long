@@ -6,6 +6,7 @@ NAME := ft_lib.a
 SRC_NAMES := ft_isalpha.c \
 	     ft_isascii.c \
 	     ft_isdigit.c \
+	     ft_isalnum.c \
 	     ft_isprint.c \
 	     ft_memset.c \
 	     ft_strlen.c \

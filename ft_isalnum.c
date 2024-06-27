@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 12:01:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/18 16:51:16 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/27 11:51:22 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_isalnum(int c)
 {
 	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
 		return (1);
-	else if (c >= 58 && c <= 97)
+	else if (c >= 48 && c <= 57)
 		return (1);
 	else
 		return (0);

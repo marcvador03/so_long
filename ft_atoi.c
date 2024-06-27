@@ -6,12 +6,27 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:00 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/18 20:02:42 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/28 01:24:32 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <limits.h>
+
+static int	ft_atoi_lim(int *res, const char **nptr)
+{
+	int	sign;
+
+	sign = 1;
+	while ((**nptr >= 9 && **nptr <= 13) || **nptr == 32)
+		nptr++;
+	if (**nptr == 45 || **nptr == 43)
+		if (**nptr++ == 45)
+			sign *= -1;
+	if (**nptr != '\0' && **nptr >= 48 && **nptr <= 57)
+		res = res + (**nptr++ - 48);
+	return (sign);
+}
 
 int	ft_atoi(const char *nptr)
 {
@@ -20,15 +35,8 @@ int	ft_atoi(const char *nptr)
 
 	if (*nptr == '\0')
 		return (0);
-	sign = 1;
-	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
-		nptr++;
-	if (*nptr == 45 || *nptr == 43)
-		if (*nptr++ == 45)
-			sign *= -1;
 	res = 0;
-	if (*nptr != '\0' && *nptr >= 48 && *nptr <= 57)
-		res = res + (*nptr++ - 48);
+	sign = ft_atoi_lim(&res, &nptr);
 	while (*nptr != '\0' && *nptr >= 48 && *nptr <= 57)
 	{
 		if (res != 0)

@@ -3,23 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
+/*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 15:45:10 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/25 00:59:12 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/27 23:01:41 by mfleury           #+#    #+#             */
+/*   Updated: 2024/06/28 00:43:05 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <stdlib.h>
+#include "../Misc/Tests/inc/t_test.h"
+
+static void	ft_split_2(char **temp, int n, char *str, int *i)
+{
+	free(*temp);
+	*temp = (char *)malloc(n * sizeof(char));
+	ft_strlcpy(*temp, str, n);
+	*i = -1;
+}
+
+static char	**ft_split_loop(char const *s, char c, int len, int count)
+{
+	char	**ptr;
+	char	*temp;
+	int		i;
+	int		l;
+
+	temp = (char *)malloc((len + 1) * sizeof(char));
+	l = ft_strlen(s);
+	ft_strlcpy(temp, s, len);
+	ptr = (char **)malloc((count + 2) * sizeof(char *));
+	i = -1;
+	len = 0;
+	count = 0;
+	while (temp[++i] != '\0')
+	{
+		if (temp[i] == c)
+		{
+			ptr[count] = (char *)malloc((i + 1) * sizeof(char));
+			len = len + (int)ft_strlcpy(ptr[count], temp, i);
+			ft_split_2(&temp, l - len, ft_substr(s, len + 1 + count++, l), &i);
+		}
+	}
+	ptr[count] = (char *)malloc((i + 1) * sizeof(char));
+	ft_strlcpy(ptr[count], temp, l - len);
+	ptr[++count] = NULL;
+	return (ptr);
+}
 
 char	**ft_split(char const *s, char c)
 {
 	char	**ptr;
-	char	*temp;
-	int	i;
-	int	len;
-	int	count;
+	int		len;
+	int		count;
 
 	len = 0;
 	count = 0;
@@ -28,29 +64,6 @@ char	**ft_split(char const *s, char c)
 	while (s[len] != '\0')
 		if (s[len++] == c)
 			count++;
-	ptr = (char **)malloc((count + 2) * sizeof(char *));
-	temp = (char *)malloc((len + 1) * sizeof(char));
-	ft_strlcpy(temp, s, len);
-	i = 0;
-	count = 0;
-	len = 0;
-	while (temp[i] != '\0')
-	{
-		if (temp[i] == c)
-		{
-			ptr[count] = (char *)malloc((i + 1) * sizeof(char));
-			ft_strlcpy(ptr[count], temp, i);
-			len = len + ft_strlen(ptr[count]);
-			free(temp);
-			temp = (char *)malloc((ft_strlen(s) - len) * sizeof(char));
-			ft_strlcpy(temp, ft_substr(s, len + 1 + count, ft_strlen(s)), ft_strlen(s) - len);
-			count++;
-			i = -1;
-		}
-		i++;
-	}
-	ptr[count] = (char *)malloc((i + 1) * sizeof(char));
-	ft_strlcpy(ptr[count], temp, ft_strlen(s) - len);
-	ptr[++count] = (void *)0;
+	ptr = ft_split_loop(s, c, len, count);
 	return (ptr);
 }

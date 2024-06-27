@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 16:11:40 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/16 16:29:33 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/27 14:24:46 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
 
+	if (dest == NULL || src == NULL)
+		return (0);
 	i = 0;
 	while (i < n)
 	{
