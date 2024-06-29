@@ -6,13 +6,12 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 23:01:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/28 00:43:05 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/29 13:19:38 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <stdlib.h>
-#include "../Misc/Tests/inc/t_test.h"
 
 static void	ft_split_2(char **temp, int n, char *str, int *i)
 {

@@ -6,12 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:34:00 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/28 00:51:54 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/29 13:14:36 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <stdlib.h>
 
 char	*ft_strtrim(char const *s1, char const *set)
 {

@@ -6,13 +6,12 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 16:30:28 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/27 17:38:05 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/29 13:19:26 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <unistd.h>
-#include <limits.h>
 
 void	ft_putnbr_fd(int n, int fd)
 {
