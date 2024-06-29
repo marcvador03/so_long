@@ -47,7 +47,7 @@ CFLAGS += -Wall -Werror -Wextra
 CUR_DIR := $(shell pwd)
 
 #TARGETS
-.PHONY: all flags clean fclean tclean re test show
+.PHONY: all flags clean fclean re show
 all: $(OBJECTS) $(NAME)
 
 %.o: %.c  
