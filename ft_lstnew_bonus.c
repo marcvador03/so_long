@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:03:33 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/26 23:33:37 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:30:15 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list	*ft_lstnew(void *content)
 
 	ptr = (t_list *)malloc(sizeof (t_list));
 	if (ptr == NULL)
-		return ((void *)0);
+		return (NULL);
 	ptr->content = content;
 	ptr->next = NULL;
 	return (ptr);
