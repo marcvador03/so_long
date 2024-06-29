@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 16:23:28 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/18 16:45:33 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/29 12:56:24 by mfleury           #+#    #+#             */
+/*   Updated: 2024/06/29 12:56:28 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
-    
-    ptr = (void *)malloc(nmemb * size);
-    if (ptr == NULL)
-        return (0);
-	ft_bzero(ptr, nmemb);
+
+	ptr = (void *)malloc(nmemb * size);
+	if (ptr == NULL)
+		return (0);
+	ft_bzero(ptr, nmemb * size);
 	return (ptr);
 }

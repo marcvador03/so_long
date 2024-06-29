@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:35:06 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/18 16:55:35 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/29 12:30:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ char	*ft_strdup(const char *s)
 		ptr[i] = s[i];
 		i++;
 	}
-    ptr[i] = '\0';
-    return (ptr);
+	ptr[i] = '\0';
+	return (ptr);
 }
