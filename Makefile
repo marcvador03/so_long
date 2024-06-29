@@ -1,7 +1,7 @@
 #Directory definition
 
 #Filenames definition
-NAME := ft_lib.a
+NAME := libft.a
 
 SRC_NAMES := ft_isalpha.c \
 	     ft_isascii.c \
