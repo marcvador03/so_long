@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 12:35:24 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/29 13:09:40 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/29 21:47:07 by mfleury           #+#    #+#             */
+/*   Updated: 2024/06/29 21:47:51 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {

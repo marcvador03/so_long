@@ -51,7 +51,7 @@ CUR_DIR := $(shell pwd)
 all: $(OBJECTS) $(NAME)
 
 %.o: %.c  
-	cc $(CFLAGS) -I . -c $< -o $@
+	cc $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS) 
 	ar rc $(NAME) $(OBJECTS)
@@ -64,7 +64,7 @@ show:
 	@echo $(T_OBJ)
 
 clean: 
-	rm -rf *.o
+	rm -rf $(OBJECTS)
 
 fclean: clean
 	rm -rf $(NAME)
