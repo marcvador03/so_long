@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:42:28 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/29 21:42:44 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/30 00:55:16 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	char	*src_t;
 	char	*dest_t;
 
-	if (dest == NULL || src == NULL)
-		return (0);
 	src_t = (char *)src;
 	dest_t = (char *)dest;
 	if (dest > src && dest < (src + n))
