@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:50:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/30 14:44:27 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/06/30 23:40:38 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,20 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		set_len;
 	int		s1_len;
 	int		j;
+	int		x;
 
 	if (s1 == NULL)
 		return (NULL);
 	i = 0;
-	while (s1[i] != '\0');
+	j = 0;
+	x = 0;
+	while (s1[i] != '\0' && x ==0)
+	{
+		while (set[j] != s1[i] && x == 0)
+			if (set[++j] == '\0')
+				x = 1;
+		i++;
+	}
 
 
 
