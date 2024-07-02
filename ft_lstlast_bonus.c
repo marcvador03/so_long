@@ -6,16 +6,20 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 00:01:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/27 00:04:18 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/02 17:12:53 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include "libft.h"
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	while (lst->next != ((void *)0))
-		lst = lst->next;
-	return (lst);
+	t_list	*tmp;
+
+	tmp = lst;
+	if (tmp == (void *)0)
+		return ((void *)0);
+	while (tmp->next != ((void *)0))
+		tmp = tmp->next;
+	return (tmp);
 }
