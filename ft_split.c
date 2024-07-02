@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 23:01:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/01 16:14:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/02 16:07:34 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,44 +21,45 @@ static int	ft_split_size(char const *s, char c)
 	i = 0;
 	cnt = 0;
 	while (s[i] != '\0')
-	{	
+	{
 		if (s[i] == c)
 			cnt++;
 		i++;
 	}
-	return (cnt + 1);
-
+	return (cnt);
 }
 
-static void	ft_split_loop(char *s, char c, char *sub_str)
+static int	ft_split_loop(char *s, char c, char **sub_str)
 {
 	int	len;
+	int	i;
 
-	ft_putstr_fd(s, 1);
-	ft_putchar_fd('\n', 1);
-	while (*s != '\0' && *s != c)
-		s++;
+	i = 0;
+	while (s[i] != '\0' && s[i] != c)
+		i++;
 	len = ft_strlen(s);
-	sub_str = ft_substr(s, 1, len);
-	ft_putstr_fd(sub_str, 1);
-	ft_putchar_fd('\n', 1);
+	*sub_str = ft_substr(s, 0, i);
+	return (i);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	int		i;
 	int		cnt;
+	int		len;
 	char	**ptr;
 	char	*str;
 
 	cnt = ft_split_size(s, c);
-	if (!(ptr = (char **)malloc((cnt + 1) * sizeof(char *))))
+	ptr = (char **)malloc((cnt + 1) * sizeof(char *));
+	if (ptr == NULL)
 		return (NULL);
 	i = 0;
 	str = (char *)s;
 	while (i <= cnt)
 	{
-		ft_split_loop((char *)s, c, str);
+		len = ft_split_loop(str, c, &ptr[i]);
+		str = (str + len + 1);
 		if (ptr[i] == NULL)
 			return (NULL);
 		i++;
