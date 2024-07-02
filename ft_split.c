@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 23:01:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/02 16:07:34 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/02 17:41:35 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**ft_split(char const *s, char c)
 	char	*str;
 
 	cnt = ft_split_size(s, c);
-	ptr = (char **)malloc((cnt + 1) * sizeof(char *));
+	ptr = (char **)malloc((cnt + 2) * sizeof(char *));
 	if (ptr == NULL)
 		return (NULL);
 	i = 0;
@@ -59,9 +59,9 @@ char	**ft_split(char const *s, char c)
 	while (i <= cnt)
 	{
 		len = ft_split_loop(str, c, &ptr[i]);
-		str = (str + len + 1);
 		if (ptr[i] == NULL)
 			return (NULL);
+		str = (str + len + 1);
 		i++;
 	}
 	ptr[cnt + 1] = NULL;

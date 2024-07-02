@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 16:30:28 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/02 16:04:46 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/02 18:28:10 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	char	c;
 	char	x;
 
 	x = -1;
@@ -33,14 +32,10 @@ void	ft_putnbr_fd(int n, int fd)
 	if (n > 9)
 	{
 		ft_putnbr_fd(n / 10, fd);
-		c = n % 10 + 48;
-		write (fd, &c, 1);
+		ft_putchar_fd((char)(n % 10) + 48, fd);
 	}
 	else
-	{
-		c = n + 48;
-		write (fd, &c, 1);
-	}
+		ft_putchar_fd((char)n + 48, fd);
 	if (x >= 0)
-		write (fd, &x, 1);
+		ft_putchar_fd(x, fd);
 }

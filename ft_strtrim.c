@@ -6,14 +6,14 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:50:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/02 16:34:57 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/02 17:54:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-static int	ft_strtrim_loop(char *s1, char *set, size_t len, int j)
+static size_t	ft_strtrim_loop(char *s1, char *set, size_t len, int j)
 {
 	int	x;
 
@@ -27,7 +27,7 @@ static int	ft_strtrim_loop(char *s1, char *set, size_t len, int j)
 		if (x == 0)
 			len--;
 	}
-	return (x);
+	return (len);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
@@ -50,7 +50,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 			s1++;
 	}
 	len = ft_strlen(s1);
-	x = ft_strtrim_loop((char *)s1, (char *)set, len, j);
+	len = ft_strtrim_loop((char *)s1, (char *)set, len, j);
 	str = ft_substr(s1, 0, len);
 	if (str == NULL)
 		return (NULL);
