@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfleury <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/07 13:43:36 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/20 13:42:32 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/29 21:48:56 by mfleury           #+#    #+#             */
+/*   Updated: 2024/06/30 01:54:36 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <libft.h>
+
+#include "libft.h"
 
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
-	if (str == 0)
-		return (0);
 	i = 0;
 	while (str[i] != '\0')
 		i++;

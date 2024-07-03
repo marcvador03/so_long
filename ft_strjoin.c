@@ -3,32 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
+/*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 17:20:52 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/20 11:52:43 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/29 21:45:42 by mfleury           #+#    #+#             */
+/*   Updated: 2024/07/03 10:42:40 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 #include <stdlib.h>
 
-char *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int	len;
-	int	s1_len;
 	char	*str;
-	int	i;
+	int		len;
+	int		s1_len;
+	int		i;
 
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
 	s1_len = ft_strlen(s1);
 	len = s1_len + ft_strlen(s2);
-	str = (char *)malloc(len * sizeof(char));
+	str = (char *)malloc((len + 1) * sizeof(char));
 	if (str == NULL)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (i < s1_len)
 	{
-		str[i] = s1[i]; 
+		str[i] = s1[i];
 		i++;
 	}
 	while (i < len)

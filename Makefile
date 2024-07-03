@@ -1,11 +1,12 @@
 #Directory definition
 
 #Filenames definition
-NAME := ft_lib.a
+NAME := libft.a
 
 SRC_NAMES := ft_isalpha.c \
 	     ft_isascii.c \
 	     ft_isdigit.c \
+	     ft_isalnum.c \
 	     ft_isprint.c \
 	     ft_memset.c \
 	     ft_strlen.c \
@@ -69,16 +70,17 @@ $(NAME): $(OBJECTS)
 	rm -rf *.o
 
 %.o: %.c  
-	cc $(CFLAGS) -I . -c $< -o $@
+	cc $(CFLAGS) -c $< -o $@
 
 flags:
 	@echo $(CFLAGS)
+
 show:
 	@echo $(T_NAME)
 	@echo $(T_OBJ)
 
 clean: 
-	rm -rf *.o
+	rm -rf $(OBJECTS)
 
 fclean: clean
 	rm -rf $(NAME)

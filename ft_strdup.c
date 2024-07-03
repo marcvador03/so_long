@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
+/*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 16:35:06 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/18 16:55:35 by mfleury          ###   ########.fr       */
+/*   Created: 2024/06/29 21:44:48 by mfleury           #+#    #+#             */
+/*   Updated: 2024/07/03 10:31:54 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 #include <stdlib.h>
 
 char	*ft_strdup(const char *s)
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *s)
 	char	*ptr;
 	int		i;
 
-	ptr = (char *)malloc(ft_strlen(s) * sizeof(char));
+	ptr = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (0);
 	i = 0;
@@ -27,5 +27,6 @@ char	*ft_strdup(const char *s)
 		ptr[i] = s[i];
 		i++;
 	}
+	ptr[i] = '\0';
 	return (ptr);
 }
