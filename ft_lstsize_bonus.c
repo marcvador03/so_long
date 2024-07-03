@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:57:52 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/02 17:12:37 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/03 12:04:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_lstsize(t_list *lst)
 
 	cnt = 0;
 	tmp = lst;
-	while (tmp->next != (void *)0)
+	while (tmp->next != NULL)
 	{
 		tmp = tmp->next;
 		cnt++;

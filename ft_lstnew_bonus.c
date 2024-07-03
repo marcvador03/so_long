@@ -6,10 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:03:33 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/02 17:18:52 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/03 11:52:00 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <stdlib.h>
 
 t_list	*ft_lstnew(void *content)
