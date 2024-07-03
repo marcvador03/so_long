@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:51:13 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/03 11:40:14 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/03 14:16:35 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (str == NULL)
 		return (NULL);
 	i = start;
-	ft_strlcpy (str, s + start, len);
+	ft_strlcpy (str, s + start, len + 1);
 	return (str);
 }
