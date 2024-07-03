@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:47:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/02 18:23:21 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/03 17:49:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	if (src == NULL)
 		return (dst_l);
 	src_l = ft_strlen(src);
-	if (size < src_l)
+	if (size <= dst_l)
 		return (src_l + size);
 	i = dst_l;
-	while (src[i - dst_l] != '\0' && i + 1 < size)
+	while (src[i - dst_l] != '\0' && (i + 1) < size)
 	{
 		dst[i] = src[i - dst_l];
 		i++;
