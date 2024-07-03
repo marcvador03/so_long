@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:49:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/06/30 02:05:58 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/03 10:56:57 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	size_t	i;
 	int		j;
 
-	if (ft_strlen(little) == 0 || len == 0)
+	if (ft_strlen(little) == 0)
 		return ((char *)big);
 	i = 0;
 	while (i < len && *big != '\0')

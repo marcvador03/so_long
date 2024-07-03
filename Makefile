@@ -59,6 +59,7 @@ $(NAME): $(OBJECTS)
 
 flags:
 	@echo $(CFLAGS)
+
 show:
 	@echo $(T_NAME)
 	@echo $(T_OBJ)
