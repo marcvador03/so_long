@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:20:21 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/03 12:21:04 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/03 12:30:52 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 typedef struct s_list
 {
 	void			*content;
-	struct s_listI	*next;
+	struct s_list	*next;
 }	t_list;
 size_t	ft_strlen(const char *str);
 int		ft_isprint(int c);
