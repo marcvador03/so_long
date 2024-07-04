@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:50:14 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/04 13:04:06 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/04 15:01:25 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int	i;
+	int				i;
 	unsigned char	x;
 
 	i = 0;

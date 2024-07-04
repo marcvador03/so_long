@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/04 12:57:24 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/04 15:06:15 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static unsigned int	ft_itoa_len(int n)
 	unsigned int	cnt;
 
 	cnt = 0;
+	if (n == 0)
+		return (1);
 	while (n != 0)
 	{
 		n = n / 10;
@@ -56,9 +58,7 @@ char	*ft_itoa(int n)
 
 	temp = -1;
 	sign = ft_itoa_lim(&temp, &n);
-	if (n != 0)
-		cnt = ft_itoa_len(n) + sign;
-	else cnt = 1;
+	cnt = ft_itoa_len(n) + sign;
 	str = (char *)malloc((cnt + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
