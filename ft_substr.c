@@ -6,14 +6,13 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:51:13 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/04 14:58:18 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/04 15:56:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 #include <limits.h>
-#include <stdint.h>
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
