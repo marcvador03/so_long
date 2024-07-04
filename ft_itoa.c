@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/01 12:19:29 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/04 12:57:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,16 @@ char	*ft_itoa(int n)
 	int				temp;
 
 	temp = -1;
-	if (n == 0)
-		return ("0");
 	sign = ft_itoa_lim(&temp, &n);
-	cnt = ft_itoa_len(n) + sign;
+	if (n != 0)
+		cnt = ft_itoa_len(n) + sign;
+	else cnt = 1;
 	str = (char *)malloc((cnt + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	str[cnt--] = '\0';
+	if (n == 0)
+		str[0] = 48;
 	if (temp >= 0)
 		str[cnt--] = temp + 48;
 	while (n != 0)
