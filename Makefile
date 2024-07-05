@@ -38,38 +38,23 @@ SRC_NAMES := ft_isalpha.c \
 	     ft_putendl_fd.c \
 	     ft_putnbr_fd.c
 
-SRC_NAMES_BNS := ft_lst_new \
-#		 ft_lstadd_front \
-#		 ft_lstsize \
-#		 ft_lstlast \
-#		 ft_lst_addback \
-#		 ft_lstdelone \
-#		 ft_lstclear \
-#		 ft_lstiter \
-#		 ft_lstmap
-
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
-SOURCES_BNS := $(patsubst %_bonus.c, %_bonus.c, $(SRC_NAMES_BNS))
 
 OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
-OBJECTS_BNS := $(OBJECTS) $(patsubst %_bonus.c, %_bonus.o, $(SOURCES_BNS))
 
 CFLAGS += -Wall -Werror -Wextra
 
 CUR_DIR := $(shell pwd)
 
 #TARGETS
-.PHONY: all flags clean fclean tclean re test show bonus
+.PHONY: all flags clean fclean tclean re test show
 all: $(OBJECTS) $(NAME)
-
-bonus: $(OBJECTS_BNS) $(NAME) 
 
 $(NAME): $(OBJECTS) 
 	ar rc $(NAME) $(OBJECTS)
 	ranlib $(NAME)
-	rm -rf *.o
 
-%.o: %.c  
+%.o: %.c libft.h Makefile 
 	cc $(CFLAGS) -c $< -o $@
 
 flags:
@@ -86,4 +71,3 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-
