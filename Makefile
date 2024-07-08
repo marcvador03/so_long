@@ -39,10 +39,6 @@ SRC_NAMES := ft_isalpha.c \
 	     ft_putnbr_fd.c
 
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
-<<<<<<< HEAD
-
-OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
-=======
 SOURCES_BNS := ft_lstnew_bonus.c \
 			   ft_lstadd_front_bonus.c \
 			   ft_lstsize_bonus.c \
@@ -55,18 +51,12 @@ SOURCES_BNS := ft_lstnew_bonus.c \
 
 OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
 OBJECTS_BNS := $(patsubst %.c, %.o, $(SOURCES_BNS))
->>>>>>> bonus
 
 CFLAGS += -Wall -Werror -Wextra
 
 CUR_DIR := $(shell pwd)
 
 #TARGETS
-<<<<<<< HEAD
-.PHONY: all flags clean fclean tclean re test show
-all: $(OBJECTS) $(NAME)
-
-=======
 .PHONY: all flags clean fclean re show bonus
 all: $(OBJECTS) $(NAME)
 
@@ -74,7 +64,6 @@ bonus: $(OBJECTS_BNS) $(NAME)
 	ar rc $(NAME) $(OBJECTS_BNS)
 	ranlib $(NAME)
 
->>>>>>> bonus
 $(NAME): $(OBJECTS) 
 	ar rc $(NAME) $(OBJECTS)
 	ranlib $(NAME)
