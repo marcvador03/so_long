@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:47:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/03 17:49:29 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/08 09:28:18 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,5 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 		i++;
 	}
 	dst[i] = '\0';
-	if (i + 1 < size)
-		return (i);
 	return (dst_l + src_l);
 }

@@ -39,16 +39,30 @@ SRC_NAMES := ft_isalpha.c \
 	     ft_putnbr_fd.c
 
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
+SOURCES_BNS := ft_lstnew_bonus.c \
+			   ft_lstadd_front_bonus.c \
+			   ft_lstsize_bonus.c \
+			   ft_lstlast_bonus.c \
+			   ft_lstadd_back_bonus.c \
+			   ft_lstdelone_bonus.c \
+			   ft_lstclear_bonus.c \
+			   ft_lstiter_bonus.c \
+			   ft_lstmap_bonus.c
 
 OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
+OBJECTS_BNS := $(patsubst %.c, %.o, $(SOURCES_BNS))
 
 CFLAGS += -Wall -Werror -Wextra
 
 CUR_DIR := $(shell pwd)
 
 #TARGETS
-.PHONY: all flags clean fclean tclean re test show
+.PHONY: all flags clean fclean re show bonus
 all: $(OBJECTS) $(NAME)
+
+bonus: $(OBJECTS_BNS) $(NAME)
+	ar rc $(NAME) $(OBJECTS_BNS)
+	ranlib $(NAME)
 
 $(NAME): $(OBJECTS) 
 	ar rc $(NAME) $(OBJECTS)
@@ -65,7 +79,7 @@ show:
 	@echo $(T_OBJ)
 
 clean: 
-	rm -rf $(OBJECTS)
+	rm -rf $(OBJECTS) $(OBJECTS_BNS)
 
 fclean: clean
 	rm -rf $(NAME)

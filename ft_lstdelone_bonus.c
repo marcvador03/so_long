@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:54:01 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/04 16:02:44 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/08 10:47:20 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-		(*del)(lst->content);	
-		free(lst);
+	(*del)(lst->content);
+	free(lst);
 }
