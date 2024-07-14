@@ -53,6 +53,7 @@ OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
 OBJECTS_BNS := $(patsubst %.c, %.o, $(SOURCES_BNS))
 
 CFLAGS += -Wall -Werror -Wextra
+DEBUG ?=
 
 CUR_DIR := $(shell pwd)
 
@@ -69,7 +70,7 @@ $(NAME): $(OBJECTS)
 	ranlib $(NAME)
 
 %.o: %.c libft.h Makefile 
-	cc $(CFLAGS) -c $< -o $@
+	cc $(CFLAGS) $(DEBUG) -c $< -o $@
 
 flags:
 	@echo $(CFLAGS)
