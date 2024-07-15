@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 00:05:08 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/08 11:39:10 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/15 13:28:43 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list *tmp;
-	
-	tmp = ft_lstlast(*lst);
-	if (tmp == NULL)
-		*lst = new;
-	tmp->next = new;
+	t_list	*tmp;
+
+	if (lst != NULL)
+	{
+		if (*lst == NULL)
+			*lst = new;
+		else
+		{
+			tmp = ft_lstlast(*lst);
+			tmp->next = new;
+		}
+	}
 }

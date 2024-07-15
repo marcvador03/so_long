@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 00:01:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/08 15:19:03 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/15 13:29:41 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ t_list	*ft_lstlast(t_list *lst)
 {
 	t_list	*tmp;
 
-	if(lst == NULL)
+	if (lst == NULL)
 		return (NULL);
 	tmp = lst;
 	while (tmp->next != NULL)
-	tmp = tmp->next;
+		tmp = tmp->next;
 	return (tmp);
 }

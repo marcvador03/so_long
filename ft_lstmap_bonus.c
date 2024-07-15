@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:03:52 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/08 10:48:51 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/15 13:17:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 
 	if (lst == NULL || (*f) == NULL || (*del) == NULL)
 		return (NULL);
+	ptr = NULL;
 	while (lst != NULL)
 	{
 		node = ft_lstnew((*f)(lst->content));
