@@ -1,5 +1,6 @@
 #Directory definition
-
+TARGET_LIB := ~/PROG/Libraries/libs
+TARGET_INC := ~/PROG/Libraries/includes
 #Filenames definition
 NAME := libft.a
 
@@ -49,8 +50,11 @@ SOURCES_BNS := ft_lstnew_bonus.c \
 			   ft_lstiter_bonus.c \
 			   ft_lstmap_bonus.c
 
+INC_NAMES := libft.h
+
 OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
 OBJECTS_BNS := $(patsubst %.c, %.o, $(SOURCES_BNS))
+INC_SOURCES := $(patsubst %.h, %.h, $(INC_NAMES))
 
 CFLAGS += -Wall -Werror -Wextra
 DEBUG ?=
@@ -58,8 +62,14 @@ DEBUG ?=
 CUR_DIR := $(shell pwd)
 
 #TARGETS
-.PHONY: all flags clean fclean re show bonus
+.PHONY: all flags clean fclean re show bonus install
 all: $(OBJECTS) $(NAME)
+
+install: $(INC_SOURCES) $(NAME)
+	@echo "Copying " $< " in " $(TARGET_INC)
+	cp $< $(TARGET_INC)/
+	@echo "Copying " $(NAME) " in " $(TARGET_LIB)
+	cp $(NAME) $(TARGET_LIB)/
 
 bonus: $(OBJECTS_BNS) $(NAME)
 	ar rc $(NAME) $(OBJECTS_BNS)
@@ -69,8 +79,11 @@ $(NAME): $(OBJECTS)
 	ar rc $(NAME) $(OBJECTS)
 	ranlib $(NAME)
 
-%.o: %.c libft.h Makefile 
+%.o: %.c $(INC_SOURCES) Makefile 
 	cc $(CFLAGS) $(DEBUG) -c $< -o $@
+
+%.h:
+	@echo $@ "is missing!"
 
 flags:
 	@echo $(CFLAGS)
