@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:44:48 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/03 10:31:54 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/07/19 15:27:54 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strdup(const char *s)
 
 	ptr = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (ptr == NULL)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (s[i] != '\0')
 	{
