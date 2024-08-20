@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:37:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/19 17:09:17 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/20 18:10:02 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,46 @@ t_stack	*stack_last(t_stack *stk)
 	return (tmp);
 }
 
-void	stack_addback(t_stack *stk, void *head, int value)
+void	stack_addback(t_stack **stk, void *head, int value)
 {
 	t_stack	*tmp;
 
-	if (stk != NULL)
+	if (*stk == NULL)
+		*stk = stack_new(value);
+	else if (*stk != NULL)
 	{
-		tmp = stack_last(stk);
-		tmp->value = value;
-		tmp->prev = stk;
-		tmp->next = NULL;
+		tmp = stack_new(value);
 		tmp->head = head;
+		*stk = stack_last(*stk);
+		(*stk)->next = tmp;
 	}
 }
 
-t_stack	*stack_new(char *value)
+void	stack_addfront(t_stack **stk, void *head, int value)
+{
+	t_stack	*tmp;
+		
+	if (*stk != NULL)
+	{
+		tmp = stack_new(value);
+		tmp->next = head;
+		head = tmp;
+		while (tmp != NULL)
+		{
+			tmp = tmp->next;
+			tmp->head = head; 
+		}
+	}
+}
+
+t_stack	*stack_new(int value)
 {
 	t_stack	*ptr;
 
 	ptr = (t_stack *)malloc(sizeof (t_stack));
 	if (ptr == NULL)
 		return (NULL);
-	ptr->value = ft_atoi(value);
-	ptr->prev = NULL;
+	ptr->value = value;
 	ptr->next = NULL;
 	ptr->head = ptr;
 	return (ptr);
@@ -67,11 +84,3 @@ int	stack_size(t_stack *stk)
 	return (cnt);
 }
 
-void	stack_addfront(t_stack **stk, t_stack *new_node)
-{
-	if (stk != 0 && new_node != 0)
-	{
-		new_node->next = *stk;
-		*stk = new_node;
-	}
-}

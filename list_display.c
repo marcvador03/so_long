@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 10:54:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/20 11:09:29 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/20 17:07:41 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	list_full_display(t_stack *stk)
 	i = 1;
 	while (tmp != NULL)
 	{
-		ft_printf("Rank: %d \n Value: %d \n Next Address: %p \n\n", i++, tmp->value, tmp->next); 
+		ft_printf(" Rank: %d \n Value: %d \n Next Address: %p \n\n", i++, tmp->value, tmp->next); 
 		tmp = tmp->next;
 	}
 }
 
 void	list_display(t_stack *stk)
 {
-	ft_printf("Value: %d \n Next Address: %p \n\n", stk->value, stk->next); 
+	ft_printf(" Value: %d \n Next Address: %p \n\n", stk->value, stk->next); 
 }

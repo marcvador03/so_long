@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/20 11:09:49 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/20 18:09:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ typedef struct s_stack
 {
 	int	value;
 	struct s_stack *head;
-	struct s_stack *prev;
 	struct s_stack *next;
 }	t_stack;
-void	stack_addback(t_stack *stk, void *head, int value);
-void	stack_addfront(t_stack **stk, t_stack *new_node);
-t_stack	*stack_new(char *value);
+void	stack_addback(t_stack **stk, void *head, int value);
+void	stack_addfront(t_stack **stk, void *head, int value);
+t_stack	*stack_new(int value);
 t_stack	*stack_last(t_stack *stk);
 int	stack_size(t_stack *stk);
 void	list_display(t_stack *stk);

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/19 18:17:09 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/20 18:12:01 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,10 @@ void	swap(t_stack *stk)
 
 void	push(t_stack **stk_a, t_stack *stk_b)
 {
-	t_stack *tmp;
-	
 	if (stk_b == NULL)
 		exit (0);
 	*stk_a = (*stk_a)->head;
-	stack_addfront(stk_a, stk_b->head);
-	tmp = *stk_a;
-	while (*stk_a != NULL)
-	{
-		(*stk_a)->head = tmp;
-		*stk_a = (*stk_a)->next;	
-	}
+	stack_addfront(stk_a, stk_b->head, stk_b->value);
 }
 
 void	rotate(t_stack *stk)
