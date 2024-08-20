@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:20:50 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/07 01:07:25 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/20 11:49:50 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 # include <stdlib.h>
 # include <stdarg.h>
-# include <libft.h>
-# include <stdio.h>
+# include "../libft.h"
 # define TRUE 1
 # define FALSE 0
 # ifdef __unix__

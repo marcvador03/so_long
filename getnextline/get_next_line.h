@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:59:33 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/30 09:21:31 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/20 12:04:32 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,18 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include "../libft.h"
 
-typedef struct s_list
+typedef struct s_gnl_list
 {
-	char			*content;
-	int				eol;
-	int				fd;
-	struct s_list	*next;
-	struct s_list	*bof;
-}	t_list;
+	char				*content;
+	int					eol;
+	int					fd;
+	struct s_gnl_list	*next;
+	struct s_gnl_list	*bof;
+}	t_gnl_list;
 char	*get_next_line(int fd);
-t_list	*gnl_lst_move(t_list *lst, int n, int fd);
-size_t	ft_strlen(const char *str);
-char	*ft_strchr(const char *s, int c);
-char	*gnl_substr(char const *s, unsigned int start, size_t len);
-char	*gnl_strjoin(char const *s1, char const *s2);
+t_gnl_list	*gnl_lst_move(t_gnl_list *lst, int n, int fd);
+t_gnl_list	*gnl_free(t_gnl_list *lst);
+t_gnl_list	*gnl_new(char *content, t_gnl_list *head, int fd);
 #endif

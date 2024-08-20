@@ -1,65 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:56:13 by mfleury           #+#    #+#             */
-/*   Updated: 2024/07/30 09:21:41 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/20 12:04:32 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
-static t_list	*gnl_new(char *content, t_list *head, int fd)
+static char	*gnl_out_line(t_gnl_list **lst, int fd)
 {
-	t_list	*ptr;
-	int		len;
-
-	ptr = (t_list *)malloc(sizeof (t_list));
-	if (ptr == NULL)
-		return (NULL);
-	len = ft_strlen(content);
-	ptr->eol = 0;
-	if (content[len - 1] == '\n')
-		ptr->eol = 1;
-	ptr->content = content;
-	ptr->fd = fd;
-	ptr->bof = head;
-	if (head == NULL)
-		ptr->bof = ptr;
-	ptr->next = NULL;
-	return (ptr);
-}
-
-static t_list	*gnl_free(t_list *lst)
-{
-	t_list	*tmp[2];
-
-	if (lst == NULL)
-		return (NULL);
-	if (lst == lst->bof && lst->next == NULL)
-		return (free(lst->content), free(lst), NULL);
-	else if (lst == lst->bof && lst->next != NULL)
-		tmp[1] = lst->next;
-	else if (lst != lst->bof)
-		tmp[1] = lst->bof;
-	tmp[0] = lst;
-	lst = lst->bof;
-	while (lst != NULL)
-	{
-		lst->bof = tmp[1];
-		if (lst->next == tmp[0])
-			lst->next = tmp[0]->next;
-		lst = lst->next;
-	}
-	return (free(tmp[0]->content), free(tmp[0]), tmp[1]);
-}
-
-static char	*gnl_out_line(t_list **lst, int fd)
-{
-	t_list	*tmp;
+	t_gnl_list	*tmp;
 	char	*res[2];	
 
 	res[0] = NULL;
@@ -70,7 +25,7 @@ static char	*gnl_out_line(t_list **lst, int fd)
 		if ((*lst)->fd == fd)
 		{
 			res[1] = res[0];
-			res[0] = gnl_strjoin(res[0], (*lst)->content);
+			res[0] = ft_strjoin(res[0], (*lst)->content);
 			free(res[1]);
 			if (*lst == tmp)
 			{
@@ -85,7 +40,7 @@ static char	*gnl_out_line(t_list **lst, int fd)
 	return (res[0]);
 }
 
-static t_list	*gnl_fill_list(char *tmp, t_list *lst, int fd, ssize_t buf)
+static t_gnl_list	*gnl_fill(char *tmp, t_gnl_list *lst, int fd, ssize_t buf)
 {
 	char	*ptr;
 	int		s;
@@ -102,11 +57,11 @@ static t_list	*gnl_fill_list(char *tmp, t_list *lst, int fd, ssize_t buf)
 			ptr = (ft_strchr(tmp + (ptr - tmp), '\0'));
 		l = (int)(ptr - tmp) - s - 1;
 		if (lst == NULL)
-			lst = gnl_new(gnl_substr(tmp, s, l), NULL, fd);
+			lst = gnl_new(ft_substr(tmp, s, l), NULL, fd);
 		else
 		{
 			lst = gnl_lst_move(lst, -1, -1);
-			lst->next = gnl_new(gnl_substr(tmp, s, l), lst->bof, fd);
+			lst->next = gnl_new(ft_substr(tmp, s, l), lst->bof, fd);
 		}
 		if (lst == NULL || (lst != lst->bof && lst->next == NULL))
 			lst = gnl_free(lst);
@@ -117,7 +72,7 @@ static t_list	*gnl_fill_list(char *tmp, t_list *lst, int fd, ssize_t buf)
 char	*get_next_line(int fd)
 {
 	ssize_t			buffer;
-	static t_list	*lst;
+	static t_gnl_list	*lst;
 	char			*str;
 
 	str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -128,7 +83,7 @@ char	*get_next_line(int fd)
 		return (free(str), NULL);
 	lst = gnl_lst_move(lst, -1, fd);
 	if (buffer > 0)
-		lst = gnl_fill_list(str, lst, fd, buffer);
+		lst = gnl_fill(str, lst, fd, buffer);
 	if (buffer == 0 && lst->fd == fd)
 		lst->eol = TRUE;
 	lst = lst->bof;
