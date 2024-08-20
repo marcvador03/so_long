@@ -88,11 +88,12 @@ install: $(INC_SOURCES) $(NAME)
 	cp $(NAME) $(TARGET_LIB)/
 
 $(NAME): $(OBJECTS) 
-	ar rc $(NAME) $(OBJECTS)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJECTS)
+	@ranlib $(NAME)
+	$(MAKE) clean
 
 %.o: %.c libft.h Makefile 
-	cc $(CFLAGS) $(DEBUG) -c $< -o $@
+	@cc $(CFLAGS) $(DEBUG) -c $< -o $@
 
 %.h:
 	@echo $@ "is missing!"
@@ -105,9 +106,9 @@ show:
 	@echo $(T_OBJ)
 
 clean: 
-	rm -rf $(OBJECTS)
+	@rm -rf $(OBJECTS)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
