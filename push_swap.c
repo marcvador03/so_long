@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/22 00:27:27 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/22 01:05:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -33,5 +33,10 @@ int	main(int argc, char *argv[])
 	i = 2;
 	while (i < argc)
 		stack_addback(&a, ft_atoi(argv[i++]));
+	list_simple_display(head_a, head_b);
+	insertion_sort(&head_a, &head_b);
+	list_simple_display(head_a, head_b);
+	free(a);
+	free(b);
 	return (0);
 }

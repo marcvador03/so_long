@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/22 00:25:36 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/22 00:51:37 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,17 @@ void	swap(t_stack **head)
 	*head = tmp;
 }
 
-void	push(t_stack **head_o, t_stack *head_i)
+void	push(t_stack **head_o, t_stack **head_i)
 {
-	if (head_i == NULL)
+	t_stack *tmp;
+
+	if (*head_i == NULL)
 		return ;
-	stack_addfront(head_o, head_i->value);
+	stack_addfront(head_o, (*head_i)->value);
+	tmp = *head_i;
+	*head_i = tmp->next;
+	tmp = NULL;
+	free(tmp);
 }
 
 void	rotate(t_stack **head)

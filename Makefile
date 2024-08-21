@@ -7,7 +7,8 @@ NAME := push_swap
 SRC_NAMES := push_swap.c \
 			 push_swap_list_utils.c \
 			 push_swap_operations.c \
-			 list_display.c
+			 list_display.c \
+			 algorithms.c
 
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
 
