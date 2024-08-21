@@ -6,66 +6,55 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/20 18:12:01 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/22 00:25:36 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(t_stack *stk)
+void	swap(t_stack **head)
 {
 	t_stack *tmp;
 
-	if (stk == NULL || stack_size(stk) == 1)
-		exit (0);
-	stk = stk->head;
-	tmp = stk->next;
-	stk->next = tmp->next;
-	tmp->next = stk;
-	stk = tmp;
-	while (stk != NULL)
-	{
-		stk->head = tmp;
-		stk = stk->next;
-	}
+	if (*head == NULL || (*head)->next == NULL)
+		return ;
+	tmp = (*head)->next;
+	(*head)->next = tmp->next;
+	tmp->next = *head;
+	*head = tmp;
 }
 
-void	push(t_stack **stk_a, t_stack *stk_b)
+void	push(t_stack **head_o, t_stack *head_i)
 {
-	if (stk_b == NULL)
-		exit (0);
-	*stk_a = (*stk_a)->head;
-	stack_addfront(stk_a, stk_b->head, stk_b->value);
+	if (head_i == NULL)
+		return ;
+	stack_addfront(head_o, head_i->value);
 }
 
-void	rotate(t_stack *stk)
+void	rotate(t_stack **head)
+{
+	t_stack *tmp;
+	t_stack *tmp2;
+	
+	tmp = stack_last(*head);
+	tmp->next = *head;
+	tmp2 = (*head)->next;
+	(*head)->next = NULL;
+	*head = tmp2;
+}
+
+void	r_rotate(t_stack **head)
 {
 	t_stack *tmp;
 	
-	stk = stack_last(stk);
-	stk->next = stk->head;
-	stk = stk->head;
-	tmp = stk->next;
-	stk->next = NULL;
-	stk = tmp;
-	while (stk != NULL)
+	tmp = *head;
+	*head = stack_last(tmp);
+	(*head)->next = tmp;
+	tmp = *head;
+	while (tmp != NULL)
 	{
-		stk->head = tmp;
-		stk = stk->next;
+		if (tmp->next == *head)
+			tmp->next = NULL;
+		tmp = tmp->next;
 	}
-}
-
-void	r_rotate(t_stack *stk)
-{
-	t_stack *tmp;
-	
-	tmp = stack_last(stk);
-	stk = stk->head;
-	tmp->next = stk;
-	while (stk != tmp)
-	{
-		stk->head = tmp;
-		stk = stk->next;
-	}
-
 }

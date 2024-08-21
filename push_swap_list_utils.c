@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:37:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/20 18:10:02 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/21 23:36:58 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_stack	*stack_last(t_stack *stk)
 	return (tmp);
 }
 
-void	stack_addback(t_stack **stk, void *head, int value)
+void	stack_addback(t_stack **stk, int value)
 {
 	t_stack	*tmp;
 
@@ -33,26 +33,22 @@ void	stack_addback(t_stack **stk, void *head, int value)
 	else if (*stk != NULL)
 	{
 		tmp = stack_new(value);
-		tmp->head = head;
 		*stk = stack_last(*stk);
 		(*stk)->next = tmp;
 	}
 }
 
-void	stack_addfront(t_stack **stk, void *head, int value)
+void	stack_addfront(t_stack **head, int value)
 {
 	t_stack	*tmp;
 		
-	if (*stk != NULL)
+	if (*head == NULL)
+		*head = stack_new(value);
+	else if (*head != NULL)
 	{
 		tmp = stack_new(value);
-		tmp->next = head;
-		head = tmp;
-		while (tmp != NULL)
-		{
-			tmp = tmp->next;
-			tmp->head = head; 
-		}
+		tmp->next = *head;
+		*head = tmp;
 	}
 }
 
@@ -65,7 +61,6 @@ t_stack	*stack_new(int value)
 		return (NULL);
 	ptr->value = value;
 	ptr->next = NULL;
-	ptr->head = ptr;
 	return (ptr);
 }
 
