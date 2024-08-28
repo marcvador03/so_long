@@ -6,60 +6,60 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/22 00:51:37 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/28 19:35:01 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(t_stack **head)
+void	swap(t_stack **stk)
 {
 	t_stack *tmp;
 
-	if (*head == NULL || (*head)->next == NULL)
+	if (*stk == NULL || (*stk)->next == NULL)
 		return ;
-	tmp = (*head)->next;
-	(*head)->next = tmp->next;
-	tmp->next = *head;
-	*head = tmp;
+	tmp = (*stk)->next;
+	(*stk)->next = tmp->next;
+	tmp->next = *stk;
+	*stk = tmp;
 }
 
-void	push(t_stack **head_o, t_stack **head_i)
+void	push(t_stack **stk_o, t_stack **stk_i)
 {
 	t_stack *tmp;
 
-	if (*head_i == NULL)
+	if (*stk_i == NULL)
 		return ;
-	stack_addfront(head_o, (*head_i)->value);
-	tmp = *head_i;
-	*head_i = tmp->next;
+	stack_addfront(stk_o, (*stk_i)->value);
+	tmp = *stk_i;
+	*stk_i = tmp->next;
 	tmp = NULL;
 	free(tmp);
 }
 
-void	rotate(t_stack **head)
+void	rotate(t_stack **stk)
 {
 	t_stack *tmp;
 	t_stack *tmp2;
 	
-	tmp = stack_last(*head);
-	tmp->next = *head;
-	tmp2 = (*head)->next;
-	(*head)->next = NULL;
-	*head = tmp2;
+	tmp = stack_last(*stk);
+	tmp->next = *stk;
+	tmp2 = (*stk)->next;
+	(*stk)->next = NULL;
+	*stk = tmp2;
 }
 
-void	r_rotate(t_stack **head)
+void	r_rotate(t_stack **stk)
 {
 	t_stack *tmp;
 	
-	tmp = *head;
-	*head = stack_last(tmp);
-	(*head)->next = tmp;
-	tmp = *head;
+	tmp = *stk;
+	*stk = stack_last(tmp);
+	(*stk)->next = tmp;
+	tmp = *stk;
 	while (tmp != NULL)
 	{
-		if (tmp->next == *head)
+		if (tmp->next == *stk)
 			tmp->next = NULL;
 		tmp = tmp->next;
 	}

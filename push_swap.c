@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/22 01:05:45 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/28 20:08:57 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -15,9 +15,11 @@ int	main(int argc, char *argv[])
 {
 	t_stack	*a;
 	t_stack	*b;
-	int		i;
 	t_stack	*head_a;
 	t_stack	*head_b;
+	int		i;
+	int		args[2];;
+	int n;
 
 	if (argc < 1)
 		exit (0);
@@ -27,15 +29,24 @@ int	main(int argc, char *argv[])
 	if (a == NULL || b == NULL)
 		exit (0);
 	head_a = a;
-	a->value = ft_atoi(argv[1]);
-	a->next = NULL;
 	head_b = NULL;
+	a->value = ft_atoi(argv[1]);
+	args[0] = a->value;
+	args[1] = a->value;
+	a->next = NULL;
 	i = 2;
 	while (i < argc)
-		stack_addback(&a, ft_atoi(argv[i++]));
-	list_simple_display(head_a, head_b);
-	insertion_sort(&head_a, &head_b);
-	list_simple_display(head_a, head_b);
+	{
+		n = ft_atoi(argv[i++]);
+		stack_addback(&a, n);
+		if (n > args[1])
+			args[1] = n;
+		if (n < args[0])
+			args[0] = n;
+	}
+//	selection_sort(&head_a, &head_b);
+	min_sort(&head_a, &head_b, args);
+	//list_simple_display(a, b);	
 	free(a);
 	free(b);
 	return (0);

@@ -5,32 +5,91 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/22 00:36:53 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/22 01:18:35 by mfleury          ###   ########.fr       */
-/*                                                                            */
+/*   Created: 2024/08/28 15:56:51 by mfleury           #+#    #+#             */
+/*   Updated: 2024/08/28 20:09:37 by mfleury          ###   ########.fr       */
+/*                             args[0]                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	insertion_sort(t_stack **head_a, t_stack **head_b)
+void	min_sort(t_stack **a, t_stack **b, int args[2])
 {
-	t_stack *tmp;
+	int	tmp;
 
-	if (*head_b == NULL)
+	tmp = args[0];
+	while ((*a)->value != args[0])
 	{
-		pb();
-		list_simple_display(*head_a, *head_b);
+		ra();	
 	}
-	tmp = *head_a;
-	while (tmp != NULL)
+	pb();
+	while ((*a)->next != NULL)
 	{
-		if ((*head_b)->value < tmp->value)
+		if ((*a)->value == args[1])
+		{
+			ra();
+		}
+		else if (((*a)->value > (*b)->value) && tmp == args[0])
 		{
 			pb();
-			list_simple_display(*head_a, *head_b);
-			tmp = *head_a;
 		}
-		else
-			tmp = tmp->next;
+		else if ((((*a)->value > (*b)->value)) && (*a)->value < tmp)
+		{
+			pb();
+		}
+		else if ((((*a)->value > (*b)->value)) && (*a)->value > tmp)
+		{
+			rrb();
+			rrb();
+			tmp = (*b)->value;
+		}
+		else if (((*a)->value < (*b)->value) && (*a)->value > tmp)
+		{
+			tmp = (*b)->value;
+			rb();
+		}
+		else if (((*a)->value < (*b)->value) && (*a)->value < tmp)
+		{
+			tmp = (*b)->value;
+			rb();
+		}
+	}	
+	while (((*b)->value) != args[0])
+	{
+		rb();
+	}
+	rb();
+	while (*b != NULL)
+	{
+		pa();
+	}
+}
+void	selection_sort(t_stack **a, t_stack **b)
+{
+	int	cnt;
+	int	i;
+	int	j;
+
+	cnt = stack_size(*a);
+	j = 1;
+	while (j++ <= cnt)
+	{
+		pb();
+		i = 1;
+		while (i++ < cnt)
+		{
+			if ((*a)->value > (*b)->value)
+			{
+				pa();
+				ra();
+				pb();
+				i = 1;
+			}
+			else
+			{
+				ra();
+			}
+		}
+		pa();
+		ra();
 	}
 }
