@@ -6,62 +6,50 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:56:51 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/28 20:09:37 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/31 11:42:16 by mfleury          ###   ########.fr       */
 /*                             args[0]                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	min_sort(t_stack **a, t_stack **b, int args[2])
+void	min_sort(t_stack **a, t_stack **b, int min, int max)
 {
 	int	tmp;
 
-	tmp = args[0];
-	while ((*a)->value != args[0])
-	{
-		ra();	
-	}
-	pb();
+	tmp = min;
+	while ((*a)->value != min)
+		rotate(a, "ra");
+	push(b, a, "pb");
 	while ((*a)->next != NULL)
 	{
-		if ((*a)->value == args[1])
-		{
-			ra();
-		}
-		else if (((*a)->value > (*b)->value) && tmp == args[0])
-		{
-			pb();
-		}
+		if ((*a)->value == max)
+			rotate(a, "ra");
+		else if (((*a)->value > (*b)->value) && tmp == min)
+			push(b, a, "pb");
 		else if ((((*a)->value > (*b)->value)) && (*a)->value < tmp)
-		{
-			pb();
-		}
+			push(b, a, "pb");
 		else if ((((*a)->value > (*b)->value)) && (*a)->value > tmp)
 		{
-			rrb();
-			rrb();
+			r_rotate(b, "rrb");
+			r_rotate(b, "rrb");
 			tmp = (*b)->value;
 		}
 		else if (((*a)->value < (*b)->value) && (*a)->value > tmp)
 		{
 			tmp = (*b)->value;
-			rb();
+			rotate(b, "rb");
 		}
 		else if (((*a)->value < (*b)->value) && (*a)->value < tmp)
 		{
 			tmp = (*b)->value;
-			rb();
+			rotate(b, "rb");
 		}
 	}	
-	while (((*b)->value) != args[0])
-	{
-		rb();
-	}
-	rb();
+	while (((*b)->value) != min)
+		rotate(b, "rb");
+	rotate(b, "rb");
 	while (*b != NULL)
-	{
-		pa();
-	}
+		push(a, b, "pa");
 }
 void	selection_sort(t_stack **a, t_stack **b)
 {
@@ -73,23 +61,23 @@ void	selection_sort(t_stack **a, t_stack **b)
 	j = 1;
 	while (j++ <= cnt)
 	{
-		pb();
+		push(b, a, "pb");
 		i = 1;
 		while (i++ < cnt)
 		{
 			if ((*a)->value > (*b)->value)
 			{
-				pa();
-				ra();
-				pb();
+				push(a, b, "pa");
+				rotate(a, "ra");
+				push(b, a, "pb");
 				i = 1;
 			}
 			else
 			{
-				ra();
+				rotate(a, "ra");
 			}
 		}
-		pa();
-		ra();
+		push(a, b, "pa");
+		rotate(a, "ra");
 	}
 }

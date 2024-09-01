@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/28 19:43:35 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/31 11:42:34 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 typedef struct s_stack
 {
 	int	value;
+	int	n_value;
 	struct s_stack *next;
 }	t_stack;
 void	stack_addback(t_stack **stk, int value);
@@ -41,12 +42,13 @@ int	stack_size(t_stack *stk);
 void	list_display(t_stack *stk);
 void	list_full_display(t_stack *stk);
 void	list_simple_display(t_stack *a, t_stack *b);
-void	swap(t_stack **stk);
-void	push(t_stack **a, t_stack **b);
-void	rotate(t_stack **stk);
-void	r_rotate(t_stack **stk);
+void	swap(t_stack **stk, char *prt);
+void	push(t_stack **a, t_stack **b, char *prt);
+void	rotate(t_stack **stk, char *prt);
+void	r_rotate(t_stack **stk, char *prt);
 void	selection_sort(t_stack **a, t_stack **b);
-void	min_sort(t_stack **a, t_stack **b, int args[2]);
+void	min_sort(t_stack **a, t_stack **b, int min, int max);
+void	radix_sort(t_stack **a, t_stack **b, int min, int max);
 
 #endif
 

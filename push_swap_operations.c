@@ -6,13 +6,13 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/28 19:35:01 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/08/31 11:18:30 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(t_stack **stk)
+void	swap(t_stack **stk, char *prt)
 {
 	t_stack *tmp;
 
@@ -22,9 +22,10 @@ void	swap(t_stack **stk)
 	(*stk)->next = tmp->next;
 	tmp->next = *stk;
 	*stk = tmp;
+	ft_printf("%s\n", prt);
 }
 
-void	push(t_stack **stk_o, t_stack **stk_i)
+void	push(t_stack **stk_o, t_stack **stk_i, char *prt)
 {
 	t_stack *tmp;
 
@@ -35,9 +36,10 @@ void	push(t_stack **stk_o, t_stack **stk_i)
 	*stk_i = tmp->next;
 	tmp = NULL;
 	free(tmp);
+	ft_printf("%s\n", prt);
 }
 
-void	rotate(t_stack **stk)
+void	rotate(t_stack **stk, char *prt)
 {
 	t_stack *tmp;
 	t_stack *tmp2;
@@ -47,9 +49,10 @@ void	rotate(t_stack **stk)
 	tmp2 = (*stk)->next;
 	(*stk)->next = NULL;
 	*stk = tmp2;
+	ft_printf("%s\n", prt);
 }
 
-void	r_rotate(t_stack **stk)
+void	r_rotate(t_stack **stk, char *prt)
 {
 	t_stack *tmp;
 	
@@ -63,4 +66,5 @@ void	r_rotate(t_stack **stk)
 			tmp->next = NULL;
 		tmp = tmp->next;
 	}
+	ft_printf("%s\n", prt);
 }

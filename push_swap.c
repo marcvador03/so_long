@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/28 20:08:57 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/01 14:11:04 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -18,7 +18,8 @@ int	main(int argc, char *argv[])
 	t_stack	*head_a;
 	t_stack	*head_b;
 	int		i;
-	int		args[2];;
+	int		min;
+	int		max;
 	int n;
 
 	if (argc < 1)
@@ -31,22 +32,22 @@ int	main(int argc, char *argv[])
 	head_a = a;
 	head_b = NULL;
 	a->value = ft_atoi(argv[1]);
-	args[0] = a->value;
-	args[1] = a->value;
+	min = a->value;
+	max = a->value;
 	a->next = NULL;
 	i = 2;
 	while (i < argc)
 	{
 		n = ft_atoi(argv[i++]);
 		stack_addback(&a, n);
-		if (n > args[1])
-			args[1] = n;
-		if (n < args[0])
-			args[0] = n;
+		if (n > max)
+			max = n;
+		if (n < min)
+			min = n;
 	}
 //	selection_sort(&head_a, &head_b);
-	min_sort(&head_a, &head_b, args);
-	//list_simple_display(a, b);	
+	min_sort(&head_a, &head_b, min, max);
+	list_simple_display(a, b);	
 	free(a);
 	free(b);
 	return (0);
