@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 10:54:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/21 23:47:14 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/01 19:24:20 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	list_simple_display(t_stack *head_a, t_stack *head_b)
 			tmp2 = tmp2->next;
 		}
 	}
-	ft_printf("\n"); 
 }
 
 /*void	list_display(t_stack *stk)

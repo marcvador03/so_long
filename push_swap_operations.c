@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/31 11:18:30 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/01 20:08:49 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	push(t_stack **stk_o, t_stack **stk_i, char *prt)
 
 	if (*stk_i == NULL)
 		return ;
-	stack_addfront(stk_o, (*stk_i)->value);
+	stack_addfront(stk_o, (*stk_i)->value, (*stk_i)->n_value);
 	tmp = *stk_i;
 	*stk_i = tmp->next;
 	tmp = NULL;

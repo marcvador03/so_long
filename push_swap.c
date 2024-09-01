@@ -6,10 +6,38 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/01 14:11:04 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/01 20:10:18 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
+
+static void	stk_sorted(t_stack *a)
+{
+	int	prev;
+
+	prev = a->value;
+	while (a != NULL)
+	{
+		if (prev <= a->value)
+		{
+			prev = a->value;
+			a = a->next;
+		}
+		else
+			return;
+	}
+	exit(0);
+}
+
+static void	normalize_neg(t_stack *a, int min)
+{
+	while (a != NULL)
+	{
+		if (a->value < 0)
+			a->n_value = a->value + min;
+		a = a->next;
+	}
+}
 
 int	main(int argc, char *argv[])
 {
@@ -39,15 +67,19 @@ int	main(int argc, char *argv[])
 	while (i < argc)
 	{
 		n = ft_atoi(argv[i++]);
-		stack_addback(&a, n);
+		stack_addback(&a, n, n);
 		if (n > max)
 			max = n;
 		if (n < min)
 			min = n;
 	}
+	stk_sorted(a);
+	normalize_neg(a, min);
 //	selection_sort(&head_a, &head_b);
-	min_sort(&head_a, &head_b, min, max);
-	list_simple_display(a, b);	
+//	min_sort(&head_a, &head_b, min, max);
+	radix_sort_neg(&head_a, &head_b, max);
+	radix_sort_pos(&head_a, &head_b, max);
+	list_simple_display(head_a, head_b);	
 	free(a);
 	free(b);
 	return (0);
