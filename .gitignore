@@ -1,0 +1,6 @@
+.DS_Store
+*.swp
+a.out
+checker_linux
+checker_Mac
+*.o	
