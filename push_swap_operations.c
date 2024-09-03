@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/02 17:34:17 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 12:15:17 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,6 @@ void	push(t_stack **stk_o, t_stack **stk_i, char *prt)
 	*stk_i = tmp;
 	ft_printf("%s\n", prt);
 }
-/*void	push(t_stack **stk_o, t_stack **stk_i, char *prt)
-{
-	t_stack *tmp;
-
-	if (*stk_i == NULL)
-		return ;
-	stack_addfront(stk_o, (*stk_i)->value, (*stk_i)->n_value);
-	tmp = *stk_i;
-	//free(*stk_i);
-	*stk_i = tmp->next;
-	tmp = NULL;
-	//free(tmp);
-	ft_printf("%s\n", prt);
-}*/
 
 void	rotate(t_stack **stk, char *prt)
 {

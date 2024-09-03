@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:56:51 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/02 22:36:58 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 12:16:13 by mfleury          ###   ########.fr       */
 /*                             args[0]                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	min_sort(t_stack **a, int min, int max)
 
 	b = (t_stack *)malloc(sizeof (t_stack));
 	if (b == NULL)
-		exit (0);
+		push_swap_exit ("Error\n", NULL, a);
 	tmp = min;
 	while ((*a)->value != min)
 		rotate(a, "ra");
@@ -91,7 +91,7 @@ void	selection_sort(t_stack **a)
 
 	b = (t_stack *)malloc(sizeof (t_stack));
 	if (b == NULL)
-		exit (0);
+		push_swap_exit ("Error\n", NULL, a);
 	cnt = stack_size(*a);
 	j = 1;
 	while (j++ <= cnt)

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/02 23:50:22 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 12:59:40 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PUSH_SWAP_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 # include "libft/libft.h"
 # include "libft/ft_printf/ft_printf.h"
 # define sa() swap(a);ft_printf("sa\n");
@@ -56,7 +57,10 @@ void	selection_sort(t_stack **a);
 void	min_sort(t_stack **a, int min, int max);
 void	radix_sort(t_stack **a, int max);
 void	sort_three(t_stack **a, int min, int max);
-t_stack	ps_parse(char **args);
+t_stack	*ps_parse(char **args);
+t_stack	*ps_parse_split(char *s, char c);
+void	push_swap_exit(char *prt, char **args, t_stack **stk);
+void	fill_params(struct s_params *p, t_stack *stk);
 
 #endif
 
