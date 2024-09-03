@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:40:24 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 17:02:56 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 21:13:48 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ void	fill_params(struct s_params *p, t_stack *stk)
 static int	ps_duplicates(t_stack *stk)
 {
 	t_stack	*tmp;
-	t_stack	*head;
 	int		n;
 
-	head = stk;
 	while (stk->next != NULL)
 	{
 		tmp = stk->next;

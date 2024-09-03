@@ -90,7 +90,7 @@ install: $(INC_SOURCES) $(NAME)
 $(NAME): $(OBJECTS) 
 	@ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
-	$(MAKE) clean
+#	$(MAKE) clean
 
 %.o: %.c libft.h Makefile 
 	@cc $(CFLAGS) $(DEBUG) -c $< -o $@

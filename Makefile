@@ -31,8 +31,7 @@ CUR_DIR := $(shell pwd)
 all: $(OBJECTS) $(NAME)
 
 $(NAME): libft $(LIBFT_DIR)/libft.h Makefile $(OBJECTS) 
-	@cc $(CFLAGS) -L $(LIBFT_DIR) $(DEBUG) $(SOURCES) -o $@ $(LIBFT_TAG)
-	$(MAKE) clean
+	cc $(CFLAGS) -L $(LIBFT_DIR) $(DEBUG) $(SOURCES) -o $@ $(LIBFT_TAG)
 libft: 
 	$(MAKE) -C $(LIBFT_DIR)
 
