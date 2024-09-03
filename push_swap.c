@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 13:08:26 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 13:40:26 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -39,6 +39,7 @@ void	push_swap_exit(char *prt, char **args, t_stack **stk)
 		i = 0;
 		while (args[i] != NULL)
 			free(args[i++]);
+		free(args);
 	}
 	if (stk != NULL)
 	{
@@ -48,9 +49,8 @@ void	push_swap_exit(char *prt, char **args, t_stack **stk)
 			free(*stk);
 			*stk = tmp;
 		}
+		free(*stk);
 	}
-	free(args);
-	free(stk);
 	exit(1);
 }
 
@@ -93,9 +93,9 @@ int	main(int argc, char *argv[])
 	t_stack	*head_a;
 	struct	s_params p;
 
-	if (argc < 1)
+	if (argc <= 1)
 		exit (0);
-	if (argc == 1)
+	if (argc == 2)
 		a = ps_parse_split(argv[1], ' ');
 	else
 		a = ps_parse(argv);
