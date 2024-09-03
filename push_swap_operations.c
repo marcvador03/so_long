@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 12:15:17 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:01:09 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	swap(t_stack **stk, char *prt)
 {
-	t_stack *tmp;
+	t_stack	*tmp;
 
 	if (*stk == NULL || (*stk)->next == NULL)
 		return ;
@@ -31,7 +31,7 @@ void	push(t_stack **stk_o, t_stack **stk_i, char *prt)
 
 	if (*stk_i == NULL)
 		return ;
-	tmp = (*stk_i)->next;;
+	tmp = (*stk_i)->next;
 	(*stk_i)->next = *stk_o;
 	*stk_o = *stk_i;
 	*stk_i = tmp;
@@ -40,9 +40,9 @@ void	push(t_stack **stk_o, t_stack **stk_i, char *prt)
 
 void	rotate(t_stack **stk, char *prt)
 {
-	t_stack *tmp;
-	t_stack *tmp2;
-	
+	t_stack	*tmp;
+	t_stack	*tmp2;
+
 	tmp = stack_last(*stk);
 	tmp->next = *stk;
 	tmp2 = (*stk)->next;
@@ -53,8 +53,8 @@ void	rotate(t_stack **stk, char *prt)
 
 void	r_rotate(t_stack **stk, char *prt)
 {
-	t_stack *tmp;
-	
+	t_stack	*tmp;
+
 	tmp = *stk;
 	*stk = stack_last(tmp);
 	(*stk)->next = tmp;

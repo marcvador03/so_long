@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:37:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/01 20:08:03 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 16:59:43 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	stack_addback(t_stack **stk, int value, int n_value)
 void	stack_addfront(t_stack **stk, int value, int n_value)
 {
 	t_stack	*tmp;
-		
+
 	if (*stk == NULL)
 		*stk = stack_new(value, n_value);
 	else if (*stk != NULL)
@@ -79,4 +79,3 @@ int	stack_size(t_stack *stk)
 	}
 	return (cnt);
 }
-

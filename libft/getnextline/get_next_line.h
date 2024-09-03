@@ -6,12 +6,12 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:59:33 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/20 12:04:32 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:04:37 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
@@ -35,7 +35,7 @@ typedef struct s_gnl_list
 	struct s_gnl_list	*next;
 	struct s_gnl_list	*bof;
 }	t_gnl_list;
-char	*get_next_line(int fd);
+char		*get_next_line(int fd);
 t_gnl_list	*gnl_lst_move(t_gnl_list *lst, int n, int fd);
 t_gnl_list	*gnl_free(t_gnl_list *lst);
 t_gnl_list	*gnl_new(char *content, t_gnl_list *head, int fd);

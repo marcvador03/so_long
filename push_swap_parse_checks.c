@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:40:24 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 13:45:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:02:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,22 @@ void	fill_params(struct s_params *p, t_stack *stk)
 			p->max = stk->value;
 		stk = stk->next;
 	}
+	p->med = 0;
+	p->n_med = 0;
 }
+
 static int	ps_duplicates(t_stack *stk)
 {
 	t_stack	*tmp;
 	t_stack	*head;
-	int	n;
+	int		n;
 
 	head = stk;
 	while (stk->next != NULL)
 	{
 		tmp = stk->next;
 		n = stk->value;
-		while (tmp!= NULL)
+		while (tmp != NULL)
 		{
 			if (n == tmp->value)
 				return (0);
@@ -52,6 +55,7 @@ static int	ps_duplicates(t_stack *stk)
 	}
 	return (1);
 }
+
 static int	ps_sanity_check(char **args)
 {
 	int		i;
@@ -63,8 +67,8 @@ static int	ps_sanity_check(char **args)
 	while (args[i] != NULL)
 	{
 		if (ft_isdigit(args[i][0]) == 0)
-			if(args[i][0] != '-' && args[i][0] != '+')
-				return(0);
+			if (args[i][0] != '-' && args[i][0] != '+')
+				return (0);
 		j = 1;
 		while (args[i][j] != '\0')
 			if (ft_isdigit(args[i][j++]) == 0)
@@ -76,7 +80,7 @@ static int	ps_sanity_check(char **args)
 		free(str);
 		i++;
 	}
-	return (1);	
+	return (1);
 }
 
 t_stack	*ps_parse_split(char *s, char c)
@@ -110,11 +114,11 @@ t_stack	*ps_parse(char **args)
 {
 	t_stack	*head;
 	t_stack	*a;
-	int	i;
+	int		i;
 
 	if (ps_sanity_check(args) == 0)
 		push_swap_exit("Error\n", NULL, NULL);
-	a = stack_new(ft_atoi(*args), 0);
+	a = stack_new(ft_atoi(args[0]), 0);
 	head = a;
 	a->next = NULL;
 	i = 1;

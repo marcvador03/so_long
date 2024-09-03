@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 12:59:40 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:10:08 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,27 @@
 # include <limits.h>
 # include "libft/libft.h"
 # include "libft/ft_printf/ft_printf.h"
-# define sa() swap(a);ft_printf("sa\n");
-# define sb() swap(b);ft_printf("sb\n");
-# define ss() swap(a);swap(b);ft_printf("ss\n");
-# define pa() push(a, b);ft_printf("pa\n");
-# define pb() push(b, a);ft_printf("pb\n");
-# define ra() rotate(a);ft_printf("ra\n");
-# define rb() rotate(b);ft_printf("rb\n");
-# define rr() rotate(a);rotate(b);ft_printf("rr\n");
-# define rra() r_rotate(a);ft_printf("rra\n");
-# define rrb() r_rotate(b);ft_printf("rrb\n");
-# define rrr() r_rotate(a);r_rotate(b);ft_printf("rrr\n");
 
 typedef struct s_stack
 {
-	int	value;
-	int	n_value;
-	struct s_stack *next;
+	int				value;
+	unsigned int	n_value;
+	struct s_stack	*next;
 }	t_stack;
 struct s_params
 {
-	int	min;
-	int	max;
-	int	med;
+	int				min;
+	unsigned int	n_min;
+	int				max;
+	unsigned int	n_max;
+	int				med;
+	unsigned int	n_med;
 };	
 void	stack_addback(t_stack **stk, int value, int n_value);
 void	stack_addfront(t_stack **stk, int value, int n_value);
 t_stack	*stack_new(int value, int n_value);
 t_stack	*stack_last(t_stack *stk);
-int	stack_size(t_stack *stk);
-void	list_display(t_stack *stk);
-void	list_full_display(t_stack *stk);
+int		stack_size(t_stack *stk);
 void	list_simple_display(t_stack *a, t_stack *b);
 void	swap(t_stack **stk, char *prt);
 void	push(t_stack **a, t_stack **b, char *prt);
@@ -55,7 +45,7 @@ void	rotate(t_stack **stk, char *prt);
 void	r_rotate(t_stack **stk, char *prt);
 void	selection_sort(t_stack **a);
 void	min_sort(t_stack **a, int min, int max);
-void	radix_sort(t_stack **a, int max);
+void	radix_sort(t_stack **a, t_stack *b, unsigned int max);
 void	sort_three(t_stack **a, int min, int max);
 t_stack	*ps_parse(char **args);
 t_stack	*ps_parse_split(char *s, char c);
@@ -63,4 +53,3 @@ void	push_swap_exit(char *prt, char **args, t_stack **stk);
 void	fill_params(struct s_params *p, t_stack *stk);
 
 #endif
-

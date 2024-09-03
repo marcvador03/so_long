@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 11:15:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/02 18:21:13 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:10:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -21,38 +21,34 @@ static int	count_bits(int n)
 		i++;
 		n >>= 1;
 	}
-	return i;
+	return (i);
 }
 
-void	radix_sort(t_stack **a, int max)
+void	radix_sort(t_stack **a, t_stack *b, unsigned int max)
 {
-	int	i;
-	int	j;
-	int	cnt;
-	int	bit_max;
-	int	bit_value;
-	t_stack	*b;
+	int		i;
+	int		j;
+	int		cnt;
+	int		bit_max;
+	int		bit_value;
 
-	/*b = (t_stack *)malloc(sizeof (t_stack));
-	if (b == NULL)
-		exit (0);*/
 	bit_max = count_bits(max);
 	i = 0;
 	b = NULL;
 	while (i <= bit_max)
-	{	
+	{
 		cnt = stack_size(*a);
 		j = 0;
 		while (j++ < cnt)
 		{
-			bit_value = (*a)->value >> i;
-			if (((bit_value & 1) == 0) && (*a)->value >= 0)
+			bit_value = (*a)->n_value >> i;
+			if ((bit_value & 1) == 0)
 				push(&b, a, "pb");
 			else
 				rotate(a, "ra");
 		}
 		i++;
 		while (b != NULL)
-			push(a, &b , "pa");
+			push(a, &b, "pa");
 	}
 }

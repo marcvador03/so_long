@@ -6,14 +6,14 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 13:40:26 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:10:23 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
 void	stack_free(t_stack **stk)
 {
-	t_stack *tmp;
+	t_stack	*tmp;
 
 	while (*stk != NULL)
 	{
@@ -25,15 +25,11 @@ void	stack_free(t_stack **stk)
 
 void	push_swap_exit(char *prt, char **args, t_stack **stk)
 {
-	t_stack *tmp;
+	t_stack	*tmp;
 	int		i;
-	
+
 	if (prt != NULL)
-	{
-		i = 0;
-		while (prt[i] != '\0')
-			write(2, &prt[i++], 1);
-	}
+		write(2, prt, ft_strlen(prt));
 	if (args != NULL)
 	{
 		i = 0;
@@ -56,8 +52,8 @@ void	push_swap_exit(char *prt, char **args, t_stack **stk)
 
 static void	stk_sorted(t_stack **a)
 {
-	int	prev;
 	t_stack	*head;
+	int		prev;
 
 	head = *a;
 	prev = (*a)->value;
@@ -70,45 +66,56 @@ static void	stk_sorted(t_stack **a)
 		}
 		else
 		{
-			*a = head; 
-			return;
+			*a = head;
+			return ;
 		}
 	}
 	push_swap_exit(NULL, NULL, &head);
 }
 
-static void	normalize_neg(t_stack *a, int min)
+static void	normalize_neg(t_stack *a, struct s_params *p)
 {
 	while (a != NULL)
 	{
-		if (a->value < 0)
-			a->n_value = a->value + min;
+		if (p->min < 0)
+			a->n_value = a->value - p->min;
+		else
+			a->n_value = a->value;
 		a = a->next;
+	}
+	p->n_min = p->min;
+	p->n_max = p->max;
+	if (p->min < 0)
+	{
+		p->n_max = p->max - p->min;
+		p->n_min = 0;
 	}
 }
 
 int	main(int argc, char *argv[])
 {
-	t_stack	*a;
-	t_stack	*head_a;
-	struct	s_params p;
+	struct s_params	p;
+	t_stack			*a;
+	t_stack			*b;
+	t_stack			*head_a;
 
 	if (argc <= 1)
 		exit (0);
 	if (argc == 2)
 		a = ps_parse_split(argv[1], ' ');
 	else
-		a = ps_parse(argv);
+		a = ps_parse(argv + 1);
 	head_a = a;
+	b = NULL;
 	stk_sorted(&head_a);
 	fill_params(&p, head_a);
-	normalize_neg(a, p.min);
+	normalize_neg(head_a, &p);
 //	selection_sort(&head_a);
 //	min_sort(&head_a, min, max);
-	if(stack_size(head_a) == 3)
+	if (stack_size(head_a) == 3)
 		sort_three(&head_a, p.min, p.max);
 	else
-		radix_sort(&head_a, p.max);
+		radix_sort(&head_a, b, p.n_max);
 	//list_simple_display(head_a, NULL);	
 	push_swap_exit(NULL, NULL, &head_a);
 	return (0);
