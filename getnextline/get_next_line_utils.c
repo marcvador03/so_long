@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:25:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/08/20 12:04:32 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:04:07 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_gnl_list	*gnl_lst_move(t_gnl_list *lst, int n, int fd)
 t_gnl_list	*gnl_new(char *content, t_gnl_list *head, int fd)
 {
 	t_gnl_list	*ptr;
-	int		len;
+	int			len;
 
 	ptr = (t_gnl_list *)malloc(sizeof (t_gnl_list));
 	if (ptr == NULL)
@@ -80,4 +80,3 @@ t_gnl_list	*gnl_free(t_gnl_list *lst)
 	}
 	return (free(tmp[0]->content), free(tmp[0]), tmp[1]);
 }
-
