@@ -2,14 +2,10 @@
 LIBFT_DIR := libft
 
 #Filenames definition
-NAME := push_swap
+NAME := so_long
 
-SRC_NAMES := push_swap.c \
-			 push_swap_list_utils.c \
-			 push_swap_operations.c \
-			 list_display.c \
-			 algorithms.c \
-			 radix.c
+SRC_NAMES := so_long.c \
+			 so_long_utils.c
 
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
 
@@ -17,9 +13,14 @@ OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
 
 CFLAGS += -Wall -Werror -Wextra
 
-LIBFT_NAME := libft.a 
-LIBFT_TAG := $(patsubst lib%.a, -l%, $(LIBFT_NAME)) 
+LIBS_NAMES := libft.a \
+			  libmlx42.a
 
+LIBS_TAG := $(patsubst lib%.a, -l%, $(LIBS_NAMES)) 
+LIBS_TAG +=  -ldl \
+			 -lglfw \
+			 -pthread \
+			 -lm
 DEBUG ?=
 
 CUR_DIR := $(shell pwd)
@@ -29,8 +30,8 @@ CUR_DIR := $(shell pwd)
 all: $(OBJECTS) $(NAME)
 
 $(NAME): libft $(LIBFT_DIR)/libft.h Makefile $(OBJECTS) 
-	@cc $(CFLAGS) -L $(LIBFT_DIR) $(DEBUG) $(SOURCES) -o $@ $(LIBFT_TAG)
-	$(MAKE) clean
+	cc $(CFLAGS) -L $(LIBFT_DIR) $(DEBUG) $(SOURCES) -o $@ $(LIBS_TAG)
+#	$(MAKE) clean
 libft: 
 	$(MAKE) -C $(LIBFT_DIR)
 
