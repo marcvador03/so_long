@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/04 14:34:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/04 17:37:04 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <limits.h>
-# include "minilibx-linux/mlx.h"
+# include "minilibx/mlx.h"
 # include "libft/libft.h"
 # include "libft/ft_printf/ft_printf.h"
 

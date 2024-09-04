@@ -1,6 +1,6 @@
 #Directory definition
 LIBFT_DIR := libft
-LIBMLX_DIR := minilibx-linux
+LIBMLX_DIR := minilibx
 TARGET_LIB := ../lib
 TARGET_INC := ../include
 
