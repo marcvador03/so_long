@@ -32,6 +32,10 @@ all: $(OBJECTS) $(NAME)
 
 $(NAME): libft $(LIBFT_DIR)/libft.h Makefile $(OBJECTS) 
 	cc $(CFLAGS) -L $(LIBFT_DIR) $(DEBUG) $(SOURCES) -o $@ $(LIBFT_TAG)
+
+%.o: %.c
+	cc $(CFLAGS)$(DEBUG) -c -o $@ $^
+
 libft: 
 	$(MAKE) -C $(LIBFT_DIR)
 
