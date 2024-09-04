@@ -1,6 +1,6 @@
 #Directory definition
-TARGET_LIB := ~/PROG/Libraries/libs
-TARGET_INC := ~/PROG/Libraries/includes
+TARGET_LIB := ../lib
+TARGET_INC := ../include
 
 #Filenames definition
 NAME := libft.a
