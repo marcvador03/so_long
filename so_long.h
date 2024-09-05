@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/04 17:37:04 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/05 15:47:52 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <limits.h>
-# include "minilibx/mlx.h"
+# include "MLX42/include/MLX42/MLX42.h"
 # include "libft/libft.h"
 # include "libft/ft_printf/ft_printf.h"
 
@@ -30,7 +30,11 @@ typedef struct	s_data {
 		int	endian;
 }	t_data;
 
-
+int	create_trgb(int t, int r, int g, int b);
+int	get_t(int trgb);
+int	get_r(int trgb);
+int get_g(int trgb);
+int	get_b(int trgb);
 void	sl_exit();
 #endif
 

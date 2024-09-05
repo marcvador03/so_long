@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/05 16:36:31 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/05 15:31:38 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,63 +19,50 @@ void	sl_exit()
 	exit(1);
 }	
 
-void	full_square(mlx_image_t *img, int x, int y, int color)
+void	full_square(t_data *data, int x, int y, int color)
 {
-	int	i;
-	int j;
+	int	t_x;
+	int t_y;
 
-	i = 0;
-	j = y;
-	while (i <= (WIDTH / 7) * 8)
+	t_x = 0;
+	t_y = y;
+	while (t_x <= ((WIDTH / 7)))
 	{
-		while (j <= HEIGHT * 8)
+		while (t_y<= HEIGHT)
 		{
-			img->pixels[i + j++] = color; 
+			sl_mlx_pixel_put(data, x, t_y++, color); 
 		}
-		i++;
+		t_x++;
 		x++;
-		j = y;
-		//color = add_shade(color, 0.0001);
+		t_y = y;
+		color = add_shade(color, 0.0001);
 	}
 }
 int	main()
 {
-	mlx_t		*slx;
-	mlx_image_t	*img;
-	unsigned int	i;
-//	int	x;
-//	int	y;
+	t_mlx		*slx;
+	t_mlx_image	*img;
 
 	slx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (slx == NULL)
 		sl_exit();
 	img = mlx_new_image(slx, 256, 256);
+	full_square(&img, x, y, 0xFFFFFFFF);
+	x = WIDTH / 7 + x;
+	full_square(&img, x, y, 0xFFFFFF00);
+	x = WIDTH / 7 + x;
+	full_square(&img, x, y, 0xFF00FFFF);
+	x = WIDTH / 7 + x;
+	full_square(&img, x, y, 0xFFFF00FF);
+	x = WIDTH / 7 + x;
+	full_square(&img, x, y, 0x00FF0000);
+	x = WIDTH / 7 + x;
+	full_square(&img, x, y, 0x0000FF00);
+	x = WIDTH / 7 + x;
+	full_square(&img, x, y, 0x000000FF);
+		
 	if (img == NULL)
 		exit(1);
-	//ft_memset(img->pixels, 0xFF, img->width * img->height * 4);  
-	i = 0;
-	while (i <= 256 * 50 * 4)
-		img->pixels[i++] = 0xFF;
-	while (i <= 256 * 100 * 4)
-		img->pixels[i++] = 0x00F;
-	while (i <= 256 * 256 * 4)
-		img->pixels[i++] = 0xFF;
-	/*x = 0;
-	y = 0;
-	full_square(img, x, y, 0xFFFFFFFF);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0xFFFFFF00);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0xFF00FFFF);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0xFFFF00FF);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0x00FF0000);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0x0000FF00);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0x000000FF);*/
-	mlx_image_to_window(slx, img, 0, 0);	
 	mlx_loop(slx);
 	sl_exit();
 	return (0);
