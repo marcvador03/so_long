@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/05 15:47:52 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/08 17:02:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,11 @@
 # include "libft/libft.h"
 # include "libft/ft_printf/ft_printf.h"
 
-typedef struct	s_data {
-		void	*img;
-		char	*addr;
-		int	bits_per_pixel;
-		int	line_length;
-		int	endian;
-}	t_data;
-
 int	create_trgb(int t, int r, int g, int b);
 int	get_t(int trgb);
 int	get_r(int trgb);
 int get_g(int trgb);
 int	get_b(int trgb);
-void	sl_exit();
+void	sl_exit(mlx_t *slx);
 #endif
 

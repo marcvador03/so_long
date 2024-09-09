@@ -6,77 +6,41 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/05 16:36:31 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/09 20:51:39 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#define HEIGHT 1080
-#define WIDTH 1920
+#define HEIGHT 720
+#define WIDTH 480
+#define BPP 4
 
-void	sl_exit()
+void	sl_exit(mlx_t *slx)
 {
+	mlx_terminate(slx);
 	exit(1);
 }	
 
-void	full_square(mlx_image_t *img, int x, int y, int color)
-{
-	int	i;
-	int j;
-
-	i = 0;
-	j = y;
-	while (i <= (WIDTH / 7) * 8)
-	{
-		while (j <= HEIGHT * 8)
-		{
-			img->pixels[i + j++] = color; 
-		}
-		i++;
-		x++;
-		j = y;
-		//color = add_shade(color, 0.0001);
-	}
-}
-int	main()
+int	main(void)
 {
 	mlx_t		*slx;
 	mlx_image_t	*img;
-	unsigned int	i;
-//	int	x;
-//	int	y;
+	mlx_texture_t	*texture;
 
 	slx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (slx == NULL)
-		sl_exit();
-	img = mlx_new_image(slx, 256, 256);
+		sl_exit(NULL);
+	img = mlx_new_image(slx, WIDTH, HEIGHT);
 	if (img == NULL)
 		exit(1);
+	texture = mlx_load_png("textures/fruits/01.png");
+	if (texture == NULL)
+		sl_exit(NULL);
+	img = mlx_texture_to_image(slx, texture);
 	//ft_memset(img->pixels, 0xFF, img->width * img->height * 4);  
-	i = 0;
-	while (i <= 256 * 50 * 4)
-		img->pixels[i++] = 0xFF;
-	while (i <= 256 * 100 * 4)
-		img->pixels[i++] = 0x00F;
-	while (i <= 256 * 256 * 4)
-		img->pixels[i++] = 0xFF;
-	/*x = 0;
-	y = 0;
-	full_square(img, x, y, 0xFFFFFFFF);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0xFFFFFF00);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0xFF00FFFF);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0xFFFF00FF);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0x00FF0000);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0x0000FF00);
-	x = WIDTH / 7 + x;
-	full_square(img, x, y, 0x000000FF);*/
-	mlx_image_to_window(slx, img, 0, 0);	
+	mlx_image_to_window(slx, img, 300, 0);	
 	mlx_loop(slx);
-	sl_exit();
+
+	sl_exit(slx);
 	return (0);
 }
