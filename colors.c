@@ -6,37 +6,35 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 09:39:02 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/05 15:15:31 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/10 11:09:52 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	create_trgb(int t, int r, int g, int b)
+int	create_rgba(int r, int g, int b, int a)
 {
-	 return (t << 24 | r << 16 | g << 8 | b);
+	 return (r << 24 | g << 16 | b << 8 | a);
 }
 
-int	get_t(int trgb)
+int	get_r(int rgba)
 {
-	return ((trgb >> 24) & 0xFF);
+	return ((rgba >> 24) & 0xFF);
 }
 
-int	get_r(int trgb)
+int	get_g(int rgba)
 {
-	return ((trgb >> 16) & 0xFF);
-
+	return ((rgba >> 16) & 0xFF);
 }
 
-int get_g(int trgb)
+int get_b(int rgba)
 {
-	return ((trgb >> 8) & 0xFF);
-
+	return ((rgba >> 8) & 0xFF);
 }
 
-int	get_b(int trgb)
+int	get_a(int rgba)
 {
-	return (trgb & 0xFF);
+	return (rgba & 0xFF);
 }
 
 int	get_neg_color(int color)
@@ -48,7 +46,7 @@ int	get_neg_color(int color)
 	r = 255 - get_r(color);
 	g = 255 - get_g(color);
 	b = 255 - get_b(color);
-	return (create_trgb(get_t(color), r, g, b));	
+	return (create_rgba(r, g, b, get_a(color)));	
 }
 
 int	add_shade(int color, double d)
@@ -72,5 +70,5 @@ int	add_shade(int color, double d)
 		b = b - (d * 0xFF);
 	else
 		b = 0;
-	return (create_trgb(get_t(color), r, g, b));	
+	return (create_rgba(r, g, b, get_a(color)));	
 }
