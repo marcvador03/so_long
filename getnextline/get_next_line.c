@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:56:13 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 17:03:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/12 00:15:47 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ static t_gnl_list	*gnl_fill(char *tmp, t_gnl_list *lst, int fd, ssize_t buf)
 			ptr = (ft_strchr(tmp + (ptr - tmp), '\0'));
 		l = (int)(ptr - tmp) - s - 1;
 		if (lst == NULL)
-			lst = gnl_new(ft_substr(tmp, s, l), NULL, fd);
+			lst = gnl_new(gnl_substr(tmp, s, l), NULL, fd);
 		else
 		{
 			lst = gnl_lst_move(lst, -1, -1);
-			lst->next = gnl_new(ft_substr(tmp, s, l), lst->bof, fd);
+			lst->next = gnl_new(gnl_substr(tmp, s, l), lst->bof, fd);
 		}
 		if (lst == NULL || (lst != lst->bof && lst->next == NULL))
 			lst = gnl_free(lst);
