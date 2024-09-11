@@ -6,13 +6,13 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/10 16:44:13 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/10 21:56:05 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#define HEIGHT 1512
-#define WIDTH 2688
+#define HEIGHT 900
+#define WIDTH 1440
 #define BPP 4
 
 void	sl_close(void *str)
@@ -23,28 +23,40 @@ void	sl_close(void *str)
 
 void	move_persona(mlx_image_t *img, keys_t key)
 {
-	if (key == MLX_KEY_DOWN && img->instances[0].y <= HEIGHT - 64)
-		img->instances[0].y += 64;
-	if (key == MLX_KEY_UP && img->instances[0].y >= 64)
-		img->instances[0].y -= 64;
-	if (key == MLX_KEY_LEFT && img->instances[0].x >= 64)
-		img->instances[0].x -= 64;
-	if (key == MLX_KEY_RIGHT && img->instances[0].x >= WIDTH - 64)
-		img->instances[0].x += 64;
+	if (key == MLX_KEY_DOWN && img->instances->y <= (HEIGHT - 64))
+	{
+		img->instances->y +=64;
+		ft_printf("down\n");
+	}
+		if (key == MLX_KEY_UP && img->instances->y >= 64)
+	{
+		img->instances->y -=64;
+		ft_printf("up\n");
+	}
+		if (key == MLX_KEY_LEFT && img->instances->x >= 64)
+	{
+		img->instances->x -=64;
+		ft_printf("left\n");
+	}
+		if (key == MLX_KEY_RIGHT && img->instances->x <= (WIDTH - 64))
+	{
+		img->instances->x +=64;
+		ft_printf("right\n");
+	}
 }
 
-void	sl_keyhook(mlx_key_data_t keydata, void *param)
+void	sl_keyhook(mlx_key_data_t keydata, void *img)
 {
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		sl_close("Closing with ESC");
+		sl_close("Closing with ESC\n");
 	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
-		move_persona((mlx_image_t *)param, keydata.key);
+		move_persona((mlx_image_t *)img, keydata.key);
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
-		move_persona((mlx_image_t *)param, keydata.key);
+		move_persona((mlx_image_t *)img, keydata.key);
 	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-		move_persona((mlx_image_t *)param, keydata.key);
+		move_persona((mlx_image_t *)img, keydata.key);
 	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-		move_persona((mlx_image_t *)param, keydata.key);
+		move_persona((mlx_image_t *)img, keydata.key);
 }
 
 int	main(void)
@@ -64,7 +76,7 @@ int	main(void)
 		sl_close("Error");
 	mlx_image_to_window(slx, img, 0, 0);
 	mlx_close_hook(slx, sl_close, "Closing\n");	
-	mlx_key_hook(slx, &sl_keyhook, "Closing with ESC\n");
+	mlx_key_hook(slx, &sl_keyhook, img);
 	mlx_loop(slx);
 	sl_close("");
 	return (0);
