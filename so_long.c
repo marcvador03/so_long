@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/10 21:56:05 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/11 23:51:18 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,33 @@ void	sl_keyhook(mlx_key_data_t keydata, void *img)
 		move_persona((mlx_image_t *)img, keydata.key);
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
-	mlx_t		*slx;
-	mlx_image_t	*img;
-	mlx_texture_t	*texture;
+	t_mainwindow	sl;
+	char			*line;
 
-	slx = mlx_init(WIDTH, HEIGHT, "Test", true);
-	if (slx == NULL)
+	if (argc != 2)
+		sl_close("missing argument\n");
+	sl.fd = open(argv[1], O_RDONLY);
+	if (sl.fd == -1)
+		sl_close("error while opening file\n");
+	line = get_next_line(sl.fd);
+	free(line);
+	while (line != NULL)
+		line = get_next_line(sl.fd);
+	sl.slx = mlx_init(WIDTH, HEIGHT, "Test", true);
+	if (sl.slx == NULL)
 		sl_close("Error");
-	texture = mlx_load_png("textures/animals/ax_bear2.png");
-	if (texture == NULL)
+	sl.texture = mlx_load_png("textures/animals/ax_bear2.png");
+	if (sl.texture == NULL)
 		sl_close("Error");
-	img = mlx_texture_to_image(slx, texture);
-	if(mlx_resize_image(img, 64, 64) == false)
+	sl.img = mlx_texture_to_image(sl.slx, sl.texture);
+	if(mlx_resize_image(sl.img, 64, 64) == false)
 		sl_close("Error");
-	mlx_image_to_window(slx, img, 0, 0);
-	mlx_close_hook(slx, sl_close, "Closing\n");	
-	mlx_key_hook(slx, &sl_keyhook, img);
-	mlx_loop(slx);
+	mlx_image_to_window(sl.slx, sl.img, 0, 0);
+	mlx_close_hook(sl.slx, sl_close, "Closing\n");	
+	mlx_key_hook(sl.slx, &sl_keyhook, sl.img);
+	mlx_loop(sl.slx);
 	sl_close("");
 	return (0);
 }
