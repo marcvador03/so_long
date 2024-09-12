@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/12 19:27:02 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:37:30 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,25 @@
 # include "libft/ft_printf/ft_printf.h"
 # include "libft/getnextline/get_next_line.h"
 
+typedef struct s_grid
+{
+	char			value;
+	mlx_image_t		*img;
+	mlx_texture_t	*texture;
+} t_grid;
+
 typedef struct s_mainwindow 
 {
-	int				fd;
-	char			**map;
 	mlx_t			*slx;
-	mlx_image_t		*hero;
-	mlx_image_t		*wall;
-	mlx_image_t		*item;
-	mlx_image_t		*exit;
-	mlx_image_t		*bckg;
+	mlx_image_t		*img;
+	int				fd;
 	unsigned int	h_map;
 	unsigned int	w_map;
 	int32_t			m_width;			
 	int32_t			m_height;			
+	t_grid			**grid;
+	t_grid			hero;
+	t_grid			*collect;
 } t_mainwindow;
 
 int	create_rgba(int r, int g, int b, int a);

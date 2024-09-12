@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/12 20:09:22 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:00:57 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define HEIGHT 900
 #define WIDTH 1440
 #define BPP 4
-#define PPC 16
 
 void	sl_close(void *str)
 {
@@ -24,24 +23,24 @@ void	sl_close(void *str)
 
 void	move_persona(mlx_image_t *img, keys_t key)
 {
-	if (key == MLX_KEY_DOWN && img->instances->y <= (HEIGHT - PPC))
+	if (key == MLX_KEY_DOWN && img->instances->y <= (HEIGHT - 64))
 	{
-		img->instances->y +=PPC;
+		img->instances->y +=64;
 		ft_printf("down\n");
 	}
-		if (key == MLX_KEY_UP && img->instances->y >= PPC)
+		if (key == MLX_KEY_UP && img->instances->y >= 64)
 	{
-		img->instances->y -=PPC;
+		img->instances->y -=64;
 		ft_printf("up\n");
 	}
-		if (key == MLX_KEY_LEFT && img->instances->x >= PPC)
+		if (key == MLX_KEY_LEFT && img->instances->x >= 64)
 	{
-		img->instances->x -=PPC;
+		img->instances->x -=64;
 		ft_printf("left\n");
 	}
-		if (key == MLX_KEY_RIGHT && img->instances->x <= (WIDTH - PPC))
+		if (key == MLX_KEY_RIGHT && img->instances->x <= (WIDTH - 64))
 	{
-		img->instances->x +=PPC;
+		img->instances->x +=64;
 		ft_printf("right\n");
 	}
 }
@@ -54,13 +53,13 @@ void	sl_keyhook(mlx_key_data_t keydata, void *sl)
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		sl_close("Closing with ESC\n");
 	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
-		move_persona(tmp->hero, keydata.key);
+		move_persona(tmp->hero.img, keydata.key);
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
-		move_persona(tmp->hero, keydata.key);
+		move_persona(tmp->hero.img, keydata.key);
 	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-		move_persona(tmp->hero, keydata.key);
+		move_persona(tmp->hero.img, keydata.key);
 	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-		move_persona(tmp->hero, keydata.key);
+		move_persona(tmp->hero.img, keydata.key);
 }
 
 void	get_map_size(t_mainwindow *sl, char *path)
@@ -87,7 +86,7 @@ void	get_map_size(t_mainwindow *sl, char *path)
 		sl_close("error while closing fd");
 }
 
-void	sl_grid_fill(char *map, char *line)
+void	sl_grid_fill(t_grid *grid, t_grid *hero, char *line)
 {
 	int	i;
 
@@ -97,7 +96,18 @@ void	sl_grid_fill(char *map, char *line)
 		if (line[i] != '0' && line[i] != '1')
 			if(line[i] !='C' && line[i] != 'E' && line[i] != 'P')
 				sl_close("map check: forbidden value");
-		map[i] = line[i];
+		if (line[i] == 'P')
+		{
+			grid[i].value = '0';
+			hero->value = line[i];	
+		}
+		if (line[i] == 'C')
+		{
+			grid[i].value = '0';
+			//collect[0].value = line[i];	
+		}
+		else
+			grid[i].value = line[i];
 		i++;	
 	}
 }
@@ -112,13 +122,13 @@ void	sl_map_fill(t_mainwindow *sl, char *path)
 		sl_close("error while opening file\n");
 	line = get_next_line(sl->fd);
 	i = 0;
-	sl_grid_fill(sl->map[i++], line);
+	sl_grid_fill(sl->grid[i++], &sl->hero, line);
 	while (line != NULL)
 	{
 		free(line);
 		line = get_next_line(sl->fd);
 		if (line != NULL)
-			sl_grid_fill(sl->map[i++], line);
+			sl_grid_fill(sl->grid[i++], &sl->hero, line);
 	}
 	free(line);
 	line = NULL;
@@ -126,21 +136,21 @@ void	sl_map_fill(t_mainwindow *sl, char *path)
 		sl_close("error while closing fd");
 }
 
-void	sl_map_check_walls(char **map, unsigned int w, unsigned int h)
+void	sl_map_check_walls(t_grid **grid, unsigned int w, unsigned int h)
 {
 	unsigned int i;
 
 	i = 0;
 	while (i <= w)
-		if (map[0][i] != '1' || map[h][i++] != '1')
+		if (grid[0][i].value != '1' || grid[h][i++].value != '1')
 			sl_close("map check: missing surrounding walls");
 	i = 0;
 	while (i <= h)
-		if (map[i][0] != '1' || map[i++][w] != '1')
+		if (grid[i][0].value != '1' || grid[i++][w].value != '1')
 			sl_close("map check: missing surrounding walls");
 }
 
-void	sl_map_check_dups(char **map, unsigned int w, unsigned int h)
+void	sl_map_check_dups(t_grid **grid, unsigned int w, unsigned int h)
 {
 	unsigned int i;
 	unsigned int j;
@@ -155,11 +165,11 @@ void	sl_map_check_dups(char **map, unsigned int w, unsigned int h)
 		j = 0;
 		while (j <= w)
 		{
-			if (map[i][j] == 'E')
+			if (grid[i][j].value == 'E')
 				cnt[0]++;
-			else if (map[i][j] == 'P')
+			else if (grid[i][j].value == 'P')
 				cnt[1]++;
-			else if (map[i][j] == 'C')
+			else if (grid[i][j].value == 'C')
 				cnt[2]++;
 			j++;
 		}
@@ -169,108 +179,70 @@ void	sl_map_check_dups(char **map, unsigned int w, unsigned int h)
 		sl_close("map check: duplicate entry or start point");
 }
 
-void	sl_load_texture(t_mainwindow *sl)
+void	sl_load_texture(mlx_t *slx, t_grid *item, char *path)
 {
-	unsigned int	i;
-	unsigned int	j;
-	
-	i = 0;
-	while (i <= sl->h_map - 1)
-	{
-		j = 0;
-		while (j <= sl->w_map - 1)
-		{
-			if (sl->map[i][j] == '0')
-				mlx_image_to_window(sl->slx, sl->bckg, j * PPC, i * PPC);
-			else if (sl->map[i][j] == '1')
-				mlx_image_to_window(sl->slx, sl->wall, j * PPC, i * PPC);
-			else if (sl->map[i][j] == 'E')
-				mlx_image_to_window(sl->slx, sl->exit, j * PPC, i * PPC);
-			else if (sl->map[i][j] == 'C')
-			{
-				mlx_image_to_window(sl->slx, sl->bckg, j * PPC, i * PPC);
-				mlx_image_to_window(sl->slx, sl->item, j * PPC, i * PPC);
-				mlx_set_instance_depth(sl->item->instances, 2);
-			}
-			else if (sl->map[i][j] == 'P')
-			{
-				mlx_image_to_window(sl->slx, sl->bckg, j * PPC, i * PPC);
-				mlx_image_to_window(sl->slx, sl->hero, j * PPC, i * PPC);
-				mlx_set_instance_depth(sl->hero->instances, 3);
-			}
-			j++;
-		}
-		i++;
-	}
+	item->texture = mlx_load_png(path);
+	if (item->texture == NULL)
+		sl_close("Error");
+	item->img = mlx_texture_to_image(slx, item->texture);
+	if(mlx_resize_image(item->img, 64, 64) == false)
+		sl_close("Error");
+	mlx_image_to_window(slx, item->img, 0, 0);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_mainwindow	sl;
-	mlx_texture_t	*texture;
 	unsigned int	i;
+//	unsigned int	j;
 
 	if (argc != 2)
 		sl_close("missing argument\n");
 	get_map_size(&sl, argv[1]);
-	sl.map = (char **)ft_calloc(sl.h_map, sizeof(char *));
-	if (sl.map == NULL)
-		sl_close("error in calloc map");	
+	sl.grid = (t_grid **)ft_calloc(sl.h_map + 1, sizeof(t_grid *));
+	if (sl.grid == NULL)
+		sl_close("error in calloc grid");	
 	i = 0;
-	while (i <= (sl.h_map))
+	while (i <= (sl.h_map + 1))
 	{
-		sl.map[i++] = (char *)ft_calloc(sl.w_map, sizeof(char));
-		if (sl.map == NULL)
-			sl_close("error in calloc map[i]");	
+		sl.grid[i++] = (t_grid *)ft_calloc(sl.w_map, sizeof(t_grid));
+		if (sl.grid == NULL)
+			sl_close("error in calloc grid[i]");	
 	}
-	sl.map[i] = NULL;
+	sl.grid[i] = NULL;
 	sl_map_fill(&sl, argv[1]);
-	sl_map_check_walls(sl.map, sl.w_map - 1, sl.h_map - 1);
-	sl_map_check_dups(sl.map, sl.w_map - 1, sl.h_map - 1);
+	sl_map_check_walls(sl.grid, sl.w_map - 1, sl.h_map - 1);
+	sl_map_check_dups(sl.grid, sl.w_map - 1, sl.h_map - 1);
 	
 	//mlx_get_monitor_size(0, &sl.m_width, &sl.m_height);
-	sl.m_width = sl.w_map * PPC;
-	sl.m_height = sl.h_map * PPC;
+	sl.m_width = sl.w_map * 64;
+	sl.m_height = sl.h_map * 64;
 	sl.slx = mlx_init(sl.m_width, sl.m_height, "Test", true);
 	if (sl.slx == NULL)
 		sl_close("Error");
+	
+	sl_load_texture(sl.slx, &sl.hero, "textures/animals/ax_bear2.png");
+	sl_load_texture(sl.slx, &sl.grid[0][0], "textures/fruits/01.png");
+	sl_load_texture(sl.slx, &sl.grid[1][1], "textures/fruits/02.png");
+	/*i = 0;
+	while (i <= sl.h_map - 1)
+	{
+		j = 0;
+		while (j <= sl.w_map - 1)
+		{
+			sl_load_texture(sl.slx, &sl.grid[i][j], "textures/fruits/01.png");
+			j++;
+		}
+		i++;
+	}*/
 
-	texture = mlx_load_png("textures/animals/ax_bear2.png");
-	if (texture == NULL)
-		sl_close("Error loading texture");
-	sl.hero = mlx_texture_to_image(sl.slx, texture);
-	if(mlx_resize_image(sl.hero, PPC, PPC) == false)
-		sl_close("Error resizing image");
-	
-	texture = mlx_load_png("textures/fruits/01.png");
-	if (texture == NULL)
-		sl_close("Error loading texture");
-	sl.item = mlx_texture_to_image(sl.slx, texture);
-	if(mlx_resize_image(sl.item, PPC, PPC) == false)
-		sl_close("Error resizing image");
-	
-	texture = mlx_load_png("textures/fruits/02.png");
-	if (texture == NULL)
-		sl_close("Error loading texture");
-	sl.bckg = mlx_texture_to_image(sl.slx, texture);
-	if(mlx_resize_image(sl.bckg, PPC, PPC) == false)
-		sl_close("Error resizing image");
-	
-	texture = mlx_load_png("textures/fruits/03.png");
-	if (texture == NULL)
-		sl_close("Error loading texture");
-	sl.exit = mlx_texture_to_image(sl.slx, texture);
-	if(mlx_resize_image(sl.exit, PPC, PPC) == false)
-		sl_close("Error resizing image");
-
-	texture = mlx_load_png("textures/fruits/04.png");
-	if (texture == NULL)
-		sl_close("Error loading texture");
-	sl.wall = mlx_texture_to_image(sl.slx, texture);
-	if(mlx_resize_image(sl.wall, PPC, PPC) == false)
-		sl_close("Error resizing image");
-	
-	sl_load_texture(&sl);
+	/*sl.hero.texture = mlx_load_png("textures/animals/ax_bear2.png");
+	if (sl.hero.texture == NULL)
+		sl_close("Error");
+	sl.hero.img = mlx_texture_to_image(sl.slx, sl.hero.texture);
+	if(mlx_resize_image(sl.hero.img, 64, 64) == false)
+		sl_close("Error");
+	mlx_image_to_window(sl.slx, sl.hero.img, 0, 0);*/
 	mlx_close_hook(sl.slx, sl_close, "Closing\n");	
 	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
 	mlx_loop(sl.slx);
