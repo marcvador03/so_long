@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:30:48 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/16 13:28:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:36:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 t_stack	*search_value(int n, t_stack **stk)
 {
-	while (*stk != NULL)
+	t_stack	*tmp;
+
+	tmp = *stk;
+	while (tmp != NULL)
 	{
-		if ((*stk)->value == n)
-			return (*stk);
-		*stk = (*stk)->next;
+		if (tmp->value == n)
+			return (tmp);
+		tmp = tmp->next;
 	}
 	return (NULL);
 }
@@ -26,8 +29,8 @@ t_stack	*search_value(int n, t_stack **stk)
 t_stack	*search_next_big(unsigned int n, int min, t_stack *stk)
 {
 	unsigned int	diff;
-	t_stack	*head_stk;
-	t_stack	*res;
+	t_stack			*head_stk;
+	t_stack			*res;
 
 	head_stk = stk;
 	diff = 0;
@@ -42,22 +45,22 @@ t_stack	*search_next_big(unsigned int n, int min, t_stack *stk)
 		stk = stk->next;
 	}
 	if (diff == 0)
-		return (search_value(min, &head_stk));	
+		return (search_value(min, &head_stk));
 	return (res);
 }
 
-void	insert_in_order(t_stack *a, t_stack *b, int min)
+void	insert_in_order(t_stack **a, t_stack *b, int min)
 {
 	t_stack	*ptr;
-	
+
 	while (b != NULL)
 	{
-		ptr = search_next_big(b->n_value, min, a);
-		while (a != ptr && a != NULL)
+		ptr = search_next_big(b->n_value, min, *a);
+		while (*a != ptr && *a != NULL)
 		{
-			rotate(&a, "ra");
+			rotate(a, "ra");
 		}
-		push(&a, &b, "pa");
+		push(a, &b, "pa");
 		//b = b->next;
 	}
 }

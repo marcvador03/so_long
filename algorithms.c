@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:11:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/16 13:19:23 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/16 18:27:25 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ void	sort_three(t_stack **a, int min, int max)
 
 void	sort_five(t_stack **a, t_stack *b)
 {
-	struct s_params	p_tmp;
-	
+	struct s_params	p;
+	t_stack			*ptr;
+
 	push(&b, a, "pb");
 	if ((*a)->value > b->value)
 		push(&b, a, "pb");
@@ -53,12 +54,22 @@ void	sort_five(t_stack **a, t_stack *b)
 		push(&b, a, "pb");
 		swap(&b, "sb");
 	}
-	fill_params(&p_tmp, *a);
-	sort_three(a, p_tmp.min, p_tmp.max);
-	insert_in_order(*a, b, p_tmp.min);
+	fill_params(&p, *a);
+	sort_three(&(*a)->head, p.min, p.max);
+	insert_in_order(&(*a)->head, b->head, p.min);
+	fill_params(&p, *a);
+	ptr = search_value(p.min, &(*a)->head);
+	a = &(*a)->head;
+	while (*a != ptr && *a != NULL)
+	{
+		if (search_pos(p.med, p.min, (*a)->head) == -1)
+			r_rotate(a, "rra");
+		else
+			rotate(a, "rra");
+	}
 }
 
-void	min_sort(t_stack **a, int min, int max)
+/*void	min_sort(t_stack **a, int min, int max)
 {
 	t_stack	*b;
 	int		tmp;
@@ -135,4 +146,4 @@ void	selection_sort(t_stack **a)
 		push(a, &b, "pa");
 		rotate(a, "ra");
 	}
-}
+}*/

@@ -6,39 +6,31 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:40:24 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 21:13:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/16 18:03:41 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	fill_params(struct s_params *p, t_stack *stk)
+int	search_pos(int med, int value, t_stack *stk)
 {
-	int	cnt;
 	int	i;
 
-	cnt = stack_size(stk);
-	p->min = stk->value;
-	p->max = stk->value;
-	stk = stk->next;
-	i = 1;
-	while (i++ < cnt)
-	{
-		if (p->min > stk->value)
-			p->min = stk->value;
-		if (p->max < stk->value)
-			p->max = stk->value;
-		stk = stk->next;
-	}
-	p->med = 0;
-	p->n_med = 0;
+	i = 0;
+	while (stk->value != value && stk != NULL)
+		i++;
+	if (i > med)
+		return (-1);
+	return (1);	
 }
+
 
 static int	ps_duplicates(t_stack *stk)
 {
 	t_stack	*tmp;
 	int		n;
 
+	stk = stk->head;
 	while (stk->next != NULL)
 	{
 		tmp = stk->next;
@@ -110,19 +102,17 @@ t_stack	*ps_parse_split(char *s, char c)
 
 t_stack	*ps_parse(char **args)
 {
-	t_stack	*head;
 	t_stack	*a;
 	int		i;
 
 	if (ps_sanity_check(args) == 0)
 		push_swap_exit("Error\n", NULL, NULL);
-	a = stack_new(ft_atoi(args[0]), 0);
-	head = a;
-	a->next = NULL;
+	a = stack_new(ft_atoi(args[0]), 0, NULL);
 	i = 1;
 	while (args[i] != NULL)
 		stack_addback(&a, ft_atoi(args[i++]), 0);
-	if (ps_duplicates(head) == 0)
-		push_swap_exit("Error\n", args, &head);
-	return (head);
+	if (ps_duplicates(a) == 0)
+		push_swap_exit("Error\n", args, &a->head);
+	a = a->head;
+	return (a);
 }

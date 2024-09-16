@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/16 13:18:24 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/16 18:32:16 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_stack
 {
 	int				value;
 	unsigned int	n_value;
+	struct s_stack	*head;
 	struct s_stack	*next;
 }	t_stack;
 struct s_params
@@ -35,9 +36,10 @@ struct s_params
 };	
 void	stack_addback(t_stack **stk, int value, int n_value);
 void	stack_addfront(t_stack **stk, int value, int n_value);
-t_stack	*stack_new(int value, int n_value);
+t_stack	*stack_new(int value, int n_value, t_stack *head);
 t_stack	*stack_last(t_stack *stk);
 int		stack_size(t_stack *stk);
+void	stack_head_update(t_stack **stk, t_stack **head);
 void	list_simple_display(t_stack *a, t_stack *b);
 void	swap(t_stack **stk, char *prt);
 void	push(t_stack **a, t_stack **b, char *prt);
@@ -52,6 +54,8 @@ t_stack	*ps_parse_split(char *s, char c);
 void	push_swap_exit(char *prt, char **args, t_stack **stk);
 void	fill_params(struct s_params *p, t_stack *stk);
 void	sort_five(t_stack **a, t_stack *b);
-void	insert_in_order(t_stack *a, t_stack *b, int min);
+void	insert_in_order(t_stack **a, t_stack *b, int min);
+t_stack	*search_value(int n, t_stack **stk);
+int		search_pos(int med, int value, t_stack *stk);
 
 #endif
