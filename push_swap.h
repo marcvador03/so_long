@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 17:10:08 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:18:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ t_stack	*ps_parse(char **args);
 t_stack	*ps_parse_split(char *s, char c);
 void	push_swap_exit(char *prt, char **args, t_stack **stk);
 void	fill_params(struct s_params *p, t_stack *stk);
+void	sort_five(t_stack **a, t_stack *b);
+void	insert_in_order(t_stack *a, t_stack *b, int min);
 
 #endif

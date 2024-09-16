@@ -6,12 +6,12 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 17:10:23 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:31:22 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-void	stack_free(t_stack **stk)
+/*void	stack_free(t_stack **stk)
 {
 	t_stack	*tmp;
 
@@ -21,7 +21,7 @@ void	stack_free(t_stack **stk)
 		free(*stk);
 		*stk = tmp;
 	}
-}
+}*/
 
 void	push_swap_exit(char *prt, char **args, t_stack **stk)
 {
@@ -114,9 +114,11 @@ int	main(int argc, char *argv[])
 //	min_sort(&head_a, min, max);
 	if (stack_size(head_a) == 3)
 		sort_three(&head_a, p.min, p.max);
+	else if (stack_size(head_a) == 5)
+		sort_five(&head_a, b);
 	else
 		radix_sort(&head_a, b, p.n_max);
-	//list_simple_display(head_a, NULL);	
+	list_simple_display(head_a, NULL);	
 	push_swap_exit(NULL, NULL, &head_a);
 	return (0);
 }

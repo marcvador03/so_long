@@ -11,6 +11,7 @@ SRC_NAMES := push_swap.c \
 			 list_display.c \
 			 algorithms.c \
 			 radix.c \
+			 push_swap_algo_utils.c
 
 
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
@@ -34,7 +35,7 @@ $(NAME): libft $(LIBFT_DIR)/libft.h Makefile $(OBJECTS)
 	cc $(CFLAGS) -L $(LIBFT_DIR) $(DEBUG) $(SOURCES) -o $@ $(LIBFT_TAG)
 
 %.o: %.c
-	cc $(CFLAGS)$(DEBUG) -c -o $@ $^
+	cc $(CFLAGS) $(DEBUG) -c -o $@ $^
 
 libft: 
 	$(MAKE) -C $(LIBFT_DIR)

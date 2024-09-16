@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:11:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/03 17:12:14 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:19:23 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,23 @@ void	sort_three(t_stack **a, int min, int max)
 		}
 		return ;
 	}
+}
+
+void	sort_five(t_stack **a, t_stack *b)
+{
+	struct s_params	p_tmp;
+	
+	push(&b, a, "pb");
+	if ((*a)->value > b->value)
+		push(&b, a, "pb");
+	else
+	{
+		push(&b, a, "pb");
+		swap(&b, "sb");
+	}
+	fill_params(&p_tmp, *a);
+	sort_three(a, p_tmp.min, p_tmp.max);
+	insert_in_order(*a, b, p_tmp.min);
 }
 
 void	min_sort(t_stack **a, int min, int max)
