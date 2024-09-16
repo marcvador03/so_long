@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:59:33 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/12 00:14:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/16 11:12:22 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ char		*get_next_line(int fd);
 t_gnl_list	*gnl_lst_move(t_gnl_list *lst, int n, int fd);
 t_gnl_list	*gnl_free(t_gnl_list *lst);
 t_gnl_list	*gnl_new(char *content, t_gnl_list *head, int fd);
-char	*gnl_substr(char const *s, unsigned int start, size_t len);
+char		*gnl_substr(char const *s, unsigned int start, size_t len);
 #endif
