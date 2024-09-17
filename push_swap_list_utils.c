@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:37:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/16 18:35:28 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:43:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ int	stack_size(t_stack *stk)
 	return (cnt);
 }
 
-void	stack_head_update(t_stack **stk, t_stack **head)
+void	stack_head_update(t_stack *stk, t_stack *head)
 {
-	*stk = *head;
-	while (*stk != NULL)
+	stk = head;
+	while (stk != NULL)
 	{
-		(*stk)->head = *head;
-		*stk = (*stk)->next;
+		stk->head = head;
+		stk = stk->next;
 	}
-	*stk = *head;
+	stk = head;
 }

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:30:48 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 11:55:19 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:13:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ t_stack	*search_n_value(unsigned int n, t_stack *stk)
 t_stack	*search_next_big(unsigned int n, unsigned int min, t_stack *stk)
 {
 	unsigned int	diff;
-	t_stack			*head_stk;
 	t_stack			*res;
+	t_stack			*head;
 
-	head_stk = stk;
+	stk = stk->head;
+	head = stk->head;
 	diff = 0;
 	res = NULL;
 	while (stk != NULL)
@@ -53,7 +54,31 @@ t_stack	*search_next_big(unsigned int n, unsigned int min, t_stack *stk)
 		stk = stk->next;
 	}
 	if (diff == 0)
-		return (search_n_value(min, head_stk));
+		return (search_n_value(min, head));
+	return (res);
+}
+
+t_stack	*search_next_small(unsigned int n, unsigned int max, t_stack *stk)
+{
+	unsigned int	diff;
+	t_stack			*res;
+	t_stack			*head;
+
+	stk = stk->head;
+	head = stk->head;
+	diff = 0;
+	res = NULL;
+	while (stk != NULL)
+	{
+		if (stk->n_value < n && (diff == 0 || (n - stk->n_value) < diff))
+		{
+			diff = n - stk->n_value;
+			res = stk;
+		}
+		stk = stk->next;
+	}
+	if (diff == 0)
+		return (search_n_value(max, head));
 	return (res);
 }
 

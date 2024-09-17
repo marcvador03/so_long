@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 11:54:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:02:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_stack
 {
 	int				value;
 	unsigned int	n_value;
+	unsigned int	r_value;
 	struct s_stack	*head;
 	struct s_stack	*next;
 }	t_stack;
@@ -39,7 +40,7 @@ void	stack_addfront(t_stack **stk, int value, int n_value);
 t_stack	*stack_new(int value, int n_value, t_stack *head);
 t_stack	*stack_last(t_stack *stk);
 int		stack_size(t_stack *stk);
-void	stack_head_update(t_stack **stk, t_stack **head);
+void	stack_head_update(t_stack *stk, t_stack *head);
 void	list_simple_display(t_stack *a, t_stack *b);
 void	swap(t_stack **stk, char *prt);
 void	push(t_stack **a, t_stack **b, char *prt);
@@ -58,5 +59,6 @@ void	insert_in_order(t_stack **a, t_stack *b, unsigned int min);
 t_stack	*search_value(int n, t_stack *stk);
 t_stack	*search_n_value(unsigned int n, t_stack *stk);
 void	minimize_rotation(t_stack **stk, t_stack *target, char *prt);
+t_stack	*search_next_big(unsigned int n, unsigned int min, t_stack *stk);
 
 #endif
