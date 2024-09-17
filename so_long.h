@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/14 01:58:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/14 12:46:31 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include "libft/libft.h"
 # include "libft/ft_printf/ft_printf.h"
 # include "libft/getnextline/get_next_line.h"
+# include "textures.h"
+# define BPP 4
+# define PPT 48
 
 typedef struct	s_map
 {
@@ -46,12 +49,14 @@ typedef struct	s_mainwindow
 	unsigned int	move_cnt;	
 } t_mainwindow;
 
-int	create_rgba(int r, int g, int b, int a);
+void	sl_close(void *str);
+void	sl_load_texture(t_mainwindow sl, mlx_texture_t *txt, mlx_image_t *img, char *path);
+/*int	create_rgba(int r, int g, int b, int a);
 int	get_r(int rgba);
 int	get_g(int rgba);
 int get_b(int rgba);
 int	get_a(int rgba);
 int	add_shade(int color, double d);
-int	get_neg_color(int color);
+int	get_neg_color(int color);*/
 #endif
 

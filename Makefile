@@ -8,7 +8,9 @@ TARGET_INC := ../include
 NAME := so_long
 
 SRC_NAMES := so_long.c \
-			 colors.c
+			 sl_map.c \
+			 sl_movements.c \
+			 sl_texture.c
 
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
 
