@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 11:05:28 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:48:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -36,12 +36,12 @@ int		search_min(t_stack *stk)
 	return (min);
 }
 
-t_spec	fill_specs(t_stack *stk)
+t_spec	fill_specs(t_stack *stk, t_stack *target)
 {
 	t_spec	s;
-	int		cnt;
 
-	cnt = stack_size(stk);
+	s.size = stack_size(stk);
+	s.position = search_pos(target, stk); 
 	stk = stk->head;
 	while (stk != NULL)
 	{
@@ -57,7 +57,7 @@ t_spec	fill_specs(t_stack *stk)
 		}
 		stk = stk->next;
 	}
-	s.med = cnt / 2;
+	s.med = s.size / 2;
 	return (s);
 }
 
@@ -140,7 +140,7 @@ int	main(int argc, char *argv[])
 	else if (stack_size(a) == 5)
 		sort_five(&a, b);
 	else
-		radix_sort(&a->head, b);
+		turk_sort(&a, b);
 	list_simple_display(a->head, NULL);
 	push_swap_exit(NULL, NULL, &a->head);
 	return (0);

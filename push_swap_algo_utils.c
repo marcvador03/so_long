@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:30:48 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 13:13:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:43:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	insert_in_order(t_stack **a, t_stack *b, unsigned int min)
 	t_stack	*ptr;
 	t_spec	s;
 
-	s = fill_specs(*a);
+	s = fill_specs(*a, NULL);
 	while (b != NULL)
 	{
 		ptr = search_next_big(b->n_value, min, *a);

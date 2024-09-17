@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 11:15:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 13:04:54 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:47:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -54,7 +54,7 @@ void	radix_sort(t_stack **a, t_stack *b)
 	int		bit_value;
 	t_spec	s;
 
-	s = fill_specs(*a);
+	s = fill_specs(*a, NULL);
 	normalize_radix(a, s);
 	i = 0;
 	b = NULL;

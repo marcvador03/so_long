@@ -6,11 +6,13 @@ NAME := push_swap
 
 SRC_NAMES := push_swap.c \
 			 push_swap_list_utils.c \
+			 push_swap_utils.c \
 			 push_swap_operations.c \
 			 push_swap_parse_checks.c \
 			 list_display.c \
 			 algorithms.c \
 			 radix.c \
+			 turk.c \
 			 push_swap_algo_utils.c
 
 

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 13:07:58 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:47:27 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	rotate(t_stack **stk, char *prt)
 	*stk = tmp2;
 	(*stk)->head = tmp2;
 	stack_head_update(*stk, tmp2);
-	ft_printf("%s\n", prt);
+	if (ft_strncmp(prt, "rr", 2) != 0)
+		ft_printf("%s\n", prt);
 }
 
 void	r_rotate(t_stack **stk, char *prt)
@@ -84,6 +85,21 @@ void	r_rotate(t_stack **stk, char *prt)
 	}
 	(*stk)->head = *stk;
 	stack_head_update(*stk, *stk);
+	if (ft_strncmp(prt, "rrr", 3) != 0)
+		ft_printf("%s\n", prt);
+}
+
+void	double_rotate(t_stack **stk_1, t_stack **stk_2, char *prt)
+{
+	rotate(stk_1, prt);
+	rotate(stk_2, prt);
+	ft_printf("%s\n", prt);
+}
+
+void	double_r_rotate(t_stack **stk_1, t_stack **stk_2, char *prt)
+{
+	r_rotate(stk_1, prt);
+	r_rotate(stk_2, prt);
 	ft_printf("%s\n", prt);
 }
 
@@ -91,6 +107,8 @@ int	search_pos(t_stack *target, t_stack *stk)
 {
 	int	i;
 
+	if (target == NULL)
+		return (0);
 	i = 0;
 	while (stk != target && stk != NULL)
 	{
@@ -107,7 +125,7 @@ void	minimize_rotation(t_stack **stk, t_stack *target, char *prt)
 	int		pos;
 	int		size;
 
-	s = fill_specs(*stk);
+	s = fill_specs(*stk, NULL);
 	tmp = *stk;
 	size = stack_size(*stk);
 	pos = search_pos(target, *stk);	

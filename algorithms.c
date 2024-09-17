@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:11:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 13:05:22 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:46:31 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	sort_three(t_stack **a)
 {
 	t_spec	s;
 
-	s = fill_specs(*a);	
+	s = fill_specs(*a, NULL);	
 	if ((*a)->value == s.min)
 	{
 		rotate(a, "ra");
@@ -58,9 +58,9 @@ void	sort_five(t_stack **a, t_stack *b)
 		swap(&b, "sb");
 	}
 	sort_three(a);
-	s = fill_specs(*a);
+	s = fill_specs(*a, NULL);
 	insert_in_order(a, b, s.n_min);
-	s = fill_specs(*a);
+	s = fill_specs(*a, NULL);
 	ptr = search_value(s.min, *a);
 	minimize_rotation(a, ptr, "rra");
 }
