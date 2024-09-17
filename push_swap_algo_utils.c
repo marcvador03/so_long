@@ -6,80 +6,68 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:30:48 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 20:42:39 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 00:37:35 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack	*search_value(int n, t_stack *stk)
+void	minimize_rotation(t_stack **stk, t_stack *target, char *prt)
 {
-	while (stk != NULL)
-	{
-		if (stk->value == n)
-			return (stk);
-		stk = stk->next;
-	}
-	return (NULL);
-}
+	t_spec	s;
+	//int		pos;
+	//int		size;
 
-t_stack	*search_n_value(unsigned int n, t_stack *stk)
-{
-	while (stk!= NULL)
+	s = fill_specs(*stk, target);
+	//size = stack_size(*stk);
+	//pos = search_pos(target, *stk);	
+	if (s.position > s.med)
 	{
-		if (stk->n_value == n)
-			return (stk);
-		stk = stk->next;
-	}
-	return (NULL);
-}
-
-t_stack	*search_next_big(unsigned int n, unsigned int min, t_stack *stk)
-{
-	unsigned int	diff;
-	t_stack			*res;
-	t_stack			*head;
-
-	stk = stk->head;
-	head = stk->head;
-	diff = 0;
-	res = NULL;
-	while (stk != NULL)
-	{
-		if (stk->n_value > n && (diff == 0 || (stk->n_value - n) < diff))
+		while (s.size != s.position)
 		{
-			diff = stk->n_value - n;
-			res = stk;
+			r_rotate(stk, prt);
+			s.size--;
 		}
-		stk = stk->next;
 	}
-	if (diff == 0)
-		return (search_n_value(min, head));
-	return (res);
+	else
+	{
+		prt = prt + 1;
+		while (s.position != 0)
+		{
+			rotate(stk, prt);
+			s.position--;
+		}
+	}
 }
 
-t_stack	*search_next_small(unsigned int n, unsigned int max, t_stack *stk)
+void	min_multiple_rotation(t_stack **a, t_stack **b, t_stack *target[2])
 {
-	unsigned int	diff;
-	t_stack			*res;
-	t_stack			*head;
+	t_spec	s[2];
 
-	stk = stk->head;
-	head = stk->head;
-	diff = 0;
-	res = NULL;
-	while (stk != NULL)
+	s[0] = fill_specs(*a, target[0]);
+	s[1] = fill_specs(*b, target[1]);
+	if (s[0].position > s[0].med && s[1].position > s[1].med)
 	{
-		if (stk->n_value < n && (diff == 0 || (n - stk->n_value) < diff))
-		{
-			diff = n - stk->n_value;
-			res = stk;
-		}
-		stk = stk->next;
+		while (s[0].size-- != s[0].position && s[1].size-- != s[1].position)
+			double_rotate(a, b, "rrr", 1); // double rotation
+		while (s[0].size-- != s[0].position - 1)
+			r_rotate(a, "rra");
+		while (s[1].size-- != s[1].position - 1)
+			r_rotate(b, "rrb");
+		return ;
 	}
-	if (diff == 0)
-		return (search_n_value(max, head));
-	return (res);
+	else if (s[0].position <= s[0].med && s[1].position <= s[1].med)
+	{
+		while (s[0].position-- != 0 && s[1].position-- != 0)
+			double_rotate(a, b, "rr", 0); // double rotation
+		while (s[0].position-- != -1)
+			rotate(a, "ra");
+		while (s[1].position-- != -1)
+			rotate(b, "rb");
+		return ;
+	}
+	minimize_rotation(a, target[0], "rra");
+	minimize_rotation(b, target[1], "rrb");
 }
 
 void	insert_in_order(t_stack **a, t_stack *b, unsigned int min)
@@ -95,19 +83,3 @@ void	insert_in_order(t_stack **a, t_stack *b, unsigned int min)
 		push(a, &b, "pa");
 	}
 }
-
-/*void	insert_reverse_order(t_stack **a, t_stack *b, int max)
-{
-	void	*ptr;
-	
-	while (b != NULL)
-	{
-		ptr = search_next_small(b->n_value, max, *a);
-		while (*a != ptr || *a != NULL)
-		{
-			rotate(a, "ra");
-			(*a) = (*a)->next;
-		}
-		b = b->next;
-	}
-}*/

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   radix.c                                            :+:      :+:    :+:   */
+/*   radix_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 11:15:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 16:47:44 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 00:39:48 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -49,7 +49,6 @@ void	radix_sort(t_stack **a, t_stack *b)
 {
 	int		i;
 	int		j;
-	int		cnt;
 	int		bit_max;
 	int		bit_value;
 	t_spec	s;
@@ -57,13 +56,11 @@ void	radix_sort(t_stack **a, t_stack *b)
 	s = fill_specs(*a, NULL);
 	normalize_radix(a, s);
 	i = 0;
-	b = NULL;
 	bit_max = count_bits(stack_size(*a));
 	while (i <= bit_max)
 	{
-		cnt = stack_size(*a);
 		j = 0;
-		while (j++ < cnt)
+		while (j++ < s.size)
 		{
 			bit_value = (*a)->r_value >> i;
 			if ((bit_value & 1) == 0)

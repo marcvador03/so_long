@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 16:48:59 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 00:49:14 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -36,30 +36,6 @@ int		search_min(t_stack *stk)
 	return (min);
 }
 
-t_spec	fill_specs(t_stack *stk, t_stack *target)
-{
-	t_spec	s;
-
-	s.size = stack_size(stk);
-	s.position = search_pos(target, stk); 
-	stk = stk->head;
-	while (stk != NULL)
-	{
-		if (s.min > stk->value || stk == stk->head)
-		{
-			s.min = stk->value;
-			s.n_min = stk->n_value;
-		}
-		if (s.max < stk->value || stk == stk->head)
-		{
-			s.max = stk->value;
-			s.n_max = stk->n_value;
-		}
-		stk = stk->next;
-	}
-	s.med = s.size / 2;
-	return (s);
-}
 
 void	push_swap_exit(char *prt, char **args, t_stack **stk)
 {
@@ -140,8 +116,8 @@ int	main(int argc, char *argv[])
 	else if (stack_size(a) == 5)
 		sort_five(&a, b);
 	else
-		turk_sort(&a, b);
-	list_simple_display(a->head, NULL);
+		radix_sort(&a, NULL);
+		//turk_sort(&a, b);
 	push_swap_exit(NULL, NULL, &a->head);
 	return (0);
 }

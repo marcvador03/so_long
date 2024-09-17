@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_list_utils.c                             :+:      :+:    :+:   */
+/*   push_swap_stack_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:37:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 20:43:52 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 00:13:16 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ void	stack_addback(t_stack **stk, int value, int n_value)
 		(*stk)->next = tmp;
 	}
 }
-
-/*void	stack_addfront(t_stack **stk, int value, int n_value)
-{
-	t_stack	*tmp;
-
-	if (*stk == NULL)
-		*stk = stack_new(value, n_value, NULL);
-	else if (*stk != NULL)
-	{
-		tmp = stack_new(value, n_value, (*stk)->head);
-		tmp->next = *stk;
-		*stk = tmp;
-		(*stk)->head = tmp;
-	}
-}*/
 
 t_stack	*stack_new(int value, int n_value, t_stack *head)
 {

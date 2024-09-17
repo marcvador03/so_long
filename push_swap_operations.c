@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 20:57:29 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 00:26:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,57 +89,21 @@ void	r_rotate(t_stack **stk, char *prt)
 		ft_printf("%s\n", prt);
 }
 
-void	double_rotate(t_stack **stk_1, t_stack **stk_2, char *prt)
+void	double_rotate(t_stack **stk_1, t_stack **stk_2, char *prt, int rev)
 {
-	rotate(stk_1, prt);
-	rotate(stk_2, prt);
+	if (rev != 0 || rev != 1)
+		push_swap_exit("Error\n", NULL, stk_1);
+	if (rev == 0)
+	{
+		rotate(stk_1, prt);
+		rotate(stk_2, prt);
+	}
+	else if (rev == 1)
+	{
+		r_rotate(stk_1, prt);
+		r_rotate(stk_2, prt);
+	}
 	ft_printf("%s\n", prt);
 }
 
-void	double_r_rotate(t_stack **stk_1, t_stack **stk_2, char *prt)
-{
-	r_rotate(stk_1, prt);
-	r_rotate(stk_2, prt);
-	ft_printf("%s\n", prt);
-}
 
-int	search_pos(t_stack *target, t_stack *stk)
-{
-	int	i;
-
-	if (target == NULL)
-		return (0);
-	i = 0;
-	while (stk != target && stk != NULL)
-	{
-		i++;
-		stk = stk->next;
-	}
-	return (i);	
-}
-
-void	minimize_rotation(t_stack **stk, t_stack *target, char *prt)
-{
-	t_spec	s;
-	//int		pos;
-	//int		size;
-
-	s = fill_specs(*stk, target);
-	//size = stack_size(*stk);
-	//pos = search_pos(target, *stk);	
-	if (s.position > s.med)
-		while (s.size != s.position)
-		{
-			r_rotate(stk, prt);
-			s.size--;
-		}
-	else
-	{
-		prt = prt + 1;
-		while (s.position != 0)
-		{
-			rotate(stk, prt);
-			s.position--;
-		}
-	}
-}
