@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:22:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 17:04:19 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 23:33:17 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	min_m_rotation(t_stack **a, t_stack **b, t_stack *target[2])
 	}
 	else if (s[0].position <= s[0].med && s[1].position <= s[1].med)
 	{
-		while (s[0].position != 0 && s[1].position != 0)
+		while (s[0].position-- != 0 && s[1].position-- != 0)
 			double_rotate(a, b, "rr"); // double rotation
-		while (s[0].position != -1)
+		while (s[0].position-- != -1)
 			rotate(a, "ra");
-		while (s[1].position != -1)
+		while (s[1].position-- != -1)
 			rotate(b, "rb");
 		return ;
 	}
@@ -42,19 +42,31 @@ void	min_m_rotation(t_stack **a, t_stack **b, t_stack *target[2])
 	minimize_rotation(b, target[1], "rrb");
 }
 
-static int	minimize_cost(int *cnt, int med_a, int med_b)
+static int	minimize_cost(int *cnt, t_spec *sa, t_spec *sb)
 {
 	int	res;
 	
-	res = 0;
-	if (cnt[0] > med_a && cnt[1] > med_b)
-		res = max(cnt[0], cnt[1]);
-	else if(cnt[0] > med_a && cnt[1] <= med_b)
-		res = cnt[0] + cnt[1];	
-	else if(cnt[0] <= med_a && cnt[1] > med_b)
-		res = cnt[0] + cnt[1];	
-	else if(cnt[0] <= med_a && cnt[1] <= med_b)
-		res = max(cnt[0], cnt[1]);
+	res = cnt[0] + cnt[1];	
+	if (sa->size - cnt[0] < cnt[0])
+	{
+		if (cnt[1] == 0)
+			res = sa->size - cnt[0];
+		else if (sb->size - cnt[1] < cnt[1])
+			res = max(sa->size - cnt[0], sb->size - cnt[1]);
+	}
+	if (sb->size - cnt[1] < cnt[1])
+	{
+		if (cnt[0] == 0)
+			res =  sb->size - cnt[1];
+		else if (sa->size - cnt[0] < cnt[0])
+			res = max(sa->size - cnt[0], sb->size - cnt[1]);
+	}
+	if (sa->size - cnt[0] >= cnt[0])
+		if (cnt[1] == 0 || sb->size - cnt[1] >= cnt[1])
+			res = max(cnt[0], cnt[1]);
+	if (sb->size - cnt[1] >= cnt[1])
+		if (cnt[0] == 0 || sa->size - cnt[0] >= cnt[0])
+			res = max(cnt[0], cnt[1]);
 	return (res);	
 }
 
@@ -65,7 +77,6 @@ static void	update_cost(t_stack *a, t_stack *b, t_stack *target_b)
 	t_spec	sb;
 
 	a = a->head;
-	b = b->head;
 	sa = fill_specs(a, NULL);
 	sb = fill_specs(b, NULL);
 	cnt[0] = 0;
@@ -79,18 +90,20 @@ static void	update_cost(t_stack *a, t_stack *b, t_stack *target_b)
 			cnt[1]++;
 			b = b->next;
 		}
-		a->cost = minimize_cost(cnt, sa.med, sb.med);
-		cnt[0]++;	
+		a->cost = minimize_cost(cnt, &sa, &sb);
+		cnt[0]++;
 		a = a->next;
 	}
 }
 
-static void	define_target_a(t_stack *a, t_stack *target)
+static t_stack	*define_target_a(t_stack *a)
 {
 	unsigned int	min;
+	t_stack			*target;
 
 	a = a->head;
 	min = a->cost;
+	target = NULL;
 	while (a != NULL)
 	{		
 		if (min > a->cost)
@@ -99,13 +112,14 @@ static void	define_target_a(t_stack *a, t_stack *target)
 			target = a;	
 		}
 		a = a->next;
-	}	
+	}
+	return (target);	
 }
 
 void	turk_sort(t_stack **a, t_stack *b)
 {
 	t_spec	sa;
-	t_spec	sb;
+	//t_spec	sb;
 	t_stack	*target[2];
 
 	push(&b, a, "pb");
@@ -114,12 +128,15 @@ void	turk_sort(t_stack **a, t_stack *b)
 	while (stack_size(*a) > 3)
 	{		
 		sa = fill_specs(*a, NULL);
-		sb = fill_specs(b, NULL);
+		//sb = fill_specs(b, NULL);
 		update_cost(*a, b, target[1]);
-		define_target_a(*a, target[0]);
+		target[0] = define_target_a(*a);
 		min_m_rotation(a, &b, target);
 		push(&b, a, "pb");
 		list_simple_display((*a)->head, b->head);
 	}
+	sort_three(a);
 	insert_in_order(a, b, sa.n_min);
+	sa = fill_specs(*a, NULL);
+	minimize_rotation(a, search_value(sa.min, *a), "rra");
 }	

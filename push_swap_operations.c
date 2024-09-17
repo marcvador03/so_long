@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 16:47:27 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 20:57:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,28 +120,26 @@ int	search_pos(t_stack *target, t_stack *stk)
 
 void	minimize_rotation(t_stack **stk, t_stack *target, char *prt)
 {
-	t_stack	*tmp;
 	t_spec	s;
-	int		pos;
-	int		size;
+	//int		pos;
+	//int		size;
 
-	s = fill_specs(*stk, NULL);
-	tmp = *stk;
-	size = stack_size(*stk);
-	pos = search_pos(target, *stk);	
-	if (pos > s.med)
-		while (size != pos)
+	s = fill_specs(*stk, target);
+	//size = stack_size(*stk);
+	//pos = search_pos(target, *stk);	
+	if (s.position > s.med)
+		while (s.size != s.position)
 		{
 			r_rotate(stk, prt);
-			size--;
+			s.size--;
 		}
 	else
 	{
 		prt = prt + 1;
-		while (pos != 0)
+		while (s.position != 0)
 		{
 			rotate(stk, prt);
-			pos--;
+			s.position--;
 		}
 	}
 }
