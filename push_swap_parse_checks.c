@@ -6,24 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:40:24 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/16 18:03:41 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 11:53:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	search_pos(int med, int value, t_stack *stk)
-{
-	int	i;
-
-	i = 0;
-	while (stk->value != value && stk != NULL)
-		i++;
-	if (i > med)
-		return (-1);
-	return (1);	
-}
-
 
 static int	ps_duplicates(t_stack *stk)
 {

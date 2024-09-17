@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 11:15:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/16 11:42:06 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 10:59:13 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -24,15 +24,17 @@ static int	count_bits(int n)
 	return (i);
 }
 
-void	radix_sort(t_stack **a, t_stack *b, unsigned int max)
+void	radix_sort(t_stack **a, t_stack *b)
 {
 	int		i;
 	int		j;
 	int		cnt;
 	int		bit_max;
 	int		bit_value;
+	t_spec	s;
 
-	bit_max = count_bits(max);
+	bit_max = count_bits(s.n_max);
+	s = fill_specs(*a);
 	i = 0;
 	b = NULL;
 	while (i <= bit_max)

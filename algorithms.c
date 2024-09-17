@@ -6,33 +6,36 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:11:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/16 18:27:25 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/17 11:55:48 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sort_three(t_stack **a, int min, int max)
+void	sort_three(t_stack **a)
 {
-	if ((*a)->value == min)
+	t_spec	s;
+
+	s = fill_specs(*a);	
+	if ((*a)->value == s.min)
 	{
 		rotate(a, "ra");
-		if ((*a)->value == max)
+		if ((*a)->value == s.max)
 			swap(a, "sa");
 		r_rotate(a, "rra");
 		return ;
 	}
-	else if ((*a)->value == max)
+	else if ((*a)->value == s.max)
 	{
 		rotate(a, "ra");
-		if ((*a)->value != min)
+		if ((*a)->value != s.min)
 			swap(a, "sa");
 		return ;
 	}
 	else
 	{
 		r_rotate(a, "rra");
-		if ((*a)->value == max)
+		if ((*a)->value == s.max)
 		{
 			swap(a, "sa");
 			r_rotate(a, "rra");
@@ -43,8 +46,8 @@ void	sort_three(t_stack **a, int min, int max)
 
 void	sort_five(t_stack **a, t_stack *b)
 {
-	struct s_params	p;
-	t_stack			*ptr;
+	t_spec	s;
+	t_stack	*ptr;
 
 	push(&b, a, "pb");
 	if ((*a)->value > b->value)
@@ -54,19 +57,12 @@ void	sort_five(t_stack **a, t_stack *b)
 		push(&b, a, "pb");
 		swap(&b, "sb");
 	}
-	fill_params(&p, *a);
-	sort_three(&(*a)->head, p.min, p.max);
-	insert_in_order(&(*a)->head, b->head, p.min);
-	fill_params(&p, *a);
-	ptr = search_value(p.min, &(*a)->head);
-	a = &(*a)->head;
-	while (*a != ptr && *a != NULL)
-	{
-		if (search_pos(p.med, p.min, (*a)->head) == -1)
-			r_rotate(a, "rra");
-		else
-			rotate(a, "rra");
-	}
+	sort_three(a);
+	s = fill_specs(*a);
+	insert_in_order(a, b, s.n_min);
+	s = fill_specs(*a);
+	ptr = search_value(s.min, *a);
+	minimize_rotation(a, ptr, "rra");
 }
 
 /*void	min_sort(t_stack **a, int min, int max)
