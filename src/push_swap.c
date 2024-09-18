@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:57:08 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 18:28:33 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,14 @@ int	main(int argc, char *argv[])
 	stk_sorted(a->head);
 	normalize_negative_int(a->head);
 	a = a->head;
-	if (stack_size(a) == 3)
+	if (stack_size(a) <= 3)
 		sort_three(&a);
-	else if (stack_size(a) == 5)
+	else if (stack_size(a) <= 5)
 		sort_five(&a, NULL);
 	else
-		radix_sort(&a, NULL);
-		//turk_sort(&a, b);
+		//radix_sort(&a, NULL);
+		turk_sort(&a, NULL);
+	list_display(a, NULL);
 	push_swap_exit(NULL, NULL, &a->head, NULL);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:22:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:54:30 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 18:09:04 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	turk_sort(t_stack **a, t_stack *b)
 
 	push(&b, a, "pb");
 	push(&b, a, "pb");
+	target[0] = NULL;
+	target[1] = NULL;
 	while (stack_size(*a) > 3)
 	{
 		sa = fill_specs(*a, NULL);
@@ -100,9 +102,14 @@ void	turk_sort(t_stack **a, t_stack *b)
 		target[0] = define_target_a(*a);
 		min_multiple_rotation(a, &b, target);
 		push(&b, a, "pb");
+		list_display(*a, b);
 	}
+	list_display(*a, b);
 	sort_three(a);
+	list_display(*a, b);
 	insert_in_order(a, b, sa.n_min);
+	list_display(*a, b);
 	sa = fill_specs(*a, NULL);
 	minimize_rotation(a, search_value(sa.min, *a), "rra");
+	list_display(*a, b);
 }

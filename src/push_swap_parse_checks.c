@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:40:24 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:56:50 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 17:59:42 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ t_stack	*ps_parse_split(char *s, char c)
 	args = ft_split(str, c);
 	if (args == NULL)
 		push_swap_exit("Error\n", NULL, NULL, NULL);
+	if (*args == NULL)
+		push_swap_exit("Error\n", args, NULL, NULL);
 	if (ps_sanity_check(args) == 0)
 		push_swap_exit("Error\n", args, NULL, NULL);
 	stk = ps_parse(args);

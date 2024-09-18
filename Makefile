@@ -66,7 +66,7 @@ show:
 
 clean: 
 	@$(MAKE) clean -C $(LIBFT_DIR)
-	@rm -rf $(OBJECTS)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@rm -rf $(NAME)

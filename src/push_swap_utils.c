@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:26:16 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:58:01 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 18:21:57 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ t_spec	fill_specs(t_stack *stk, t_stack *target)
 	stk = stk->head;
 	s.min = stk->value;
 	s.max = stk->value;
+	s.n_min = stk->n_value;
+	s.n_max = stk->n_value;
 	while (stk != NULL)
 	{
 		if (s.min > stk->value)
-		{
 			s.min = stk->value;
+		if (s.n_min > stk->n_value)
 			s.n_min = stk->n_value;
-		}
 		if (s.max < stk->value)
-		{
 			s.max = stk->value;
+		if (s.n_max < stk->n_value)
 			s.n_max = stk->n_value;
-		}
 		stk = stk->next;
 	}
 	s.med = s.size / 2;
