@@ -6,11 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 23:56:33 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:07:46 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:56:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
 t_stack	*search_value(int n, t_stack *stk)
 {

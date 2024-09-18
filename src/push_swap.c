@@ -6,10 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:14:10 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:57:08 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "push_swap.h"
+
+#include "../include/push_swap.h"
 
 static void	stack_free(t_stack *stk)
 {

@@ -6,11 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 10:54:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 09:54:42 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:55:58 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
 void	list_display(t_stack *head_a, t_stack *head_b)
 {

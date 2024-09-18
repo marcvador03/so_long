@@ -6,10 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 11:15:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:05:56 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:56:27 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "push_swap.h"
+
+#include "../include/push_swap.h"
 
 static void	normalize_radix(t_stack **a, t_spec s)
 {

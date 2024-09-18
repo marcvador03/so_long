@@ -2,7 +2,7 @@
 LIBFT_DIR := libft
 SRC_DIR := src
 OBJ_DIR := obj
-INC_DIR := inc
+INC_DIR := include
 LIB_DIR := lib
 
 #Filenames definition
@@ -21,9 +21,9 @@ SRC_NAMES := push_swap.c \
 			 list_display.c
 
 
-SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
+SOURCES := $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_NAMES))
 
-OBJECTS := $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
+OBJECTS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SOURCES))
 
 CFLAGS += -Wall -Werror -Wextra
 
@@ -38,17 +38,26 @@ CUR_DIR := $(shell pwd)
 .PHONY: all flags clean fclean re show libft bonus
 all: $(OBJECTS) $(NAME)
 
-$(NAME): libft $(LIBFT_DIR)/libft.h Makefile 
-	cc $(CFLAGS) -L $(LIBFT_DIR) $(DEBUG) $(SOURCES) -o $@ $(LIBFT_TAG)
+$(NAME): libft Makefile 
+	cc $(CFLAGS) -L $(LIB_DIR) $(DEBUG) $(OBJECTS) -o $@ $(LIBFT_TAG)
 
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	cc $(CFLAGS) $(DEBUG) -c -o $@ $^
 
-libft: 
-	$(MAKE) -C $(LIBFT_DIR)
+libft: | $(LIB_DIR) $(INC_DIR) 
+	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE)  -C $(LIBFT_DIR) install \
+		TARGET_LIB=$(CUR_DIR)/$(LIB_DIR) \
+		TARGET_INC=$(CUR_DIR)/$(INC_DIR) 
 
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
+
+$(LIB_DIR):
+	@mkdir $(LIB_DIR)
+
+$(INC_DIR):
+	@mkdir $(INC_DIR)
 
 flags:
 	@echo $(CFLAGS)

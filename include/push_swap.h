@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:17:50 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:55:53 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-# include "libft/libft.h"
-# include "libft/ft_printf/ft_printf.h"
+# include "../libft/libft.h"
+# include "../libft/ft_printf/ft_printf.h"
 # include "stack_utils.h"
 # include "algorithms_utils.h"
 # include "operations.h"

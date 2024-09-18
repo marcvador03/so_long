@@ -6,11 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:22:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:16:51 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:54:30 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
 static int	minimize_cost(int *cnt, t_spec *sa, t_spec *sb)
 {

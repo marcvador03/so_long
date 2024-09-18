@@ -6,11 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:26:16 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:06:51 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:58:01 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
 t_spec	fill_specs(t_stack *stk, t_stack *target)
 {

@@ -6,11 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:30:48 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:19:05 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:57:00 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/push_swap.h"
 
 void	minimize_rotation(t_stack **stk, t_stack *target, char *prt)
 {
