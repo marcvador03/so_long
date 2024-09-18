@@ -18,6 +18,7 @@ SRC_NAMES := push_swap.c \
 			 three_five_sort.c \
 			 radix_sort.c \
 			 turk_sort.c \
+			 turk_sort_utils.c \
 			 list_display.c
 
 

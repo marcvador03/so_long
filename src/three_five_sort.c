@@ -6,11 +6,23 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:11:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:56:16 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:39:36 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
+
+static void	insert_in_order(t_stack **a, t_stack *b, unsigned int min)
+{
+	t_stack	*ptr;
+
+	while (b != NULL)
+	{
+		ptr = search_next_big(b->n_value, min, *a);
+		minimize_rotation(a, ptr, "rra");
+		push(a, &b, "pa");
+	}
+}
 
 void	sort_three(t_stack **a)
 {

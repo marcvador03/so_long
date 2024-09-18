@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 23:56:33 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:56:45 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 22:26:11 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	search_pos(t_stack *target, t_stack *stk)
 {
 	int	i;
 
-	if (target == NULL)
+	if (target == NULL || stk == NULL)
 		return (0);
 	i = 0;
 	while (stk != target && stk != NULL)

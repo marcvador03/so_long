@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:55:53 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 22:28:11 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_spec
 	unsigned int	n_max;
 	int				med;
 	int				size;
-	int				position;
+	int				rel_pos;
 }	t_spec;	
 
 void	push_swap_exit(char *prt, char **args, t_stack **a, t_stack **b);

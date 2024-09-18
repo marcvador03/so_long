@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:37:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:56:40 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 22:51:34 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_stack	*stack_new(int value, int n_value, t_stack *head)
 	ptr->value = value;
 	ptr->n_value = n_value;
 	ptr->next = NULL;
+	ptr->target = NULL;
 	if (head == NULL)
 		ptr->head = ptr;
 	else
@@ -60,6 +61,8 @@ int	stack_size(t_stack *stk)
 	int		cnt;
 	t_stack	*tmp;
 
+	if (stk == NULL)
+		return (0);
 	cnt = 0;
 	tmp = stk->head;
 	while (tmp != NULL)

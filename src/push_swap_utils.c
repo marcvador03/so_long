@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:26:16 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 18:21:57 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 22:27:51 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_spec	fill_specs(t_stack *stk, t_stack *target)
 	t_spec	s;
 
 	s.size = stack_size(stk);
-	s.position = search_pos(target, stk);
+	s.rel_pos = search_pos(target, stk);
 	stk = stk->head;
 	s.min = stk->value;
 	s.max = stk->value;

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 23:50:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 12:07:57 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 22:31:06 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_stack
 	unsigned int	n_value;
 	unsigned int	r_value;
 	unsigned int	cost;
+	struct s_stack	*target;
 	struct s_stack	*head;
 	struct s_stack	*next;
 }	t_stack;
