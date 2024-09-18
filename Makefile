@@ -36,9 +36,9 @@ CUR_DIR := $(shell pwd)
 
 #TARGETS
 .PHONY: all flags clean fclean re show libft bonus
-all: $(OBJECTS) $(NAME)
+all: libft $(OBJECTS) $(NAME) 
 
-$(NAME): libft Makefile 
+$(NAME): $(OBJECTS) 
 	cc $(CFLAGS) -L $(LIB_DIR) $(DEBUG) $(OBJECTS) -o $@ $(LIBFT_TAG)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
@@ -47,8 +47,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 libft: | $(LIB_DIR) $(INC_DIR) 
 	@$(MAKE) -C $(LIBFT_DIR)
 	@$(MAKE)  -C $(LIBFT_DIR) install \
-		TARGET_LIB=$(CUR_DIR)/$(LIB_DIR) \
-		TARGET_INC=$(CUR_DIR)/$(INC_DIR) 
+		TARGET_LIB=$(CUR_DIR)/$(LIB_DIR)
 
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
@@ -66,10 +65,12 @@ show:
 	@echo $(SOURCES)
 
 clean: 
+	@$(MAKE) clean -C $(LIBFT_DIR)
 	@rm -rf $(OBJECTS)
 
 fclean: clean
 	@rm -rf $(NAME)
-	$(MAKE) fclean -C $(LIBFT_DIR)
+	@$(MAKE) fclean -C $(LIBFT_DIR)
+	@rm -rf $(LIB_DIR)/*
 
 re: fclean all

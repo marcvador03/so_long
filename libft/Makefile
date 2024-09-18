@@ -1,6 +1,7 @@
 #Directory definition
-TARGET_LIB ?= .
-TARGET_INC ?= .
+TARGET_LIB ?=
+
+TARGET_INC :=
 
 #Filenames definition
 NAME := libft.a
@@ -60,9 +61,9 @@ FT_PRINTF_NAMES := ft_printf.c \
 GNL_NAMES := get_next_line.c \
 			 get_next_line_utils.c 
 
-INC_SOURCES := libft.h \
-			   ft_printf/ft_printf.h \
-			   getnextline/get_next_line.h
+INC_NAMES := libft.h \
+			 ft_printf/ft_printf.h \
+			 getnextline/get_next_line.h
 
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
 FT_PRINTF_SOURCES := $(patsubst %.c, ft_printf/%.c, $(FT_PRINTF_NAMES))
@@ -79,24 +80,21 @@ CUR_DIR := $(shell pwd)
 
 #TARGETS
 .PHONY: all flags clean fclean re show install
-all: $(OBJECTS) $(NAME)
+all: $(OBJECTS) $(NAME) install
 
-install: $(INC_SOURCES) $(NAME) | $(TARGET_LIB) $(TARGET_INC)
-	@echo "Copying " $< " in " $(TARGET_INC)
-	@cp $< $(TARGET_INC)/
-	@echo "Copying " $(NAME) " in " $(TARGET_LIB)
-	@cp $(NAME) $(TARGET_LIB)/
+install: $(NAME)
+ifneq ($(TARGET_LIB),)	
+	@install -d $(TARGET_LIB)
+	@install -m 644 $< $(TARGET_LIB)
+	@echo $< "Copied"
+endif
 
 $(NAME): $(OBJECTS) 
-	@ar rc $(NAME) $(OBJECTS)
+	ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
-	@$(MAKE) clean
 
 %.o: %.c libft.h Makefile 
-	@cc $(CFLAGS) $(DEBUG) -c $< -o $@
-
-%.h:
-	@echo $@ "is missing!"
+	cc $(CFLAGS) $(DEBUG) -c $< -o $@
 
 $(TARGET_LIB):
 	mkdir $(TARGET_LIB)
@@ -108,8 +106,9 @@ flags:
 	@echo $(CFLAGS)
 
 show:
-	@echo $(T_NAME)
-	@echo $(T_OBJ)
+	@echo $(INC_BASENAMES)
+	@echo $(INC_TEST)
+#	@echo $(TARGET_LIB)/libft.a
 
 clean: 
 	@rm -rf $(OBJECTS)
