@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 00:33:41 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 09:53:46 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ t_spec	fill_specs(t_stack *stk, t_stack *target);
 int	min(int x, int y);
 int	max(int x, int y);
 
-
+void	list_display(t_stack *head_a, t_stack *head_b);
+void	list_n_display(t_stack *head_a, t_stack *head_b);
+void	list_r_display(t_stack *head_a, t_stack *head_b);
 #endif

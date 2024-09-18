@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:41 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 00:26:45 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 09:45:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	r_rotate(t_stack **stk, char *prt)
 
 void	double_rotate(t_stack **stk_1, t_stack **stk_2, char *prt, int rev)
 {
-	if (rev != 0 || rev != 1)
+	if (rev != 0 && rev != 1)
 		push_swap_exit("Error\n", NULL, stk_1);
 	if (rev == 0)
 	{

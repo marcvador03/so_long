@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 11:15:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 00:39:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 10:16:21 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -63,10 +63,11 @@ void	radix_sort(t_stack **a, t_stack *b)
 		while (j++ < s.size)
 		{
 			bit_value = (*a)->r_value >> i;
-			if ((bit_value & 1) == 0)
+			if ((bit_value ^ 1) == 1)
 				push(&b, a, "pb");
 			else
-				rotate(a, "ra");
+				rotate(a, "rra");
+			//list_r_display(*a, b);
 		}
 		i++;
 		while (b != NULL)
