@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:40:24 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 11:53:56 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:07:04 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static int	ps_sanity_check(char **args)
 				return (0);
 		n = ft_atoi(args[i]);
 		str = ft_itoa(n);
+		if (str == NULL)
+			return (0);
 		if (ft_strncmp(str, args[i], j) != 0)
 			return (free(str), 0);
 		free(str);
@@ -77,9 +79,9 @@ t_stack	*ps_parse_split(char *s, char c)
 	}
 	args = ft_split(str, c);
 	if (args == NULL)
-		push_swap_exit("Error\n", NULL, NULL);
+		push_swap_exit("Error\n", NULL, NULL, NULL);
 	if (ps_sanity_check(args) == 0)
-		push_swap_exit("Error\n", args, NULL);
+		push_swap_exit("Error\n", args, NULL, NULL);
 	stk = ps_parse(args);
 	i = 0;
 	while (args[i] != NULL)
@@ -93,13 +95,13 @@ t_stack	*ps_parse(char **args)
 	int		i;
 
 	if (ps_sanity_check(args) == 0)
-		push_swap_exit("Error\n", NULL, NULL);
+		push_swap_exit("Error\n", NULL, NULL, NULL);
 	a = stack_new(ft_atoi(args[0]), 0, NULL);
 	i = 1;
 	while (args[i] != NULL)
 		stack_addback(&a, ft_atoi(args[i++]), 0);
 	if (ps_duplicates(a) == 0)
-		push_swap_exit("Error\n", args, &a->head);
+		push_swap_exit("Error\n", args, &a->head, NULL);
 	a = a->head;
 	return (a);
 }

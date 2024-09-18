@@ -1,5 +1,9 @@
 #Directory definition
 LIBFT_DIR := libft
+SRC_DIR := src
+OBJ_DIR := obj
+INC_DIR := inc
+LIB_DIR := lib
 
 #Filenames definition
 NAME := push_swap
@@ -19,7 +23,7 @@ SRC_NAMES := push_swap.c \
 
 SOURCES := $(patsubst %.c, %.c, $(SRC_NAMES))
 
-OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
+OBJECTS := $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
 
 CFLAGS += -Wall -Werror -Wextra
 
@@ -34,14 +38,17 @@ CUR_DIR := $(shell pwd)
 .PHONY: all flags clean fclean re show libft bonus
 all: $(OBJECTS) $(NAME)
 
-$(NAME): libft $(LIBFT_DIR)/libft.h Makefile $(OBJECTS) 
+$(NAME): libft $(LIBFT_DIR)/libft.h Makefile 
 	cc $(CFLAGS) -L $(LIBFT_DIR) $(DEBUG) $(SOURCES) -o $@ $(LIBFT_TAG)
 
-%.o: %.c
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	cc $(CFLAGS) $(DEBUG) -c -o $@ $^
 
 libft: 
 	$(MAKE) -C $(LIBFT_DIR)
+
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
 
 flags:
 	@echo $(CFLAGS)

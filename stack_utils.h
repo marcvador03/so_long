@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 23:50:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 00:12:15 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:07:57 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-int	stack_size(t_stack *stk);
+int		stack_size(t_stack *stk);
 void	stack_addback(t_stack **stk, int value, int n_value);
 t_stack	*stack_new(int value, int n_value, t_stack *head);
 void	stack_head_update(t_stack *stk, t_stack *head);

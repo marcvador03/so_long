@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:37:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 00:13:16 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:03:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,4 @@ void	stack_head_update(t_stack *stk, t_stack *head)
 		stk->head = head;
 		stk = stk->next;
 	}
-	stk = head;
 }

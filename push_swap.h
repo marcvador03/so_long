@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 09:53:46 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:17:50 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_spec
 	int				position;
 }	t_spec;	
 
-void	push_swap_exit(char *prt, char **args, t_stack **stk);
+void	push_swap_exit(char *prt, char **args, t_stack **a, t_stack **b);
 t_stack	*ps_parse(char **args);
 t_stack	*ps_parse_split(char *s, char c);
 void	sort_three(t_stack **a);
@@ -40,8 +40,8 @@ void	sort_five(t_stack **a, t_stack *b);
 void	turk_sort(t_stack **a, t_stack *b);
 void	radix_sort(t_stack **a, t_stack *b);
 t_spec	fill_specs(t_stack *stk, t_stack *target);
-int	min(int x, int y);
-int	max(int x, int y);
+int		min(int x, int y);
+int		max(int x, int y);
 
 void	list_display(t_stack *head_a, t_stack *head_b);
 void	list_n_display(t_stack *head_a, t_stack *head_b);

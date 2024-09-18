@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 23:59:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 00:29:12 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:07:18 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define ALGORITHMS_UTILS_H
 # include "push_swap.h"
 
-int	search_pos(t_stack *target, t_stack *stk);
+int		search_pos(t_stack *target, t_stack *stk);
 t_stack	*search_next_big(unsigned int n, unsigned int min, t_stack *stk);
 t_stack	*search_next_small(unsigned int n, unsigned int max, t_stack *stk);
 t_stack	*search_value(int n, t_stack *stk);

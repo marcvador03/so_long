@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algorithms.c                                       :+:      :+:    :+:   */
+/*   three_five_sort.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:11:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/17 16:46:31 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:09:48 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,19 @@ void	sort_three(t_stack **a)
 {
 	t_spec	s;
 
-	s = fill_specs(*a, NULL);	
+	s = fill_specs(*a, NULL);
 	if ((*a)->value == s.min)
 	{
 		rotate(a, "ra");
 		if ((*a)->value == s.max)
 			swap(a, "sa");
 		r_rotate(a, "rra");
-		return ;
 	}
 	else if ((*a)->value == s.max)
 	{
 		rotate(a, "ra");
 		if ((*a)->value != s.min)
 			swap(a, "sa");
-		return ;
 	}
 	else
 	{
@@ -40,7 +38,6 @@ void	sort_three(t_stack **a)
 			swap(a, "sa");
 			r_rotate(a, "rra");
 		}
-		return ;
 	}
 }
 

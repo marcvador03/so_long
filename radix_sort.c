@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 11:15:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 10:16:21 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:05:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -22,12 +22,12 @@ static void	normalize_radix(t_stack **a, t_spec s)
 	while (tmp->n_value != s.n_min)
 		tmp = tmp->next;
 	*a = tmp;
-	(*a)->r_value = 0;
-	i = 1;
-	while (i < max)
+	(*a)->r_value = max;
+	i = max - 1;
+	while (i > 0)
 	{
 		*a = search_next_big((*a)->n_value, s.n_min, *a);
-		(*a)->r_value = i++;
+		(*a)->r_value = i--;
 	}
 	*a = (*a)->head;
 }
@@ -63,11 +63,10 @@ void	radix_sort(t_stack **a, t_stack *b)
 		while (j++ < s.size)
 		{
 			bit_value = (*a)->r_value >> i;
-			if ((bit_value ^ 1) == 1)
+			if ((bit_value & 1) == 1)
 				push(&b, a, "pb");
 			else
-				rotate(a, "rra");
-			//list_r_display(*a, b);
+				rotate(a, "ra");
 		}
 		i++;
 		while (b != NULL)

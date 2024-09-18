@@ -6,40 +6,26 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 00:49:14 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:14:10 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-/*void	stack_free(t_stack **stk)
+static void	stack_free(t_stack *stk)
 {
 	t_stack	*tmp;
-
-	while (*stk != NULL)
-	{
-		tmp = (*stk)->next;
-		free(*stk);
-		*stk = tmp;
-	}
-}*/
-int		search_min(t_stack *stk)
-{
-	int	min;
 
 	stk = stk->head;
 	while (stk != NULL)
 	{
-		if (min > stk->value || stk == stk->head)
-			min = stk->value;
-		stk = stk->next;
+		tmp = stk->next;
+		free(stk);
+		stk = tmp;
 	}
-	return (min);
 }
 
-
-void	push_swap_exit(char *prt, char **args, t_stack **stk)
+void	push_swap_exit(char *prt, char **args, t_stack **a, t_stack **b)
 {
-	t_stack	*tmp;
 	int		i;
 
 	if (prt != NULL)
@@ -51,23 +37,19 @@ void	push_swap_exit(char *prt, char **args, t_stack **stk)
 			free(args[i++]);
 		free(args);
 	}
-	if (stk != NULL)
-	{
-		while (*stk != NULL)
-		{
-			tmp = (*stk)->next;
-			free(*stk);
-			*stk = tmp;
-		}
-		free(*stk);
-	}
+	if (a != NULL)
+		stack_free(*a);
+	if (b != NULL)
+		stack_free(*b);
 	exit(1);
 }
 
 static void	stk_sorted(t_stack *a)
 {
 	int		prev;
+	t_stack	*head;
 
+	head = a->head;
 	prev = a->value;
 	while (a != NULL)
 	{
@@ -79,11 +61,24 @@ static void	stk_sorted(t_stack *a)
 		else
 			return ;
 	}
-	push_swap_exit(NULL, NULL, &a->head);
+	a = head;
+	push_swap_exit(NULL, NULL, &a, NULL);
 }
 
-static void	normalize_neg(t_stack *a, int min)
+static void	normalize_negative_int(t_stack *a)
 {
+	int		min;
+	t_stack	*head;
+
+	head = a;
+	min = a->value;
+	while (a != NULL)
+	{
+		if (min > a->value)
+			min = a->value;
+		a = a->next;
+	}
+	a = head;
 	while (a != NULL)
 	{
 		if (min < 0)
@@ -97,7 +92,6 @@ static void	normalize_neg(t_stack *a, int min)
 int	main(int argc, char *argv[])
 {
 	t_stack	*a;
-	t_stack	*b;
 
 	if (argc <= 1)
 		exit (0);
@@ -105,19 +99,16 @@ int	main(int argc, char *argv[])
 		a = ps_parse_split(argv[1], ' ');
 	else
 		a = ps_parse(argv + 1);
-	b = NULL;
 	stk_sorted(a->head);
-	normalize_neg(a->head, search_min(a));
-//	selection_sort(&head_a);
-//	min_sort(&head_a, min, max);
+	normalize_negative_int(a->head);
 	a = a->head;
 	if (stack_size(a) == 3)
 		sort_three(&a);
 	else if (stack_size(a) == 5)
-		sort_five(&a, b);
+		sort_five(&a, NULL);
 	else
 		radix_sort(&a, NULL);
 		//turk_sort(&a, b);
-	push_swap_exit(NULL, NULL, &a->head);
+	push_swap_exit(NULL, NULL, &a->head, NULL);
 	return (0);
 }
