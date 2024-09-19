@@ -34,9 +34,12 @@ CUR_DIR := $(shell pwd)
 
 #TARGETS
 .PHONY: all flags clean fclean re show libft bonus
-all: libft $(OBJECTS) $(NAME) 
+all: $(OBJECTS) $(NAME) 
 
-$(NAME): $(OBJECTS) 
+$(NAME): $(OBJECTS)
+	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE)  -C $(LIBFT_DIR) install \
+		TARGET_LIB=$(CUR_DIR)/$(LIB_DIR)
 	cc $(CFLAGS) -L $(LIB_DIR) $(DEBUG) $(OBJECTS) -o $@ $(LIBFT_TAG)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
