@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/19 13:05:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/19 17:17:35 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main(int argc, char *argv[])
 	if (argc == 2)
 		a = ps_parse_split(argv[1], ' ');
 	else
-		a = ps_parse(argv + 1);
+		a = ps_parse(argv + 1, 0);
 	stk_sorted(a->head);
 	normalize_negative_int(a->head);
 	a = a->head;

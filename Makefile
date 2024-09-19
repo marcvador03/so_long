@@ -19,14 +19,18 @@ SRC_NAMES := push_swap.c \
 			 turk_sort.c \
 			 cost_calculations.c
 
+INC_NAMES := push_swap.h
+
 SOURCES := $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_NAMES))
 
 OBJECTS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SOURCES))
 
+INCLUDES := $(patsubst %.h, $(INC_DIR)/%.h, $(INC_NAMES))
+
 CFLAGS += -Wall -Werror -Wextra
 
-LIBFT_NAME := libft.a 
-LIBFT_TAG := $(patsubst lib%.a, -l%, $(LIBFT_NAME)) 
+LIB_NAMES := libft.a 
+LIBS_TAG := $(patsubst lib%.a, -l%, $(LIB_NAMES)) 
 
 DEBUG ?=
 
@@ -36,11 +40,11 @@ CUR_DIR := $(shell pwd)
 .PHONY: all flags clean fclean re show libft bonus
 all: $(OBJECTS) $(NAME) 
 
-$(NAME): $(OBJECTS)
+$(NAME): Makefile $(INCLUDES) $(OBJECTS)
 	@$(MAKE) -C $(LIBFT_DIR)
 	@$(MAKE)  -C $(LIBFT_DIR) install \
 		TARGET_LIB=$(CUR_DIR)/$(LIB_DIR)
-	cc $(CFLAGS) -L $(LIB_DIR) $(DEBUG) $(OBJECTS) -o $@ $(LIBFT_TAG)
+	cc $(CFLAGS) -L $(LIB_DIR) $(DEBUG) $(OBJECTS) -o $@ $(LIBS_TAG) $(LIBS_TAG)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	cc $(CFLAGS) $(DEBUG) -c -o $@ $^

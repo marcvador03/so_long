@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:48:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/19 13:19:24 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/19 17:17:50 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	sort_five(t_stack **a, t_stack *b);
 void	turk_sort(t_stack **a, t_stack *b);
 
 /*Input parsing and sanity checks*/
-t_stack	*ps_parse(char **args);
+t_stack	*ps_parse(char **args, int flag);
 t_stack	*ps_parse_split(char *s, char c);
 
 /*Algorithms search functions and movement optimization*/

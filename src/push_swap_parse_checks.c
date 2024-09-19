@@ -6,13 +6,13 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:40:24 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/19 13:27:05 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/19 17:20:57 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-static int	ps_duplicates(t_stack *stk)
+static void	ps_duplicates(t_stack *stk, char **args, int flag)
 {
 	t_stack	*tmp;
 	int		n;
@@ -24,13 +24,14 @@ static int	ps_duplicates(t_stack *stk)
 		n = stk->value;
 		while (tmp != NULL)
 		{
-			if (n == tmp->value)
-				return (0);
+			if (n == tmp->value && flag == 1)
+				push_swap_exit("Error\n", args, &stk, NULL);
+			else if (n == tmp->value && flag == 0)
+				push_swap_exit("Error\n", NULL, &stk, NULL);
 			tmp = tmp->next;
 		}
 		stk = stk->next;
 	}
-	return (1);
 }
 
 static int	ps_sanity_check(char **args)
@@ -77,14 +78,14 @@ t_stack	*ps_parse_split(char *s, char c)
 		push_swap_exit("Error\n", args, NULL, NULL);
 	if (ps_sanity_check(args) == 0)
 		push_swap_exit("Error\n", args, NULL, NULL);
-	stk = ps_parse(args);
+	stk = ps_parse(args, 1);
 	i = 0;
 	while (args[i] != NULL)
 		free(args[i++]);
 	return (free(args), stk);
 }
 
-t_stack	*ps_parse(char **args)
+t_stack	*ps_parse(char **args, int flag)
 {
 	t_stack	*a;
 	int		i;
@@ -94,9 +95,10 @@ t_stack	*ps_parse(char **args)
 	a = stack_new(ft_atoi(args[0]), 0, NULL);
 	i = 1;
 	while (args[i] != NULL)
+	{
 		stack_addback(&a, ft_atoi(args[i++]), 0);
-	if (ps_duplicates(a) == 0)
-		push_swap_exit("Error\n", args, &a->head, NULL);
+		ps_duplicates(a, args, flag);
+	}
 	a = a->head;
 	return (a);
 }
