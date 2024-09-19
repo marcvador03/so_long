@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:35:20 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 23:11:11 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:05:47 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,7 @@ int	main(int argc, char *argv[])
 	else if (stack_size(a) <= 5)
 		sort_five(&a, NULL);
 	else
-		//radix_sort(&a, NULL);
 		turk_sort(&a, NULL);
-	list_display(a, NULL);
 	push_swap_exit(NULL, NULL, &a->head, NULL);
 	return (0);
 }

@@ -6,13 +6,37 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:30:48 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 23:59:49 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:18:01 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-static void 	inversed_rotation(t_stack **a, t_stack **b, t_stack *target[2])
+void	minimize_single_rotation(t_stack **stk, t_stack *target, char *prt)
+{
+	t_spec	s;
+
+	s = fill_specs(*stk, target);
+	if (s.rel_pos > s.med)
+	{
+		while (s.rel_pos != 0)
+		{
+			r_rotate(stk, prt);
+			s = fill_specs(*stk, target);
+		}
+	}
+	else
+	{
+		prt = prt + 1;
+		while (s.rel_pos != 0)
+		{
+			rotate(stk, prt);
+			s = fill_specs(*stk, target);
+		}
+	}
+}
+
+static void	inversed_rotation(t_stack **a, t_stack **b, t_stack *target[2])
 {
 	t_spec	s[2];
 
@@ -25,12 +49,12 @@ static void 	inversed_rotation(t_stack **a, t_stack **b, t_stack *target[2])
 		s[1] = fill_specs(*b, target[1]);
 	}
 	if (s[0].rel_pos != 0)
-		minimize_rotation(a, target[0], "rra");
+		minimize_single_rotation(a, target[0], "rra");
 	if (s[1].rel_pos != 0)
-		minimize_rotation(b, target[1], "rrb");
+		minimize_single_rotation(b, target[1], "rrb");
 }
 
-static void 	rotation(t_stack **a, t_stack **b, t_stack *target[2])
+static void	rotation(t_stack **a, t_stack **b, t_stack *target[2])
 {
 	t_spec	s[2];
 
@@ -43,33 +67,43 @@ static void 	rotation(t_stack **a, t_stack **b, t_stack *target[2])
 		s[1] = fill_specs(*b, target[1]);
 	}
 	if (s[0].rel_pos != 0)
-		minimize_rotation(a, target[0], "rra");
+		minimize_single_rotation(a, target[0], "rra");
 	if (s[1].rel_pos != 0)
-		minimize_rotation(b, target[1], "rrb");
+		minimize_single_rotation(b, target[1], "rrb");
 }
 
-void	min_multiple_rotation(t_stack **a, t_stack **b, t_stack *target[2])
+static char	*inverse_prt(char *prt)
+{
+	char	*res;
+
+	res = NULL;
+	if (ft_strncmp(prt, "rra", 3) == 0)
+		res = "rrb";
+	else if (ft_strncmp(prt, "rrb", 3) == 0)
+		res = "rra";
+	return (res);
+}
+
+void	multiple_move(t_stack **a, t_stack **b, t_stack *tgt[2], char *prt)
 {
 	t_spec	s[2];
 
-	s[0] = fill_specs(*a, target[0]);
-	s[1] = fill_specs(*b, target[1]);
-	if (s[0].rel_pos == 0)
-		minimize_rotation(a, target[0], "rra");
+	s[0] = fill_specs(*a, tgt[0]);
+	s[1] = fill_specs(*b, tgt[1]);
 	if (s[1].rel_pos == 0)
-		minimize_rotation(b, target[1], "rrb");
-	s[0] = fill_specs(*a, target[0]);
-	s[1] = fill_specs(*b, target[1]);
+		minimize_single_rotation(a, tgt[0], prt);
+	if (s[0].rel_pos == 0)
+		minimize_single_rotation(b, tgt[1], inverse_prt(prt));
+	s[0] = fill_specs(*a, tgt[0]);
+	s[1] = fill_specs(*b, tgt[1]);
 	if (s[0].rel_pos == 0 && s[1].rel_pos == 0)
-		return;
+		return ;
 	if (s[0].rel_pos > s[0].med && s[1].rel_pos > s[1].med)
 	{
-		inversed_rotation(a, b, target);
+		inversed_rotation(a, b, tgt);
 		return ;
 	}
 	if (s[0].rel_pos <= s[0].med && s[1].rel_pos <= s[1].med)
-	{
-		rotation(a, b, target);
-		return ;
-	}
+		rotation(a, b, tgt);
+	return ;
 }

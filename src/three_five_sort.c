@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:11:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 20:39:36 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/19 11:40:14 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	insert_in_order(t_stack **a, t_stack *b, unsigned int min)
 	while (b != NULL)
 	{
 		ptr = search_next_big(b->n_value, min, *a);
-		minimize_rotation(a, ptr, "rra");
+		minimize_single_rotation(a, ptr, "rra");
 		push(a, &b, "pa");
 	}
 }
@@ -71,7 +71,7 @@ void	sort_five(t_stack **a, t_stack *b)
 	insert_in_order(a, b, s.n_min);
 	s = fill_specs(*a, NULL);
 	ptr = search_value(s.min, *a);
-	minimize_rotation(a, ptr, "rra");
+	minimize_single_rotation(a, ptr, "rra");
 }
 
 /*void	min_sort(t_stack **a, int min, int max)

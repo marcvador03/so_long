@@ -6,64 +6,33 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 20:59:53 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/18 23:59:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:19:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-void	minimize_rotation(t_stack **stk, t_stack *target, char *prt)
+void	define_mincost_targets(t_stack *stk, t_stack **target)
 {
-	t_spec	s;
+	unsigned int	min;
 
-	s = fill_specs(*stk, target);
-	if (s.rel_pos > s.med)
+	stk = stk->head;
+	min = stk->cost;
+	target[0] = stk;
+	target[1] = stk->target;
+	while (stk != NULL)
 	{
-		while (s.rel_pos != 0)
+		if (min > stk->cost)
 		{
-			r_rotate(stk, prt);
-			s = fill_specs(*stk, target);
+			min = stk->cost;
+			target[0] = stk;
+			target[1] = stk->target;
 		}
-	}
-	else
-	{
-		prt = prt + 1;
-		while (s.rel_pos != 0)
-		{
-			rotate(stk, prt);
-			s = fill_specs(*stk, target);
-		}
+		if (min == 0)
+			return ;
+		stk = stk->next;
 	}
 }
-
-/*int	min_multiple_rotation(t_stack **a, t_stack **b, t_stack *target[2])
-{
-	t_spec	s[2];
-
-	s[0] = fill_specs(*a, target[0]);
-	s[1] = fill_specs(*b, target[1]);
-	if (s[0].rel_pos > s[0].med && s[1].rel_pos > s[1].med)
-	{
-		while (s[0].size-- != s[0].rel_pos && s[1].size-- != s[1].rel_pos)
-			double_rotate(a, b, "rrr", 1);
-		while (s[0].size-- != s[0].rel_pos - 1)
-			r_rotate(a, "rra");
-		while (s[1].size-- != s[1].rel_pos - 1)
-			r_rotate(b, "rrb");
-	}
-	else if (s[0].rel_pos <= s[0].med && s[1].rel_pos <= s[1].med)
-	{
-		while (s[0].rel_pos-- != 0 && s[1].rel_pos-- != 0)
-			double_rotate(a, b, "rr", 0);
-		while (s[0].rel_pos-- != -1)
-			rotate(a, "ra");
-		while (s[1].rel_pos-- != -1)
-			rotate(b, "rb");
-	}
-	else
-		return (0);
-	return (1);
-}*/
 
 static int	minimize_cost(int *cnt, t_spec *sa, t_spec *sb)
 {

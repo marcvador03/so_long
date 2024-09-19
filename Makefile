@@ -16,11 +16,8 @@ SRC_NAMES := push_swap.c \
 			 push_swap_search.c \
 			 push_swap_parse_checks.c \
 			 three_five_sort.c \
-			 radix_sort.c \
 			 turk_sort.c \
-			 turk_sort_utils.c \
-			 list_display.c
-
+			 cost_calculations.c
 
 SOURCES := $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_NAMES))
 
