@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/19 15:24:12 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/20 23:21:10 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include "textures.h"
 # define BPP 4
 # define PPT 48
+
+//#include "../MLX42/include/MLX42/MLX42_Int.h"
 
 typedef struct	s_map
 {
