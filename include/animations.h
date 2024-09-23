@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/21 15:42:46 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/23 10:43:52 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 typedef struct	s_sprite
 {
 	size_t			sprite_count;
-	mlx_texture_t	*texture;	
+	mlx_texture_t	**texture;	
 }	t_sprite;
 #endif
