@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/23 12:00:05 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:34:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,61 @@ void	sl_close(void *str)
 {
 		ft_printf("%s", (char *)str);
 		exit(1);
+}
+
+t_animation	*create_anime(double fps, int32_t x_move, int32_t y_move)
+{
+	t_animation	*anime;
+
+	anime = (t_animation *)malloc(sizeof(t_animation));
+	if (anime == NULL)
+		sl_close("error malloc");
+	anime->fps = fps;
+	anime->x_move = x_move;
+	anime->y_move = y_move;
+	anime->isnew = 0;
+	return (anime);
+}	
+
+void	anime_sprite(t_mainwindow sl, t_sprite *sprite, t_animation *anime)
+{
+	size_t			i;
+	mlx_image_t		**img;
+	double			time[2];
+	
+//	if (anime->isnew == 0)
+//	{
+		img = (mlx_image_t **)malloc(sizeof(mlx_image_t *) * sprite->count);
+		if (img == NULL)
+			sl_close("erro malloc");
+		i = 0;
+		while (i < sprite->count)
+		{
+			time[0] = mlx_get_time();
+			time[1] = time[0];
+			while ((time[1] - anime->fps) <= time[0])
+				time[1] = mlx_get_time();
+			if (i >= 1)
+				if (img[i - 1] != NULL)
+					img[i - 1]->enabled = false;
+			img[i] = mlx_texture_to_image(sl.slx, sprite->texture[i]);
+			mlx_image_to_window(sl.slx, img[i], 0, 80);
+			i++;
+		}
+		anime->isnew = 1;
+//	}
+/*	else
+	{
+		i = 0;
+		while (i < sprite->count)
+		{
+			img[i]->enabled = true;
+			if (i >= 1)
+				if (img[i - 1] != NULL)
+					img[i - 1]->enabled = false;
+			i++;
+		}
+	}*/
 }
 static mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 {
@@ -62,7 +117,7 @@ t_sprite 	*create_sprite(mlx_texture_t *t, size_t w, size_t h, size_t n)
 		cnt[2] = w * BPP * cnt[3];
 		cnt[0] = 1;
 	}
-	s->sprite_count = n;
+	s->count = n;
 	return (s);
 }
 int		main(void)
@@ -72,8 +127,8 @@ int		main(void)
 	int32_t	height;
 	mlx_texture_t	*texture;
 	t_sprite		*sprite;
-	mlx_image_t		*img[9];
-	int				i;
+	mlx_image_t		*img;
+	t_animation		*anime;
 	
 	sl.slx = mlx_init(64 * 15, 64 * 10, "Test Anim", true);
 	if (sl.slx == NULL)
@@ -83,15 +138,10 @@ int		main(void)
 	if (texture == NULL)
 		sl_close("Error loading texture");
 	sprite = create_sprite(texture, 96, 80, 8); 
-	img[0] = mlx_texture_to_image(sl.slx, texture);
-	mlx_image_to_window(sl.slx, img[0], 0, 0);
-	i = 0;
-	while (i < 8)
-	{
-		img[i] = mlx_texture_to_image(sl.slx, sprite->texture[i]);
-		mlx_image_to_window(sl.slx, img[i], i * 96, 80);
-		i++;
-	}
+	img = mlx_texture_to_image(sl.slx, texture);
+	mlx_image_to_window(sl.slx, img, 0, 0);
+	anime = create_anime(1, 10, 0);
+	anime_sprite(sl, sprite, anime);
 	mlx_loop(sl.slx);
 }
 
