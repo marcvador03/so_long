@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/20 23:21:10 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 01:21:13 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/getnextline/get_next_line.h"
 # include "textures.h"
+# include "animations.h"
 # define BPP 4
-# define PPT 48
+# define PPT 64 
 
 //#include "../MLX42/include/MLX42/MLX42_Int.h"
 
@@ -40,20 +41,23 @@ typedef struct	s_mainwindow
 	int				fd;
 	t_map			**map;
 	mlx_t			*slx;
+	t_sprite		*hero_idle;
 	mlx_image_t		*hero;
 	mlx_image_t		*wall;
 	mlx_image_t		*item;
 	mlx_image_t		*exit;
 	mlx_image_t		*bckg;
-	unsigned int	h_map;
-	unsigned int	w_map;
+	int32_t			h_win;
+	int32_t			w_win;
+	int32_t			h_map;
+	int32_t			w_map;
 	unsigned int	item_cnt;
 	unsigned int	move_cnt;	
 } t_mainwindow;
 
 void	sl_close(void *str);
-void	sl_load_texture(t_mainwindow sl, mlx_texture_t *txt, mlx_image_t *img, char *path);
-void	sl_load_image(t_mainwindow *sl);
+mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
+void	sl_load_image(t_mainwindow sl);
 void	sl_keyhook(mlx_key_data_t keydata, void *param);
 
 /*map generation functions*/
@@ -62,7 +66,13 @@ void	sl_map_check_walls(t_map **map, unsigned int w, unsigned int h);
 void	sl_map_fill(t_mainwindow *sl, char *path);
 void	get_map_size(t_mainwindow *sl, char *path);
 
+/*animation functions*/
+t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
+t_animation	*create_anime(double fps, int32_t x_move, int32_t y_move);
+void	load_sprite_img(t_mainwindow sl, t_sprite *sprite, t_animation *anime);
+void	anime_sprite(void *ptr);
 
+		
 /*int	create_rgba(int r, int g, int b, int a);
 int	get_r(int rgba);
 int	get_g(int rgba);

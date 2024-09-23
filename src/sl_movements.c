@@ -6,16 +6,16 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/19 15:24:50 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 00:45:13 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
 
 static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 {
-	unsigned int	i;
-	unsigned int	j;
-	size_t			n;
+	int32_t	i;
+	int32_t	j;
+	size_t	n;
 
 	n = 0;
 	if (PPT < 0)

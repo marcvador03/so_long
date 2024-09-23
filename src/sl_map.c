@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/19 15:26:25 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 00:44:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -25,7 +25,7 @@ void	get_map_size(t_mainwindow *sl, char *path)
 	{
 		free(tmp);
 		tmp = get_next_line(sl->fd);
-		if (tmp != NULL && sl->w_map != (ft_strlen(tmp) - 1))
+		if (tmp != NULL && sl->w_map != (int32_t)(ft_strlen(tmp) - 1))
 			sl_close("map is not rectangular");
 		sl->h_map++;
 	}

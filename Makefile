@@ -12,7 +12,8 @@ NAME := so_long
 SRC_NAMES := so_long.c \
 			 sl_map.c \
 			 sl_movements.c \
-			 sl_texture.c
+			 sl_texture.c \
+			 animations.c
 
 INC_NAMES := so_long.h
 

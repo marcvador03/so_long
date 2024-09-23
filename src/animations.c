@@ -6,18 +6,12 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 00:26:56 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 01:20:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 #include "../include/animations.h"
-
-void	sl_close(void *str)
-{
-		ft_printf("%s", (char *)str);
-		exit(1);
-}
 
 t_animation	*create_anime(double fps, int32_t x_move, int32_t y_move)
 {
@@ -137,30 +131,44 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	return (s);
 }
 
-mlx_texture_t 	*crop_texture(mlx_texture_t *t, t_sprite in)
+mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
 {
-	mlx_texture_t		*res;
+	mlx_texture_t		*t_out;
+	mlx_image_t			*img;
 	size_t				cnt[3];
 	size_t				init_w;
 	
 	if (t == NULL)
-		sl_close("error");
+		sl_close("Error loading texture");
 	init_w = t->width * BPP;
 	cnt[0] = in.pos_y;
 	cnt[1] = 0;
 	cnt[2] = (init_w * cnt[0]) + (in.pos_x * BPP);
-	res = create_sub_txt(in.width, in.height);
+	t_out = create_sub_txt(in.width, in.height);
 	while (cnt[0] < (in.pos_y + in.height))
 	{
 		while (cnt[2] < (init_w * cnt[0]) + (in.pos_x + in.width) * BPP)
-			res->pixels[cnt[1]++] = t->pixels[cnt[2]++];
+			t_out->pixels[cnt[1]++] = t->pixels[cnt[2]++];
 		cnt[0]++;
 		cnt[2] = cnt[2] - (in.width * BPP) + init_w;
 	}
-	return (res);
+	img = mlx_texture_to_image(&sl, t_out);
+	if(mlx_resize_image(img, PPT, PPT) == false)
+		sl_close("Error resizing image");
+	return (img);
 }
 
-int		main(void)
+void	sl_load_texture(t_mainwindow sl, mlx_texture_t *txt, mlx_image_t *img, char *path)
+{
+	txt = mlx_load_png(path);
+	if (txt == NULL)
+		sl_close("Error loading texture");
+	sl.hero = mlx_texture_to_image(sl.slx, txt);
+	if(mlx_resize_image(img, PPT, PPT) == false)
+		sl_close("Error resizing image");
+}
+
+/*int		main(void)
 {
 	t_mainwindow	sl;
 	t_sprite		*sprite;
@@ -176,8 +184,7 @@ int		main(void)
 	anime = create_anime(0.02, 0, 1);
 	load_sprite_img(sl, sprite, anime);
 	//texture_key = crop_texture(mlx_load_png(KEY), g_key); 
-	i = 0;
 	mlx_loop_hook(sl.slx, anime_sprite, anime);
 	mlx_loop(sl.slx);
-}
+}*/
 
