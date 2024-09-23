@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/23 13:31:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/23 15:48:40 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef struct	s_animation
 	double			fps;
 	int32_t			x_move;
 	int32_t			y_move;
-	int				isnew;
+	size_t			count;
+	int				frame;
+	mlx_image_t		**img;
 }	t_animation;
 #endif
