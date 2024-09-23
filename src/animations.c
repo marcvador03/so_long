@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/23 16:04:01 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/23 16:58:10 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,76 +91,60 @@ static mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 	return (texture);	
 }
 
-t_sprite 	*create_sprite(mlx_texture_t *t, size_t w, size_t h, size_t n)
+t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 {
 	t_sprite		*s;
 	size_t			cnt[4];
 	
-	cnt[0] = 1;
+	cnt[0] = in.pos_y;
 	cnt[1] = 0;
-	cnt[2] = 0;
+	cnt[2] = in.pos_x;
 	cnt[3] = 0;
 	s = (t_sprite *)malloc(sizeof(t_sprite));
-	s->texture = (mlx_texture_t **)malloc(sizeof(mlx_texture_t *) * n);
+	s->texture = (mlx_texture_t **)malloc(sizeof(mlx_texture_t *) * in.count);
 	if (s->texture == NULL || s == NULL)
 		sl_close("malloc texture");
-	while(cnt[3] < n)
+	while(cnt[3] < in.count)
 	{
-		s->texture[cnt[3]] = create_sub_txt(w, h);
-		while (cnt[0] <= h)
+		s->texture[cnt[3]] = create_sub_txt(in.width, in.height);
+		while (cnt[0] <= in.height)
 		{
-			while (cnt[1] < w * BPP * cnt[0])
+			while (cnt[1] < in.width * BPP * cnt[0])
 				s->texture[cnt[3]]->pixels[cnt[1]++] = t->pixels[cnt[2]++];
 			cnt[0]++;
-			cnt[2] = cnt[2] + ((t->width - w) * BPP);
+			cnt[2] = cnt[2] + ((t->width - in.width) * BPP);
 		}
 		cnt[3]++;
 		cnt[1] = 0;
-		cnt[2] = w * BPP * cnt[3];
-		cnt[0] = 1;
+		cnt[2] = in.pos_x + in.width * BPP * cnt[3];
+		cnt[0] = in.pos_y;
 	}
-	s->count = n;
+	s->count = in.count;
 	return (s);
 }
 
-/*mlx_texture_t 	*crop_texture(mlx_texture_t *t, size_t w, size_t h)
+mlx_texture_t 	*crop_texture(mlx_texture_t *t, t_sprite in)
 {
-	mlx_texture_t		*cropped;
-	size_t			cnt[4];
+	mlx_texture_t		*res;
+	size_t				cnt[4];
 	
-	cnt[0] = 1;
+	cnt[0] = in.pos_y;
 	cnt[1] = 0;
-	cnt[2] = 0;
-	cnt[3] = 0;
-	cropped = (mlx_texture_t *)malloc(sizeof(mlx_texture_t));
-	if (s->texture == NULL || s == NULL)
-	sl_close("malloc texture");
-	s->texture[cnt[3]] = create_sub_txt(w, h);
-	while (cnt[0] <= h)
+	cnt[2] = in.pos_x;
+	res = create_sub_txt(in.width, in.height);
+	while (cnt[0] <= in.height)
 	{
-		while (cnt[1] < w * BPP * cnt[0])
-			s->texture[cnt[3]]->pixels[cnt[1]++] = t->pixels[cnt[2]++];
+		while (cnt[1] < in.width * BPP * cnt[0])
+			res->pixels[cnt[1]++] = t->pixels[cnt[2]++];
 		cnt[0]++;
-		cnt[2] = cnt[2] + ((t->width - w) * BPP);
+		cnt[2] = cnt[2] + ((t->width - in.width) * BPP);
 	}
-	cnt[3]++;
-	cnt[1] = 0;
-	cnt[2] = w * BPP * cnt[3];
-	cnt[0] = 1;
-	return (s);
-}*/
-
-void	update_animation(void *str)
-{
-
-	ft_printf("%s", (char *)str);
+	return (res);
 }
 
 int		main(void)
 {
 	t_mainwindow	sl;
-	int32_t	width;
-	int32_t	height;
 	mlx_texture_t	*texture;
 	t_sprite		*sprite;
 	mlx_image_t		*img;
@@ -169,14 +153,13 @@ int		main(void)
 	sl.slx = mlx_init(64 * 15, 64 * 10, "Test Anim", true);
 	if (sl.slx == NULL)
 		sl_close("Error");
-	mlx_get_monitor_size(0, &width, &height);
-	texture = mlx_load_png(RUN);	
+	texture = mlx_load_png(ATTACK01);	
 	if (texture == NULL)
 		sl_close("Error loading texture");
-	sprite = create_sprite(texture, 80, 80, 8); 
+	sprite = create_sprite(texture, g_attack01); 
 	img = mlx_texture_to_image(sl.slx, texture);
 	mlx_image_to_window(sl.slx, img, 0, 0);
-	anime = create_anime(.05, 10, 0);
+	anime = create_anime(1, 0, 0);
 	load_sprite_img(sl, sprite, anime);
 	mlx_loop_hook(sl.slx, anime_sprite, anime);
 	mlx_loop(sl.slx);
