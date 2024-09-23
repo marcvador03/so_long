@@ -98,7 +98,7 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	
 	cnt[0] = in.pos_y;
 	cnt[1] = 0;
-	cnt[2] = in.pos_x;
+	cnt[2] = in.pos_x * BPP;
 	cnt[3] = 0;
 	s = (t_sprite *)malloc(sizeof(t_sprite));
 	s->texture = (mlx_texture_t **)malloc(sizeof(mlx_texture_t *) * in.count);
@@ -107,16 +107,16 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	while(cnt[3] < in.count)
 	{
 		s->texture[cnt[3]] = create_sub_txt(in.width, in.height);
-		while (cnt[0] <= in.height)
+		while (cnt[0] <= (pos_y + in.height))
 		{
-			while (cnt[1] < in.width * BPP * cnt[0])
+			while (cnt[1] < (pos_x + in.width) * BPP * cnt[0])
 				s->texture[cnt[3]]->pixels[cnt[1]++] = t->pixels[cnt[2]++];
 			cnt[0]++;
-			cnt[2] = cnt[2] + ((t->width - in.width) * BPP);
+			cnt[2] = cnt[2] + ((t->width - (pos_x + in.width)) * BPP);
 		}
 		cnt[3]++;
 		cnt[1] = 0;
-		cnt[2] = in.pos_x + in.width * BPP * cnt[3];
+		cnt[2] = (in.pos_x + in.width) * BPP * cnt[3];
 		cnt[0] = in.pos_y;
 	}
 	s->count = in.count;
