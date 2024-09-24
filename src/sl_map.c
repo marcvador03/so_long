@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 00:44:24 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:12:19 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -20,14 +20,14 @@ void	get_map_size(t_mainwindow *sl, char *path)
 		sl_close("error while opening file\n");
 	tmp = get_next_line(sl->fd);
 	sl->h_map = 0;
-	sl->w_map = ft_strlen(tmp) - 1;
+	sl->w_map = (uint32_t)(ft_strlen(tmp) - 1);
 	while (tmp != NULL)
 	{
 		free(tmp);
 		tmp = get_next_line(sl->fd);
-		if (tmp != NULL && sl->w_map != (int32_t)(ft_strlen(tmp) - 1))
+		if (tmp != NULL && sl->w_map != (uint32_t)(ft_strlen(tmp) - 1))
 			sl_close("map is not rectangular");
-		sl->h_map++;
+		sl->h_map++ ;
 	}
 	free(tmp);
 	tmp = NULL;
@@ -37,18 +37,18 @@ void	get_map_size(t_mainwindow *sl, char *path)
 
 static unsigned int	sl_line_fill(t_map *map, char *line)
 {
-	int				j;
-	unsigned int	item_cnt;
+	int32_t		i;
+	uint32_t	item_cnt;
 
-	j = 0;
+	i = 0;
 	item_cnt = 0;
-	while (line[j] != '\n')
+	while (line[i] != '\n')
 	{
-		if (line[j] != '0' && line[j] != '1')
-			if(line[j] !='C' && line[j] != 'E' && line[j] != 'P')
+		if (line[i] != '0' && line[i] != '1')
+			if(line[i] !='C' && line[i] != 'E' && line[i] != 'P')
 				sl_close("map check: forbidden value");
-		map[j].c = line[j];
-		if (line[j++] == 'C')
+		map[i].c = line[i];
+		if (line[i++] == 'C')
 			item_cnt++;
 	}
 	return (item_cnt);
@@ -79,10 +79,10 @@ void	sl_map_fill(t_mainwindow *sl, char *path)
 		sl_close("error while closing fd");
 }
 
-void	sl_map_check_walls(t_map **map, unsigned int w, unsigned int h)
+void	sl_map_check_walls(t_map **map, uint32_t w, uint32_t h)
 {
-	unsigned int i;
-	unsigned int j;
+	uint32_t	i;
+	uint32_t	 j;
 
 	j = 0;
 	while (j <= w)

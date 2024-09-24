@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 12:22:24 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:55:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char *argv[])
 {
 	t_mainwindow	sl;
 	//t_sprite		*hero_idle_s;
-	int32_t			i;
+	uint32_t			i;
 
 	if (argc != 2)
 		sl_close("missing argument\n");
@@ -56,12 +56,12 @@ int	main(int argc, char *argv[])
 	sl.bckg = load_texture(*sl.slx, mlx_load_png(BCKG), g_bckg);	
 	sl.wall = load_texture(*sl.slx, mlx_load_png(WALL), g_wall);	
 	sl.item = load_texture(*sl.slx, mlx_load_png(CHEST), g_chest);	
+	sl.hero = load_texture(*sl.slx, mlx_load_png(HERO), g_hero);	
 	//hero_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
 	//sl.hero_idle = create_anime(0.5, 0, 0);
-	//-sl.item = load_texture(*sl.slx, mlx_load_png(CHEST), g_chest);	
 	
-	load_static_image(sl);
-	////load_dynamic_image(sl, hero_idle_s);
+	load_static_image(&sl);
+	//load_dynamic_image(sl, hero_idle_s);
 	mlx_close_hook(sl.slx, sl_close, "Closing\n");	
 	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
 	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);

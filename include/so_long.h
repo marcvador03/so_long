@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 12:13:04 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 18:57:03 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,22 @@
 # include "textures.h"
 # include "animations.h"
 # define BPP 4
-# define PPT 32 
+# define MOVE 4
 # define H 0
 # define W 1
-
+# define X 0
+# define Y 1
+# define XBIS 2
+# define YBIS 3
 //#include "../MLX42/include/MLX42/MLX42_Int.h"
 
 typedef struct	s_map
 {
 	char	c;
+	mlx_image_t	**img;
 	size_t	instance;
 } t_map;
+
 typedef struct	s_mainwindow 
 {
 	int				fd;
@@ -50,8 +55,8 @@ typedef struct	s_mainwindow
 	mlx_image_t		*bckg;
 	int32_t			h_win;
 	int32_t			w_win;
-	int32_t			h_map;
-	int32_t			w_map;
+	u_int32_t		h_map;
+	u_int32_t		w_map;
 	unsigned int	item_cnt;
 	unsigned int	move_cnt;	
 	t_anim			*hero_idle;
@@ -61,7 +66,7 @@ typedef struct	s_mainwindow
 void	sl_close(void *str);
 mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
 //void	sl_load_image(t_mainwindow sl);
-void	load_static_image(t_mainwindow sl);
+void	load_static_image(t_mainwindow *sl);
 void	load_dynamic_image(t_mainwindow sl, t_sprite *sprite);
 void	sl_keyhook(mlx_key_data_t keydata, void *param);
 

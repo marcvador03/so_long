@@ -6,27 +6,32 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:58:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 12:39:26 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 18:56:53 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEXTURE_H
 # define TEXTURE_H
 # include "animations.h"
-# define HERO "textures/knight/Walk1.png"
+//# define HERO "textures/knight/Walk1.png"
 # define ITEM "textures/graveyard/png/Objects/Skeleton.png"
 //# define WALL "textures/graveyard/png/Objects/TombStone1.png"
 //# define BCKG "textures/graveyard/png/Tiles/Tile9.png"
 # define EXIT "textures/graveyard/png/Objects/ArrowSign.png"
 
+# define PPT 32
 # define BCKG "textures/hyptosis_tiles.png"
-static const t_sprite g_bckg = { 1, 640, 0, 32, 32, 32, 32, NULL };
+static const t_sprite g_bckg = { 1, 640, 0, 32, 32, PPT, PPT, NULL };
 # define WALL "textures/hyptosis_tiles.png"
-static const t_sprite g_wall = { 1, 384, 320, 32, 32, 32, 32, NULL };
+static const t_sprite g_wall = { 1, 384, 320, 32, 32, PPT, PPT, NULL };
 # define HERO_IDLE "textures//Character/Idle/Idle-Sheet.png"
-static const t_sprite g_hero_idle = { 4, 0, 0, 64, 80, 32, 32, NULL };
+static const t_sprite g_hero_idle = { 4, 0, 0, 64, 80, PPT, PPT, NULL };
+# define HERO "textures//Character/Idle/Idle-Sheet.png"
+static const t_sprite g_hero = { 1, 0, 0, 64, 80, PPT, PPT, NULL };
 # define CHEST "textures/Tiles.png"
-static const t_sprite g_chest = { 2, 288, 275, 32, 29, 32, 32, NULL };
+static const t_sprite g_chest = { 2, 288, 275, 32, 29, PPT, PPT, NULL };
+# define KEY "textures/fantasy/Assets/Tiles.png"
+static const t_sprite g_key = { 1, 240, 322, 15, 10, 15, 10, NULL };
 
 /*# define ATTACK01 "textures/fantasy/Character/Attack-01/Attack-01-Sheet.png"
 static const t_sprite g_attack01 = { 8, 0, 0, 96, 80, NULL };

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 12:13:45 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:47:48 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	s->pos_y = 0;
 	s->width = in.width;
 	s->height = in.height;
+	s->r_width = in.r_width;
+	s->r_height = in.r_height;
 	return (s);
 }
 

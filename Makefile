@@ -15,7 +15,9 @@ SRC_NAMES := so_long.c \
 			 sl_texture.c \
 			 animations.c
 
-INC_NAMES := so_long.h
+INC_NAMES := so_long.h \
+			 animations.h \
+			 textures.h
 
 SOURCES := $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_NAMES))
 
@@ -43,7 +45,7 @@ CUR_DIR := $(shell pwd)
 .PHONY: all flags clean fclean re show libft libmlx
 all: $(OBJECTS) $(NAME) 
 
-$(NAME): $(OBJECTS)
+$(NAME): $(INCLUDES) $(OBJECTS)
 	cmake -DDEBUG=1 -S $(LIBMLX_DIR) -B $(CUR_DIR)/$(LIB_DIR)
 	$(MAKE) -C $(CUR_DIR)/$(LIB_DIR) -j4
 	@$(MAKE) -C $(LIBFT_DIR)
