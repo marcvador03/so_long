@@ -6,11 +6,124 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 01:14:49 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:17:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+static size_t	load_sprite(mlx_t *slx, t_sprite *s, t_anim *a, int32_t p[2])
+{
+	size_t			i;
+	size_t			n;
+	mlx_image_t		**img;
+	
+	if (s == NULL || s->count <= 0)
+		sl_close("error");
+	img = (mlx_image_t **)malloc(sizeof(mlx_image_t *) * s->count);
+	if (img == NULL)
+		sl_close("erro malloc");
+	i = 0;
+	n = 0;
+	while (i < s->count)
+	{
+		img[i] = mlx_texture_to_image(slx, s->texture[i]);
+		if(mlx_resize_image(img[i], s->r_width, s->r_height) == false)
+			sl_close("Error resizing image");
+		mlx_image_to_window(slx, img[i], p[W], p[H]);
+		n = img[i]->count - 1;
+		img[i]->instances[0].enabled = false;
+		mlx_set_instance_depth(&img[i]->instances[n], 3);
+		i++;
+	}
+	img[s->count - 1]->instances[0].enabled = true;
+	if (a == NULL)
+		return (n);		
+	a->img = img;
+	a->count = s->count;
+	return (n);
+}
+
+static size_t	load(mlx_t *slx, mlx_image_t *img, int32_t p[2], int32_t z)
+{
+	size_t	n;
+
+	if (img == NULL)
+		return (0);
+	n = 0;
+	mlx_image_to_window(slx, img, p[W] * PPT, p[H] * PPT);
+	n = img->count - 1;
+	mlx_set_instance_depth(&img->instances[n], z);
+	return (n);
+}
+
+void	load_static_image(t_mainwindow sl)
+{
+	int32_t	cnt[2];
+	size_t	n;
+	
+	n = 0;
+	cnt[H] = 0;
+	while (cnt[H] <= sl.h_map - 1)
+	{
+		cnt[W] = 0;
+		while (cnt[W] <= sl.w_map - 1)
+		{
+			n = load(sl.slx, sl.bckg, cnt, 0);
+			sl.map[cnt[H]][cnt[W]].instance = n;
+			if (sl.map[cnt[H]][cnt[W]].c == '1')
+			{
+				n = load(sl.slx, sl.wall, cnt, 1);
+				sl.map[cnt[H]][cnt[W]].instance = n;
+			}
+			else if (sl.map[cnt[H]][cnt[W]].c == 'C')
+			{	
+				n = load(sl.slx, sl.item, cnt, 2);
+				sl.map[cnt[H]][cnt[W]].instance = n;
+			}
+			cnt[W]++;
+		}
+		cnt[H]++;
+	}
+}
+
+void	load_dynamic_image(t_mainwindow sl, t_sprite *sprite)
+{
+	int32_t	cnt[2];
+	size_t	n;
+	
+	n = 0;
+	cnt[H] = 0;
+	while (cnt[H] <= sl.h_map - 1)
+	{
+		cnt[W] = 0;
+		while (cnt[W] <= sl.w_map - 1)
+		{
+			if (sl.map[cnt[H]][cnt[W]].c == 'P')
+				n = load_sprite(sl.slx, sprite, sl.hero_idle, cnt);
+			sl.map[cnt[H]][cnt[W]].instance = n;
+			cnt[W]++;
+		}
+		cnt[H]++;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void	sl_load_image(t_mainwindow sl)
 {

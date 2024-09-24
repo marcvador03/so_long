@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 01:21:37 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:22:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	sl_close(void *str)
 int	main(int argc, char *argv[])
 {
 	t_mainwindow	sl;
-	t_sprite		*hero_idle_s;
-	t_animation		*hero_idle_a;
+	//t_sprite		*hero_idle_s;
 	int32_t			i;
 
 	if (argc != 2)
@@ -51,21 +50,21 @@ int	main(int argc, char *argv[])
 	
 	sl.move_cnt = 0;	
 	
-	hero_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
-	hero_idle_a = create_anime(0.05, 0, 0);
-	load_sprite_img(sl, hero_idle_s, hero_idle_a);
+	sl.wall = NULL; //initialize all sl items to NULL to manage errors
+	sl.item = NULL; //initialize all sl items to NULL to manage errors
+	sl.bckg = NULL; //initialize all sl items to NULL to manage errors
+	sl.bckg = load_texture(*sl.slx, mlx_load_png(BCKG), g_bckg);	
 	sl.wall = load_texture(*sl.slx, mlx_load_png(WALL), g_wall);	
-	/*texture = NULL;
-	sl_load_texture(sl, texture, sl.hero, HERO);
-	sl_load_texture(sl, texture, sl.item, ITEM);
-	sl_load_texture(sl, texture, sl.bckg, BCKG);
-	sl_load_texture(sl, texture, sl.wall, WALL);
-	sl_load_texture(sl, texture, sl.exit, EXIT);*/
+	sl.item = load_texture(*sl.slx, mlx_load_png(CHEST), g_chest);	
+	//hero_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
+	//sl.hero_idle = create_anime(0.5, 0, 0);
+	//-sl.item = load_texture(*sl.slx, mlx_load_png(CHEST), g_chest);	
 	
-	sl_load_image(sl);
+	load_static_image(sl);
+	////load_dynamic_image(sl, hero_idle_s);
 	mlx_close_hook(sl.slx, sl_close, "Closing\n");	
 	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
-	mlx_loop_hook(sl.slx, anime_sprite, hero_idle_a);
+	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
 	mlx_loop(sl.slx);
 	sl_close("");
 	return (0);

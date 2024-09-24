@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 01:21:13 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:13:04 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 # include "textures.h"
 # include "animations.h"
 # define BPP 4
-# define PPT 64 
+# define PPT 32 
+# define H 0
+# define W 1
 
 //#include "../MLX42/include/MLX42/MLX42_Int.h"
 
@@ -41,7 +43,6 @@ typedef struct	s_mainwindow
 	int				fd;
 	t_map			**map;
 	mlx_t			*slx;
-	t_sprite		*hero_idle;
 	mlx_image_t		*hero;
 	mlx_image_t		*wall;
 	mlx_image_t		*item;
@@ -53,11 +54,15 @@ typedef struct	s_mainwindow
 	int32_t			w_map;
 	unsigned int	item_cnt;
 	unsigned int	move_cnt;	
+	t_anim			*hero_idle;
+	t_anim			*hero_run;
 } t_mainwindow;
 
 void	sl_close(void *str);
 mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
-void	sl_load_image(t_mainwindow sl);
+//void	sl_load_image(t_mainwindow sl);
+void	load_static_image(t_mainwindow sl);
+void	load_dynamic_image(t_mainwindow sl, t_sprite *sprite);
 void	sl_keyhook(mlx_key_data_t keydata, void *param);
 
 /*map generation functions*/
@@ -68,8 +73,7 @@ void	get_map_size(t_mainwindow *sl, char *path);
 
 /*animation functions*/
 t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
-t_animation	*create_anime(double fps, int32_t x_move, int32_t y_move);
-void	load_sprite_img(t_mainwindow sl, t_sprite *sprite, t_animation *anime);
+t_anim		*create_anime(double fps, int32_t x_move, int32_t y_move);
 void	anime_sprite(void *ptr);
 
 		

@@ -6,18 +6,18 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 01:20:56 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:13:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 #include "../include/animations.h"
 
-t_animation	*create_anime(double fps, int32_t x_move, int32_t y_move)
+t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move)
 {
-	t_animation	*anime;
+	t_anim	*anime;
 
-	anime = (t_animation *)malloc(sizeof(t_animation));
+	anime = (t_anim *)malloc(sizeof(t_anim));
 	if (anime == NULL)
 		sl_close("error malloc");
 	anime->fps = fps;
@@ -32,10 +32,10 @@ t_animation	*create_anime(double fps, int32_t x_move, int32_t y_move)
 void	anime_sprite(void *ptr)
 {
 	double	time[2];
-	t_animation	*anime;
+	t_anim	*anime;
 	int	i;
 
-	anime = (t_animation *)ptr;
+	anime = (t_anim *)ptr;
 	i = anime->frame;
 	time[0] = mlx_get_time();
 	time[1] = time[0];
@@ -51,28 +51,6 @@ void	anime_sprite(void *ptr)
 	anime->frame = (anime->frame + 1) % anime->count;
 }
 
-void	load_sprite_img(t_mainwindow sl, t_sprite *sprite, t_animation *anime)
-{
-	size_t			i;
-	mlx_image_t		**img;
-	
-	img = (mlx_image_t **)malloc(sizeof(mlx_image_t *) * sprite->count);
-	if (img == NULL)
-		sl_close("erro malloc");
-	i = 0;
-	while (i < sprite->count)
-	{
-		img[i] = mlx_texture_to_image(sl.slx, sprite->texture[i]);
-		mlx_image_to_window(sl.slx, img[i], sprite->pos_x, sprite->pos_y);
-		img[i]->instances[0].enabled = false;
-		i++;
-	}
-	img[sprite->count - 1]->instances[0].enabled = true;
-	if (anime == NULL)
-		return ;		
-	anime->img = img;
-	anime->count = sprite->count;
-}
 
 static mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 {
@@ -153,19 +131,9 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
 		cnt[2] = cnt[2] - (in.width * BPP) + init_w;
 	}
 	img = mlx_texture_to_image(&sl, t_out);
-	if(mlx_resize_image(img, PPT, PPT) == false)
+	if(mlx_resize_image(img, in.r_width, in.r_height) == false)
 		sl_close("Error resizing image");
 	return (img);
-}
-
-void	sl_load_texture(t_mainwindow sl, mlx_texture_t *txt, mlx_image_t *img, char *path)
-{
-	txt = mlx_load_png(path);
-	if (txt == NULL)
-		sl_close("Error loading texture");
-	sl.hero = mlx_texture_to_image(sl.slx, txt);
-	if(mlx_resize_image(img, PPT, PPT) == false)
-		sl_close("Error resizing image");
 }
 
 /*int		main(void)
