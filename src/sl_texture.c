@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 18:17:09 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 23:46:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ static size_t	load_sprite(mlx_t *slx, t_sprite *s, t_anim *a, uint32_t p[3])
 	mlx_image_t		**img;
 	
 	if (s == NULL || s->count <= 0)
-		sl_close("error");
+		return (0);
 	img = (mlx_image_t **)malloc(sizeof(mlx_image_t *) * s->count);
 	if (img == NULL)
-		sl_close("erro malloc");
+		return (0);
 	i = 0;
 	n = 0;
 	while (i < s->count)
 	{
 		img[i] = mlx_texture_to_image(slx, s->texture[i]);
 		if(mlx_resize_image(img[i], s->r_width, s->r_height) == false)
-			sl_close("Error resizing image");
+			return (0);
 		mlx_image_to_window(slx, img[i], p[W], p[H]);
 		n = img[i]->count - 1;
 		img[i]->instances[0].enabled = false;
@@ -117,6 +117,8 @@ void	load_dynamic_image(t_mainwindow sl, t_sprite *sprite)
 			{
 				cnt[2] = 3;
 				n = load_sprite(sl.slx, sprite, sl.hero_idle, cnt);
+				if (n == 0)
+					unexpected_close(ERR_SPRITE, sl.slx, sl.map);
 				sl.map[cnt[H]][cnt[W]].instance = n;
 			}
 			cnt[W]++;

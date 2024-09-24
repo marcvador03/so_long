@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 12:47:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 23:27:28 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move)
 
 	anime = (t_anim *)malloc(sizeof(t_anim));
 	if (anime == NULL)
-		sl_close("error malloc");
+		return (NULL);
 	anime->fps = fps;
 	anime->x_move = x_move;
 	anime->y_move = y_move;
@@ -58,13 +58,13 @@ static mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 	
 	texture = (mlx_texture_t *)malloc(sizeof(mlx_texture_t));
 	if (texture == NULL)
-		sl_close("malloc texture");
+		return (NULL);
 	texture->width = w;	
 	texture->height = h;	
 	texture->bytes_per_pixel = BPP;
 	texture->pixels = (uint8_t *)malloc(sizeof(uint8_t) * w * h * BPP);
 	if (texture->pixels == NULL)
-		sl_close("malloc texture");
+		return (NULL);
 	return (texture);	
 }
 
@@ -75,7 +75,7 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	size_t			init_w;
 	
 	if (in.count <= 0 || t == NULL)
-		sl_close("error in sprite count or texture load");
+		return (NULL);
 	init_w = t->width * BPP;
 	cnt[0] = in.pos_y;
 	cnt[1] = 0;
@@ -84,10 +84,12 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	s = (t_sprite *)malloc(sizeof(t_sprite));
 	s->texture = (mlx_texture_t **)malloc(sizeof(mlx_texture_t *) * in.count);
 	if (s->texture == NULL || s == NULL)
-		sl_close("malloc texture");
+		return (NULL);
 	while(cnt[3] < in.count)
 	{
 		s->texture[cnt[3]] = create_sub_txt(in.width, in.height);
+		if (s->texture[cnt[3]] == NULL)
+			return (NULL);
 		while (cnt[0] < (in.pos_y + in.height))
 		{
 			while (cnt[2] < (init_w * cnt[0]) + (in.pos_x + in.width) * BPP)
@@ -119,12 +121,14 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
 	size_t				init_w;
 	
 	if (t == NULL)
-		sl_close("Error loading texture");
+		return (NULL);
 	init_w = t->width * BPP;
 	cnt[0] = in.pos_y;
 	cnt[1] = 0;
 	cnt[2] = (init_w * cnt[0]) + (in.pos_x * BPP);
 	t_out = create_sub_txt(in.width, in.height);
+	if (t_out == NULL)
+		return (NULL);
 	while (cnt[0] < (in.pos_y + in.height))
 	{
 		while (cnt[2] < (init_w * cnt[0]) + (in.pos_x + in.width) * BPP)
@@ -134,7 +138,7 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
 	}
 	img = mlx_texture_to_image(&sl, t_out);
 	if(mlx_resize_image(img, in.r_width, in.r_height) == false)
-		sl_close("Error resizing image");
+		return (NULL);
 	return (img);
 }
 

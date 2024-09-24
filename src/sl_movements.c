@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 19:14:08 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 23:42:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -40,7 +40,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 	t_map	map_adj;
 	
 	if (PPT < 0)
-		sl_close("Error in pixel per tile PPT definition");
+		unexpected_close(ERR_PPT, sl->slx, sl->map);
 	n = 0;
 	move[X] = 0;
 	move[Y] = 0;
@@ -157,7 +157,7 @@ static void	sl_move_action(t_mainwindow *sl)
 	size_t			n;
 
 	if (PPT < 0)
-		sl_close("Error in pixel per tile PPT definition");
+		unexpected_close(ERR_PPT, sl->slx, sl->map);
 	i = sl->hero->instances[0].y / PPT;
 	j = sl->hero->instances[0].x / PPT;
 	if (sl->map[i][j].c == 'C')
@@ -168,7 +168,7 @@ static void	sl_move_action(t_mainwindow *sl)
 		sl->item_cnt--;
 	}
 	if (sl->map[i][j].c == 'E' && sl->item_cnt == 0)
-		sl_close("Success!!!\n");
+		exp_close(&sl) ;//how to call success?
 }
 
 void	sl_keyhook(mlx_key_data_t keydata, void *param)
@@ -178,7 +178,7 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param)
 
 	sl = (t_mainwindow *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		sl_close("Closing with ESC\n");
+		exp_close(&sl);
 	if (keydata.key >= MLX_KEY_RIGHT && keydata.key <= MLX_KEY_UP)
 		if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 		{

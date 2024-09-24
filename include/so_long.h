@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 18:57:03 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/24 23:41:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "../libft/getnextline/get_next_line.h"
 # include "textures.h"
 # include "animations.h"
+# include "errors.h"
 # define BPP 4
 # define MOVE 4
 # define H 0
@@ -41,6 +42,7 @@ typedef struct	s_map
 	char	c;
 	mlx_image_t	**img;
 	size_t	instance;
+	size_t	mem_count;
 } t_map;
 
 typedef struct	s_mainwindow 
@@ -63,7 +65,8 @@ typedef struct	s_mainwindow
 	t_anim			*hero_run;
 } t_mainwindow;
 
-void	sl_close(void *str);
+void	unexpected_close(char *str, mlx_t *mlx, t_map **map);
+void	exp_close(void *ptr);
 mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
 //void	sl_load_image(t_mainwindow sl);
 void	load_static_image(t_mainwindow *sl);
@@ -71,10 +74,11 @@ void	load_dynamic_image(t_mainwindow sl, t_sprite *sprite);
 void	sl_keyhook(mlx_key_data_t keydata, void *param);
 
 /*map generation functions*/
-void	sl_map_check_dups(t_map **map, unsigned int w, unsigned int h);
-void	sl_map_check_walls(t_map **map, unsigned int w, unsigned int h);
+int		sl_map_check_dups(t_map **map, unsigned int w, unsigned int h);
+int		sl_map_check_walls(t_map **map, unsigned int w, unsigned int h);
 void	sl_map_fill(t_mainwindow *sl, char *path);
 void	get_map_size(t_mainwindow *sl, char *path);
+void	map_alloc(t_mainwindow *sl);
 
 /*animation functions*/
 t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
