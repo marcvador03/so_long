@@ -73,27 +73,27 @@ OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
 OBJECTS += $(patsubst %.c, %.o, $(FT_PRINTF_SOURCES))
 OBJECTS += $(patsubst %.c, %.o, $(GNL_SOURCES))
 
-CFLAGS += -Wall -Werror -Wextra
+CFLAGS += -Wall -Werror -Wextra -MMD -MP
 DEBUG ?=
 
 CUR_DIR := $(shell pwd)
 
 #TARGETS
 .PHONY: all flags clean fclean re show install
-all: $(OBJECTS) $(NAME) install
+all: $(OBJECTS) $(NAME) 
 
 install: $(NAME)
 ifneq ($(TARGET_LIB),)	
 	@install -d $(TARGET_LIB)
 	@install -m 644 $< $(TARGET_LIB)
-	@echo $< "Copied"
+#	@echo $< "Copied"
 endif
 
 $(NAME): $(OBJECTS) 
 	ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
 
-%.o: %.c libft.h Makefile 
+%.o: %.c libft.h ft_printf/ft_printf.h getnextline/get_next_line.h Makefile 
 	cc $(CFLAGS) $(DEBUG) -c $< -o $@
 
 $(TARGET_LIB):
