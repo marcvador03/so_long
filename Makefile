@@ -1,5 +1,4 @@
 #Directory definition
-<<<<<<< HEAD
 LIBFT_DIR := libft
 SRC_DIR := src
 OBJ_DIR := obj
