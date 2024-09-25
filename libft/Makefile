@@ -73,13 +73,14 @@ OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
 OBJECTS += $(patsubst %.c, %.o, $(FT_PRINTF_SOURCES))
 OBJECTS += $(patsubst %.c, %.o, $(GNL_SOURCES))
 
+DEPS := $(OBJECTS:.o=.d)
+
 CFLAGS += -Wall -Werror -Wextra -MMD -MP
 DEBUG ?=
 
 CUR_DIR := $(shell pwd)
 
 #TARGETS
-.PHONY: all flags clean fclean re show install
 all: $(OBJECTS) $(NAME) 
 
 install: $(NAME)
@@ -111,9 +112,13 @@ show:
 #	@echo $(TARGET_LIB)/libft.a
 
 clean: 
-	@rm -rf $(OBJECTS)
+	@rm -rf $(OBJECTS) $(DEPS)
 
 fclean: clean
 	@rm -rf $(NAME)
 
 re: fclean all
+ifneq ($(DEPS), )
+-include $(DEPS)
+endif
+.PHONY: all flags clean fclean re show install
