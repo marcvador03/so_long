@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 18:35:22 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 00:40:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -32,6 +32,20 @@ static int	check_collision(t_map map_adj, int32_t pos_hero[4], int32_t move[2])
 	return (0);	
 	
 }
+
+static	move_hero_x(t_anim *idle, t_anim *run)
+{
+	size_t	i;
+	
+	
+	i = 0;
+	while (i < idle->count)
+		idle->img[i++]->instances[0].x += MOVE;
+	i = 0;
+	while (i < run->count)
+		run->img[i++]->instances[0].x += MOVE;
+}	
+
 static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img)
 {
 	size_t	n;
@@ -95,60 +109,6 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img
 	}
 	return (n);	
 }
-/*static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
-{
-	int32_t	px[2];
-	int32_t	ps[2];
-	size_t	n;
-
-	if (PPT < 0)
-		sl_close("Error in pixel per tile PPT definition");
-	n = 0;
-	px[H] = sl->hero->instances[0].y;
-	px[W] = sl->hero->instances[0].x;
-	ps[H] = sl->hero->instances[0].y / PPT;
-	ps[W] = sl->hero->instances[0].x / PPT;
-	if (key == MLX_KEY_RIGHT && (px[W] + sl->hero->width) < (sl->w_map * PPT))
-		if (sl->map[ps[H]][(px[W] + sl->hero->width) / PPT].c != '1')
-			sl->hero->instances[n++].x += 1;
-	if (key == MLX_KEY_LEFT && px[W] > 0)
-		if (sl->map[ps[H]][ps[W]].c != '1')
-			sl->hero->instances[n++].x -= 1;
-	if (key == MLX_KEY_UP && px[H] > 0)
-		if (sl->map[ps[H]][ps[W]].c != '1')
-			sl->hero->instances[n++].y -= 1;
-	if (key == MLX_KEY_DOWN && (px[H] + sl->hero->height) < (sl->h_map * PPT))
-		if (sl->map[(px[H] + sl->hero->height) / PPT][ps[W]].c != '1')
-			sl->hero->instances[n++].y += 1;
-	return (n);	
-}*/
-
-/*static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
-{
-	int32_t	i;
-	int32_t	j;
-	size_t	n;
-
-	n = 0;
-	if (PPT < 0)
-		sl_close("Error in pixel per tile PPT definition");
-	i = sl->hero->instances[0].y / PPT;
-	j = sl->hero->instances[0].x / PPT;
-	if (key == MLX_KEY_RIGHT && j < sl->w_map)
-		if (sl->map[i][j + 1].c != '1')
-			sl->hero->instances[n++].x += PPT;
-	if (key == MLX_KEY_LEFT && j > 0)
-		if (sl->map[i][j - 1].c != '1')
-			sl->hero->instances[n++].x -= PPT;
-	if (key == MLX_KEY_UP && i > 0)
-		if (sl->map[i - 1][j].c != '1')
-			sl->hero->instances[n++].y -= PPT;
-	if (key == MLX_KEY_DOWN && i < sl->h_map)
-		if (sl->map[i + 1][j].c != '1')
-			sl->hero->instances[n++].y += PPT;
-	return (n);	
-}*/
-
 
 static void	sl_move_action(t_mainwindow *sl, mlx_image_t **img)
 {
