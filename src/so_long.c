@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 17:03:10 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:10:47 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,27 +84,29 @@ int	main(int argc, char *argv[])
 	hero_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
 	if (hero_idle_s == NULL)
 		unexpected_close(ERR_SPRITE, &sl, sl.map); // sprite free and sub texture and anime?
+	
+	
+	sl.hero_idle = create_anime(0.5, 0, 0); 
+	if (sl.hero_idle == NULL)
+		unexpected_close(ERR_ANIME, &sl, sl.map); // sprite free and sub texture and anime?
+	
+	load_static_image(&sl);
+	load_dynamic_image(sl, hero_idle_s);
+	mlx_close_hook(sl.slx, &exp_close, &sl);	
+	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
+	mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
+	mlx_loop(sl.slx);
+	
 	size_t	i;
 
 	i = 0;
 	while (i < hero_idle_s->count)
-	{
 		mlx_delete_texture(hero_idle_s->texture[i++]);
-		//free(hero_idle_s->texture[i]->pixels);
-		//free(hero_idle_s->texture[i++]);
-	}	
 	free(hero_idle_s->texture);
 	free(hero_idle_s);
-	//sl.hero_idle = create_anime(0.5, 0, 0); 
-	//if (hero_idle_s == NULL)
-	//	unexpected_close(ERR_ANIME, &sl, sl.map); // sprite free and sub texture and anime?
+	free(sl.hero_idle->img);	
+	free(sl.hero_idle);	
 	
-	load_static_image(&sl);
-	//load_dynamic_image(sl, hero_idle_s);*/
-	mlx_close_hook(sl.slx, &exp_close, &sl);	
-	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
-	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
-	mlx_loop(sl.slx);
 	mlx_terminate(sl.slx);
 	return (0);
 }

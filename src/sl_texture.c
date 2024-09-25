@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 16:20:15 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:15:42 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,28 @@ static size_t	load_sprite(mlx_t *slx, t_sprite *s, t_anim *a, uint32_t p[3])
 {
 	size_t			i;
 	size_t			n;
-	mlx_image_t		**img;
 	
-	if (s == NULL || s->count <= 0)
+	if (s == NULL || s->count <= 0 || a == NULL)
 		return (0);
-	img = (mlx_image_t **)malloc(sizeof(mlx_image_t *) * s->count);
-	if (img == NULL)
+	a->img = (mlx_image_t **)malloc(sizeof(mlx_image_t *) * s->count);
+	if (a->img == NULL)
 		return (0);
 	i = 0;
 	n = 0;
 	while (i < s->count)
 	{
-		img[i] = mlx_texture_to_image(slx, s->texture[i]);
-		if(mlx_resize_image(img[i], s->r_width, s->r_height) == false)
+		a->img[i] = mlx_texture_to_image(slx, s->texture[i]);
+		if(mlx_resize_image(a->img[i], s->r_width, s->r_height) == false)
 			return (0);
-		mlx_image_to_window(slx, img[i], p[W], p[H]);
-		n = img[i]->count - 1;
-		img[i]->instances[0].enabled = false;
-		mlx_set_instance_depth(&img[i]->instances[n], (int32_t)p[2]);
+		mlx_image_to_window(slx, a->img[i], p[W] * PPT, p[H] * PPT);
+		n = a->img[i]->count - 1;
+		a->img[i]->instances[0].enabled = false;
+		mlx_set_instance_depth(&a->img[i]->instances[n], (int32_t)p[2]);
 		i++;
 	}
-	img[s->count - 1]->instances[0].enabled = true;
-	if (a == NULL)
-		return (n);		
-	a->img = img;
+	a->img[s->count - 1]->instances[0].enabled = true;
 	a->count = s->count;
-	return (n);
+	return (1);
 }
 
 static size_t	load(mlx_t *slx, mlx_image_t *img, uint32_t p[2], int32_t z)
@@ -90,11 +86,11 @@ void	load_static_image(t_mainwindow *sl)
 				n = load(sl->slx, sl->item, cnt, 2);
 				update_map(&sl->map[cnt[H]][cnt[W]], &sl->item, n);
 			}
-			else if (sl->map[cnt[H]][cnt[W]].c == 'P')
+			/*else if (sl->map[cnt[H]][cnt[W]].c == 'P')
 			{	
 				n = load(sl->slx, sl->hero, cnt, 3);
 				update_map(&sl->map[cnt[H]][cnt[W]], &sl->hero, n);
-			}
+			}*/
 			cnt[W]++;
 		}
 		cnt[H]++;

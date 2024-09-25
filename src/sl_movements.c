@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 15:25:17 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 18:35:22 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -32,7 +32,7 @@ static int	check_collision(t_map map_adj, int32_t pos_hero[4], int32_t move[2])
 	return (0);	
 	
 }
-static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
+static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img)
 {
 	size_t	n;
 	int32_t	pix[4];
@@ -44,10 +44,10 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 	n = 0;
 	move[X] = 0;
 	move[Y] = 0;
-	pix[X] = sl->hero->instances[0].x;
-	pix[Y] = sl->hero->instances[0].y;
-	pix[XBIS] = pix[X] + sl->hero->width;
-	pix[YBIS] = pix[Y] + sl->hero->height;
+	pix[X] = img[0]->instances[0].x;
+	pix[Y] = img[0]->instances[0].y;
+	pix[XBIS] = pix[X] + img[0]->width;
+	pix[YBIS] = pix[Y] + img[0]->height;
 	if (key == MLX_KEY_RIGHT)
 	{
 		move[X] = MOVE;
@@ -56,7 +56,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 		{
 			map_adj = sl->map[pix[YBIS] / PPT][(pix[X] / PPT) + 1]; //toher collistion check to be done with pix[YBIS] and pix[XBIS]
 			if (check_collision(map_adj, pix, move) == 0)
-				sl->hero->instances[n++].x += MOVE;
+				img[0]->instances[n++].x += MOVE;
 		}
 
 	}
@@ -68,7 +68,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 		{
 			map_adj = sl->map[pix[YBIS] / PPT][(pix[X] / PPT) - 1];
 			if (check_collision(map_adj, pix, move) == 0)
-				sl->hero->instances[n++].x -= MOVE;
+				img[0]->instances[n++].x += MOVE;
 		}
 	}
 	if (key == MLX_KEY_UP)
@@ -79,7 +79,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 		{
 			map_adj = sl->map[(pix[Y] / PPT) - 1][pix[XBIS] / PPT];
 			if (check_collision(map_adj, pix, move) == 0)
-				sl->hero->instances[n++].y -= MOVE;
+				img[0]->instances[n++].x += MOVE;
 		}
 	}
 	if (key == MLX_KEY_DOWN)
@@ -90,7 +90,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 		{
 			map_adj = sl->map[(pix[Y] / PPT) + 1][pix[XBIS] / PPT];
 			if (check_collision(map_adj, pix, move) == 0)
-				sl->hero->instances[n++].y += MOVE;
+				img[0]->instances[n++].x += MOVE;
 		}
 	}
 	return (n);	
@@ -150,7 +150,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 }*/
 
 
-static void	sl_move_action(t_mainwindow *sl)
+static void	sl_move_action(t_mainwindow *sl, mlx_image_t **img)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -158,8 +158,8 @@ static void	sl_move_action(t_mainwindow *sl)
 
 	if (PPT < 0)
 		unexpected_close(ERR_PPT, sl, sl->map);
-	i = sl->hero->instances[0].y / PPT;
-	j = sl->hero->instances[0].x / PPT;
+	i = img[0]->instances[0].y / PPT;
+	j = img[0]->instances[0].x / PPT;
 	if (sl->map[i][j].c == 'C')
 	{
 		n = sl->map[i][j].instance;
@@ -182,12 +182,12 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param)
 	if (keydata.key >= MLX_KEY_RIGHT && keydata.key <= MLX_KEY_UP)
 		if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 		{
-			n = sl_move_authorized(sl, keydata.key);
+			n = sl_move_authorized(sl, keydata.key, sl->hero_idle->img);
 			if (n > 0)
 			{
 				sl->move_cnt += n;
 				ft_printf("Current #movements: %d\n", sl->move_cnt);
-				sl_move_action(sl);
+				sl_move_action(sl, sl->hero_idle->img);
 			}
 		}
 }
