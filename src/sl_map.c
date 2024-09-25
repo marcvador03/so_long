@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 10:59:07 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:51:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -21,7 +21,7 @@ void	map_alloc(t_mainwindow *sl)
 		unexpected_close(ERR_MALLOC, sl, NULL);	
 	i = 0;
 	sl->mem_count = 0;
-	while (i <= (sl->h_map)) //check for valgrind impact
+	while (i < (sl->h_map)) //check for valgrind impact
 	{
 		sl->map[i] = (t_map *)ft_calloc(sl->w_map, sizeof(t_map));
 		if (sl->map[i] == NULL)
@@ -30,13 +30,32 @@ void	map_alloc(t_mainwindow *sl)
 			sl->mem_count++;
 		i++;	
 	}
-	sl->map[i] = NULL;
+}
+
+static void	check_file_ext(t_mainwindow *sl, char *path)
+{
+	int	len;
+	char	*str;
+	
+	if (path == NULL)
+		unexpected_close(ERR_EXT, sl, sl->map);
+	len = ft_strlen(path);
+	str = ft_substr(path, len - 3, 3);
+	if (str == NULL)
+		unexpected_close(ERR_MALLOC, sl, sl->map);
+	if (ft_strncmp(str, "ber", 3) != 0)
+	{
+		free(str);
+		unexpected_close(ERR_EXT, sl, NULL);
+	}
+	free(str);
 }
 
 void	get_map_size(t_mainwindow *sl, char *path)
 {
 	char	*tmp;
 	
+	check_file_ext(sl, path);
 	sl->fd = open(path, O_RDONLY);
 	if (sl->fd == -1)
 		unexpected_close(ERR_OPEN_FILE, sl, NULL);	

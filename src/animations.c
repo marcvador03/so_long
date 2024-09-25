@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 10:30:52 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:02:21 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	size_t			init_w;
 	
 	if (in.count <= 0 || t == NULL)
-		return (NULL);
+		return (mlx_delete_texture(t), NULL);
 	init_w = t->width * BPP;
 	cnt[0] = in.pos_y;
 	cnt[1] = 0;
@@ -84,7 +84,7 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	s = (t_sprite *)malloc(sizeof(t_sprite));
 	s->texture = (mlx_texture_t **)malloc(sizeof(mlx_texture_t *) * in.count);
 	if (s->texture == NULL || s == NULL)
-		return (NULL);
+		return (mlx_delete_texture(t), NULL);
 	while(cnt[3] < in.count)
 	{
 		s->texture[cnt[3]] = create_sub_txt(in.width, in.height);
@@ -110,7 +110,7 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in)
 	s->height = in.height;
 	s->r_width = in.r_width;
 	s->r_height = in.r_height;
-	return (s);
+	return (mlx_delete_texture(t), s);
 }
 
 mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
@@ -140,6 +140,7 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
 	if(mlx_resize_image(img, in.r_width, in.r_height) == false)
 		return (NULL);
 	mlx_delete_texture(t);
+	mlx_delete_texture(t_out);
 	return (img);
 }
 

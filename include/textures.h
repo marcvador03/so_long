@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:58:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 18:56:53 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:02:33 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@
 //# define BCKG "textures/graveyard/png/Tiles/Tile9.png"
 # define EXIT "textures/graveyard/png/Objects/ArrowSign.png"
 
-# define PPT 32
-# define BCKG "textures/hyptosis_tiles.png"
-static const t_sprite g_bckg = { 1, 640, 0, 32, 32, PPT, PPT, NULL };
-# define WALL "textures/hyptosis_tiles.png"
-static const t_sprite g_wall = { 1, 384, 320, 32, 32, PPT, PPT, NULL };
-# define HERO_IDLE "textures//Character/Idle/Idle-Sheet.png"
-static const t_sprite g_hero_idle = { 4, 0, 0, 64, 80, PPT, PPT, NULL };
-# define HERO "textures//Character/Idle/Idle-Sheet.png"
-static const t_sprite g_hero = { 1, 0, 0, 64, 80, PPT, PPT, NULL };
-# define CHEST "textures/Tiles.png"
-static const t_sprite g_chest = { 2, 288, 275, 32, 29, PPT, PPT, NULL };
+# define PPT 64 
+# define BCKG "textures/pixel_crawler_1.8/Environment/Green Woods/Assets/Tiles.png"
+static const t_sprite g_bckg = { 1, 160, 0, 48, 48, PPT, PPT, NULL };
+# define WALL "textures/pixel_crawler_1.8/Environment/Green Woods/Assets/Props.png"
+static const t_sprite g_wall = { 1, 80, 0, 32, 32, PPT, PPT, NULL };
+# define HERO_IDLE "textures/pixel_crawler_1.8/Heroes/Knight/Idle/Idle-Sheet.png"
+static const t_sprite g_hero_idle = { 4, 0, 0, 32, 32, PPT, PPT, NULL };
+# define HERO "textures/pixel_crawler_1.8/Heroes/Knight/Idle/Idle-Sheet.png"
+static const t_sprite g_hero = { 1, 0, 0, 32, 32, PPT, PPT, NULL };
+# define CHEST "textures/pixel_crawler_1.8/Environment/Dungeon Prison/Assets/Props.png"
+static const t_sprite g_chest = { 1, 96, 203, 32, 22, PPT, PPT, NULL };
 # define KEY "textures/fantasy/Assets/Tiles.png"
 static const t_sprite g_key = { 1, 240, 322, 15, 10, 15, 10, NULL };
 

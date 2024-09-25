@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 10:31:34 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:25:17 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -177,8 +177,8 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param)
 	size_t		n;
 
 	sl = (t_mainwindow *)param;
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		exp_close(&sl);
+	/*if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		exp_close(sl);*/
 	if (keydata.key >= MLX_KEY_RIGHT && keydata.key <= MLX_KEY_UP)
 		if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 		{

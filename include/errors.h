@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:21:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 23:40:06 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:45:22 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 # define ERR_ANIME "Error during anime creation" 
 # define ERR_LOAD_TEXTURE "Error during texture load" 
 # define ERR_PPT "Error in Pixel per Tile (PPT) definition < 0" 
+# define ERR_EXT "Wrong map extension file (expected .ber)" 
 
 #endif

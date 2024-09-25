@@ -44,7 +44,6 @@ DEBUG ?=
 CUR_DIR := $(shell pwd)
 
 #TARGETS
-<<<<<<< HEAD
 .PHONY: all flags clean fclean re show libft libmlx
 all: libft libmlx $(OBJECTS) $(NAME) 
 
