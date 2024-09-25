@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 23:39:05 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 11:01:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,30 @@ void	exp_close(void *ptr)
 
 	sl = (t_mainwindow *)ptr;	
 	i = 0;
-	while (i < sl->map[i]->mem_count)
+	while (i < sl->mem_count)
 		free(sl->map[i++]);	
-	free(sl->map);	
+	//free(sl->map);	
 	mlx_close_window(sl->slx);
 	mlx_terminate(sl->slx);
 }
 
-void	unexpected_close(char *str, mlx_t *mlx, t_map **map)
+void	unexpected_close(char *str, t_mainwindow *sl, t_map **map)
 {
 	size_t	i;
 
 	i = 0;
 	if (map != NULL)
 	{
-		while (i < map[i]->mem_count)
+		while (i < sl->mem_count)
 			free(map[i++]);	
 		free(map);	
 	}
+	ft_printf("%s\n", "Error");
 	ft_printf("%s\n", str);
-	if (mlx != NULL)
+	if (sl->slx != NULL)
 	{
-		mlx_close_window(mlx);
-		mlx_terminate(mlx);
+		mlx_close_window(sl->slx);
+		mlx_terminate(sl->slx);
 	}
 	else
 		exit(0);
@@ -50,23 +51,24 @@ void	unexpected_close(char *str, mlx_t *mlx, t_map **map)
 int	main(int argc, char *argv[])
 {
 	t_mainwindow	sl;
+	//t_clean			clean;
 	//t_sprite		*hero_idle_s;
 
 	sl.slx = NULL;
 	if (argc != 2)
-		unexpected_close(ERR_MISS_ARG, sl.slx, NULL);
+		unexpected_close(ERR_MISS_ARG, &sl, NULL);
 	get_map_size(&sl, argv[1]);
 	map_alloc(&sl);
 	sl_map_fill(&sl, argv[1]);
 	if (sl_map_check_walls(sl.map, sl.w_map - 1, sl.h_map - 1) == -1)
-		unexpected_close(ERR_MAP_FORBID_VALUE, sl.slx, sl.map);
+		unexpected_close(ERR_MAP_FORBID_VALUE, &sl, sl.map);
 	if (sl_map_check_dups(sl.map, sl.w_map - 1, sl.h_map - 1) == -1)
-		unexpected_close(ERR_MAP_WALLS, sl.slx, sl.map);
+		unexpected_close(ERR_MAP_WALLS, &sl, sl.map);
 	
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	sl.slx = mlx_init(sl.w_map * PPT, sl.h_map * PPT, "so_long mfleury", true);
 	if (sl.slx == NULL)
-		unexpected_close(ERR_MALLOC, sl.slx, sl.map);
+		unexpected_close(ERR_MALLOC, &sl, sl.map);
 	mlx_get_monitor_size(0, &sl.w_win, &sl.h_win);
 	
 	sl.move_cnt = 0;	
@@ -74,7 +76,7 @@ int	main(int argc, char *argv[])
 	sl.wall = NULL; //initialize all sl items to NULL to manage errors
 	sl.item = NULL; //initialize all sl items to NULL to manage errors
 	sl.bckg = NULL; //initialize all sl items to NULL to manage errors
-	sl.bckg = load_texture(*sl.slx, mlx_load_png(BCKG), g_bckg);
+	/*sl.bckg = load_texture(*sl.slx, mlx_load_png(BCKG), g_bckg);
 	if (sl.bckg == NULL)
 		unexpected_close(ERR_LOAD_TEXTURE, sl.slx, sl.map);
 	sl.wall = load_texture(*sl.slx, mlx_load_png(WALL), g_wall);	
@@ -86,6 +88,7 @@ int	main(int argc, char *argv[])
 	sl.hero = load_texture(*sl.slx, mlx_load_png(HERO), g_hero);	
 	if (sl.hero == NULL)
 		unexpected_close(ERR_LOAD_TEXTURE, sl.slx, sl.map);
+	
 	//hero_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
 	//if (hero_idle_s == NULL)
 	//	unexpected_close(ERR_SPRITE, sl.slx, sl.map) // sprite free and sub texture and anime?
@@ -94,11 +97,11 @@ int	main(int argc, char *argv[])
 	//	unexpected_close(ERR_ANIME, sl.slx, sl.map) // sprite free and sub texture and anime?
 	
 	load_static_image(&sl);
-	//load_dynamic_image(sl, hero_idle_s);
+	//load_dynamic_image(sl, hero_idle_s);*/
 	mlx_close_hook(sl.slx, exp_close, &sl);	
 	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
 	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
 	mlx_loop(sl.slx);
-	exp_close(&sl);
+	//exp_close(&sl);
 	return (0);
 }

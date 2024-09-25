@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 12:12:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:19:54 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_sprite
 	size_t			r_height;
 	mlx_texture_t	**texture;	
 }	t_sprite;
+
 typedef struct	s_anim
 {
 	double			fps;

@@ -73,14 +73,15 @@ OBJECTS := $(patsubst %.c, %.o, $(SOURCES))
 OBJECTS += $(patsubst %.c, %.o, $(FT_PRINTF_SOURCES))
 OBJECTS += $(patsubst %.c, %.o, $(GNL_SOURCES))
 
-CFLAGS += -Wall -Werror -Wextra
+DEPS := $(OBJECTS:.o=.d)
+
+CFLAGS += -Wall -Werror -Wextra -MMD -MP
 DEBUG ?=
 
 CUR_DIR := $(shell pwd)
 
 #TARGETS
-.PHONY: all flags clean fclean re show install
-all: $(OBJECTS) $(NAME) install
+all: $(OBJECTS) $(NAME) 
 
 install: $(NAME)
 ifneq ($(TARGET_LIB),)	
@@ -93,7 +94,7 @@ $(NAME): $(OBJECTS)
 	ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
 
-%.o: %.c libft.h Makefile 
+%.o: %.c libft.h ft_printf/ft_printf.h getnextline/get_next_line.h Makefile 
 	cc $(CFLAGS) $(DEBUG) -c $< -o $@
 
 $(TARGET_LIB):
@@ -111,9 +112,13 @@ show:
 #	@echo $(TARGET_LIB)/libft.a
 
 clean: 
-	@rm -rf $(OBJECTS)
+	@rm -rf $(OBJECTS) $(DEPS)
 
 fclean: clean
 	@rm -rf $(NAME)
 
 re: fclean all
+ifneq ($(DEPS), )
+-include $(DEPS)
+endif
+.PHONY: all flags clean fclean re show install

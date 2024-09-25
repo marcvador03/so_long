@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 23:42:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:31:34 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -40,7 +40,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key)
 	t_map	map_adj;
 	
 	if (PPT < 0)
-		unexpected_close(ERR_PPT, sl->slx, sl->map);
+		unexpected_close(ERR_PPT, sl, sl->map);
 	n = 0;
 	move[X] = 0;
 	move[Y] = 0;
@@ -157,7 +157,7 @@ static void	sl_move_action(t_mainwindow *sl)
 	size_t			n;
 
 	if (PPT < 0)
-		unexpected_close(ERR_PPT, sl->slx, sl->map);
+		unexpected_close(ERR_PPT, sl, sl->map);
 	i = sl->hero->instances[0].y / PPT;
 	j = sl->hero->instances[0].x / PPT;
 	if (sl->map[i][j].c == 'C')

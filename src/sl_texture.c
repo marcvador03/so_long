@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 23:46:29 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:30:49 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	load_dynamic_image(t_mainwindow sl, t_sprite *sprite)
 				cnt[2] = 3;
 				n = load_sprite(sl.slx, sprite, sl.hero_idle, cnt);
 				if (n == 0)
-					unexpected_close(ERR_SPRITE, sl.slx, sl.map);
+					unexpected_close(ERR_SPRITE, &sl, sl.map);
 				sl.map[cnt[H]][cnt[W]].instance = n;
 			}
 			cnt[W]++;

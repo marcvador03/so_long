@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 23:41:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:28:09 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,17 @@
 # define YBIS 3
 //#include "../MLX42/include/MLX42/MLX42_Int.h"
 
+typedef struct s_list_cleanup
+{
+	t_sprite	*sprite;
+	t_anim		*anim;
+}	t_clean;
+
 typedef struct	s_map
 {
 	char	c;
 	mlx_image_t	**img;
 	size_t	instance;
-	size_t	mem_count;
 } t_map;
 
 typedef struct	s_mainwindow 
@@ -61,11 +66,12 @@ typedef struct	s_mainwindow
 	u_int32_t		w_map;
 	unsigned int	item_cnt;
 	unsigned int	move_cnt;	
+	u_int32_t		mem_count;
 	t_anim			*hero_idle;
 	t_anim			*hero_run;
 } t_mainwindow;
 
-void	unexpected_close(char *str, mlx_t *mlx, t_map **map);
+void	unexpected_close(char *str, t_mainwindow *sl, t_map **map);
 void	exp_close(void *ptr);
 mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
 //void	sl_load_image(t_mainwindow sl);

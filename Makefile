@@ -25,7 +25,9 @@ OBJECTS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SOURCES))
 
 INCLUDES := $(patsubst %.h, $(INC_DIR)/%.h, $(INC_NAMES))
 
-CFLAGS += -Wall -Werror -Wextra
+DEPS := $(OBJECTS:.o=.d)
+
+CFLAGS += -Wall -Werror -Wextra -MMD -MP
 
 LIBS_NAMES := libft.a \
 			  libmlx42.a
@@ -42,24 +44,20 @@ DEBUG ?=
 CUR_DIR := $(shell pwd)
 
 #TARGETS
+<<<<<<< HEAD
 .PHONY: all flags clean fclean re show libft libmlx
-all: $(OBJECTS) $(NAME) 
+all: libft libmlx $(OBJECTS) $(NAME) 
 
-$(NAME): $(INCLUDES) $(OBJECTS)
-	cmake -DDEBUG=1 -S $(LIBMLX_DIR) -B $(CUR_DIR)/$(LIB_DIR)
-	$(MAKE) -C $(CUR_DIR)/$(LIB_DIR) -j4
-	@$(MAKE) -C $(LIBFT_DIR)
-	@$(MAKE)  -C $(LIBFT_DIR) install \
-		TARGET_LIB=$(CUR_DIR)/$(LIB_DIR)
-	cc $(CFLAGS) -L $(LIB_DIR) $(DEBUG) $(OBJECTS) -o $@ $(LIBS_TAG) $(LIBS_TAG)
+$(NAME): libft/libft.a Makefile $(INCLUDES) $(OBJECTS)
+#	cmake -DDEBUG=1 -S $(LIBMLX_DIR) -B $(CUR_DIR)/$(LIB_DIR)
+#	$(MAKE) -C $(CUR_DIR)/$(LIB_DIR) -j4
+	cc $(CFLAGS) -L $(LIB_DIR) -L libft $(DEBUG) $(OBJECTS) -o $@ $(LIBS_TAG) $(LIBS_TAG)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	cc $(CFLAGS) $(DEBUG) -c -o $@ $^
+	cc $(CFLAGS) $(DEBUG) -c $< -o $@ 
 
 libft: | $(LIB_DIR) $(INC_DIR) 
 	@$(MAKE) -C $(LIBFT_DIR)
-	@$(MAKE)  -C $(LIBFT_DIR) install \
-		TARGET_LIB=$(CUR_DIR)/$(LIB_DIR)
 
 libmlx: | $(LIB_DIR) $(INC_DIR)
 	cmake -DDEBUG=1 -S $(LIBMLX_DIR) -B $(CUR_DIR)/$(LIB_DIR)
@@ -91,3 +89,7 @@ fclean: clean
 	@rm -rf $(LIB_DIR)/*
 
 re: fclean all
+ifneq ($(DEPS), )
+-include $(DEPS)
+endif
+.PHONY: all flags clean fclean re show libft bonus

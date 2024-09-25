@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/24 23:27:28 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:30:52 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
 	img = mlx_texture_to_image(&sl, t_out);
 	if(mlx_resize_image(img, in.r_width, in.r_height) == false)
 		return (NULL);
+	mlx_delete_texture(t);
 	return (img);
 }
 
