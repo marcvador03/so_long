@@ -66,7 +66,7 @@ static size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 			n = move_hero(sl->cat->h_idle, sl->cat->h_run, move);
 }*/
 
-static void	identify_adj_map(t_win *sl, int32_t move[2])
+static t_map **identify_adj_map(t_win *sl, int32_t move[2])
 {
 	t_map	**map_adj;
 	int32_t	len;
@@ -82,11 +82,14 @@ static void	identify_adj_map(t_win *sl, int32_t move[2])
 	if (map_adj == NULL)
 		unexpected_close(ERR_MALLOC, sl, sl->map);
 	i = 0;
+	x = (prot[X] / PPT) + (i * PPT) + (move[Y] / MOVE);
+	y = (prot[Y] / PPT) + (i * PPT) + (move[X] / MOVE);
 	while (i < len)
 	{
-		map_adj[i] = sl->map[prot[Y] / PPT][(prot[X] / PPT) + (move[X] / MOVE)];
+		map_adj[i] = sl->map[y][x];
 		i++;
 	}
+	return (map_adj);
 
 }
 static size_t	sl_move_authorized(t_win *sl, t_cat *cat, keys_t key, mlx_image_t **img)
@@ -102,8 +105,8 @@ static size_t	sl_move_authorized(t_win *sl, t_cat *cat, keys_t key, mlx_image_t 
 	move[Y] = 0;
 	pix[X] = img[0]->instances[0].x;
 	pix[Y] = img[0]->instances[0].y;
-	pix[XBIS] = pix[X] + img[0]->width;
-	pix[YBIS] = pix[Y] + img[0]->height;
+	pix[X_W] = pix[X] + img[0]->width;
+	pix[Y_Y] = pix[Y] + img[0]->height;
 	if (key == MLX_KEY_RIGHT)
 	{
 		move[X] = MOVE;
