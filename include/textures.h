@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:58:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 17:02:33 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 12:25:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@ static const t_sprite g_bckg = { 1, 160, 0, 48, 48, PPT, PPT, NULL };
 static const t_sprite g_wall = { 1, 80, 0, 32, 32, PPT, PPT, NULL };
 # define HERO_IDLE "textures/pixel_crawler_1.8/Heroes/Knight/Idle/Idle-Sheet.png"
 static const t_sprite g_hero_idle = { 4, 0, 0, 32, 32, PPT, PPT, NULL };
-# define HERO "textures/pixel_crawler_1.8/Heroes/Knight/Idle/Idle-Sheet.png"
-static const t_sprite g_hero = { 1, 0, 0, 32, 32, PPT, PPT, NULL };
+# define HERO_RUN "textures/pixel_crawler_1.8/Heroes/Knight/Run/Run2-Sheet.png"
+static const t_sprite g_hero_run = { 11, 0, 0, 32, 32, PPT, PPT, NULL };
+# define HERO_DEAD "textures/pixel_crawler_1.8/Heroes/Knight/Death/Death-Sheet.png"
+static const t_sprite g_hero_dead = { 6, 0, 0, 32, 48, PPT, PPT, NULL };
 # define CHEST "textures/pixel_crawler_1.8/Environment/Dungeon Prison/Assets/Props.png"
 static const t_sprite g_chest = { 1, 96, 203, 32, 22, PPT, PPT, NULL };
 # define KEY "textures/fantasy/Assets/Tiles.png"
 static const t_sprite g_key = { 1, 240, 322, 15, 10, 15, 10, NULL };
 
+//# define HERO "textures/pixel_crawler_1.8/Heroes/Knight/Idle/Idle-Sheet.png"
+//static const t_sprite g_hero = { 1, 0, 0, 32, 32, PPT, PPT, NULL };
 /*# define ATTACK01 "textures/fantasy/Character/Attack-01/Attack-01-Sheet.png"
 static const t_sprite g_attack01 = { 8, 0, 0, 96, 80, NULL };
 # define HERO_IDLE "textures/fantasy/Character/Idle/Idle-Sheet.png"

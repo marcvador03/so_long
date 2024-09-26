@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 18:10:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 12:26:21 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	main(int argc, char *argv[])
 	t_mainwindow	sl;
 	//t_clean			clean;
 	t_sprite		*hero_idle_s;
+	t_sprite		*hero_run_s;
+	t_sprite		*hero_dead_s;
 
 	sl.slx = NULL;
 	if (argc != 2)
@@ -77,24 +79,43 @@ int	main(int argc, char *argv[])
 	sl.item = load_texture(*sl.slx, mlx_load_png(CHEST), g_chest);	
 	if (sl.item == NULL)
 		unexpected_close(ERR_LOAD_TEXTURE, &sl, sl.map);
-	sl.hero = load_texture(*sl.slx, mlx_load_png(HERO), g_hero);	
+	/*sl.hero = load_texture(*sl.slx, mlx_load_png(HERO), g_hero);	
 	if (sl.hero == NULL)
-		unexpected_close(ERR_LOAD_TEXTURE, &sl, sl.map);
+		unexpected_close(ERR_LOAD_TEXTURE, &sl, sl.map);*/
 	
 	hero_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
 	if (hero_idle_s == NULL)
-		unexpected_close(ERR_SPRITE, &sl, sl.map); // sprite free and sub texture and anime?
-	
+		unexpected_close(ERR_SPRITE, &sl, sl.map);
 	
 	sl.hero_idle = create_anime(0.5, 0, 0); 
 	if (sl.hero_idle == NULL)
-		unexpected_close(ERR_ANIME, &sl, sl.map); // sprite free and sub texture and anime?
+		unexpected_close(ERR_ANIME, &sl, sl.map);
+	
+	hero_run_s = create_sprite(mlx_load_png(HERO_RUN), g_hero_run);
+	if (hero_run_s == NULL)
+		unexpected_close(ERR_SPRITE, &sl, sl.map); // sprite free and sub texture and anime?
+	
+	sl.hero_run = create_anime(0.5, 0, 0); 
+	if (sl.hero_run == NULL)
+		unexpected_close(ERR_ANIME, &sl, sl.map);
+	
+	hero_dead_s = create_sprite(mlx_load_png(HERO_DEAD), g_hero_dead);
+	if (hero_dead_s == NULL)
+		unexpected_close(ERR_SPRITE, &sl, sl.map); // sprite free and sub texture and anime?
+	
+	sl.hero_dead = create_anime(0.5, 0, 0); 
+	if (sl.hero_dead == NULL)
+		unexpected_close(ERR_ANIME, &sl, sl.map); // sprite free and sub texture and anime?*/
 	
 	load_static_image(&sl);
 	load_dynamic_image(sl, hero_idle_s);
+	//load_dynamic_image(sl, hero_run_s);
+	//load_dynamic_image(sl, hero_dead_s);
+	activate(sl.hero_idle, 0);
 	mlx_close_hook(sl.slx, &exp_close, &sl);	
 	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
-	mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
+	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
+	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_run);
 	mlx_loop(sl.slx);
 	
 	size_t	i;
@@ -106,6 +127,10 @@ int	main(int argc, char *argv[])
 	free(hero_idle_s);
 	free(sl.hero_idle->img);	
 	free(sl.hero_idle);	
+	free(sl.hero_run->img);	
+	free(sl.hero_run);	
+	free(sl.hero_dead->img);	
+	free(sl.hero_dead);	
 	
 	mlx_terminate(sl.slx);
 	return (0);

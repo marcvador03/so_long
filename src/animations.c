@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 17:15:46 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 10:20:15 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	anime_sprite(void *ptr)
 	int	i;
 
 	anime = (t_anim *)ptr;
+	if (anime->enabled == false)
+		return ;
 	i = anime->frame;
 	time[0] = mlx_get_time();
 	time[1] = time[0];

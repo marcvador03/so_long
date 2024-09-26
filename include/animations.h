@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 10:19:54 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 10:18:35 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_anim
 	int32_t			y_move;
 	size_t			count;
 	int				frame;
+	bool			enabled;
 	mlx_image_t		**img;
 }	t_anim;
 #endif

@@ -6,11 +6,28 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 18:15:42 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 10:20:15 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+void	activate(t_anim *a, int n)
+{
+		a->enabled = true;
+		a->img[0]->instances[n].enabled = true;	
+}
+
+void	de_activate(t_anim *a, int n)
+{
+	size_t	i;
+
+	a->enabled = false;
+	i = 0;
+	while (i < a->count)
+		a->img[i++]->instances[n].enabled = false;	
+		
+}
 
 static size_t	load_sprite(mlx_t *slx, t_sprite *s, t_anim *a, uint32_t p[3])
 {
@@ -24,6 +41,7 @@ static size_t	load_sprite(mlx_t *slx, t_sprite *s, t_anim *a, uint32_t p[3])
 		return (0);
 	i = 0;
 	n = 0;
+	a->enabled = false;
 	while (i < s->count)
 	{
 		a->img[i] = mlx_texture_to_image(slx, s->texture[i]);
@@ -35,7 +53,7 @@ static size_t	load_sprite(mlx_t *slx, t_sprite *s, t_anim *a, uint32_t p[3])
 		mlx_set_instance_depth(&a->img[i]->instances[n], (int32_t)p[2]);
 		i++;
 	}
-	a->img[s->count - 1]->instances[0].enabled = true;
+//	a->img[s->count - 1]->instances[0].enabled = true;
 	a->count = s->count;
 	return (1);
 }
@@ -50,6 +68,7 @@ static size_t	load(mlx_t *slx, mlx_image_t *img, uint32_t p[2], int32_t z)
 	mlx_image_to_window(slx, img, p[W] * PPT, p[H] * PPT);
 	n = img->count - 1;
 	mlx_set_instance_depth(&img->instances[n], z);
+	img->instances[n].enabled = true;
 	return (n);
 }
 
