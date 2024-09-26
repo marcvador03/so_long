@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_movements.c                                     :+:      :+:    :+:   */
+/*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 13:01:00 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 17:02:57 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -22,21 +22,20 @@ static int	check_collision(t_map map_adj, int32_t pos_hero[4], int32_t move[2])
 	pos_adj[XBIS] = pos_adj[X] + map_adj.img[0]->width;
 	pos_adj[YBIS] = pos_adj[Y] + map_adj.img[0]->height;
 	if (move[X] > 0 && pos_hero[XBIS] + move[X] >= pos_adj[X])
-		return (1);	
+		return (1);
 	if (move[X] < 0 && pos_hero[X] + move[X] < pos_adj[XBIS])
-		return (1);	
+		return (1);
 	if (move[Y] > 0 && pos_hero[YBIS] + move[Y] >= pos_adj[Y])
-		return (1);	
+		return (1);
 	if (move[Y] < 0 && pos_hero[Y] + move[Y] < pos_adj[YBIS])
 		return (1);
-	return (0);	
-	
+	return (0);
 }
 
 static size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 {
 	size_t	i;
-	
+
 	i = 0;
 	de_activate(idle, 0);
 	activate(run, 0);
@@ -54,13 +53,48 @@ static size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 	return (1);
 }
 
-static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img)
+/*static size_t	check_move(t_win *sl, int32_t pix[4], int32_t move[2])
+{		
+	t_map	map_adj;
+	
+	move[X] = MOVE;
+	map_adj = sl->map[pix[Y] / PPT][(pix[X] / PPT) + 1]; //toher collistion check to be done with pix[YBIS] and pix[XBIS]
+	if (check_collision(map_adj, pix, move) == 0)
+	{
+		map_adj = sl->map[pix[YBIS] / PPT][(pix[X] / PPT) + 1]; //toher collistion check to be done with pix[YBIS] and pix[XBIS]
+		if (check_collision(map_adj, pix, move) == 0)
+			n = move_hero(sl->cat->h_idle, sl->cat->h_run, move);
+}*/
+
+static void	identify_adj_map(t_win *sl, int32_t move[2])
+{
+	t_map	**map_adj;
+	int32_t	len;
+	int32_t i;
+
+	if (move[X] != 0)
+		len = prot[X_W] - prot[X];
+	else if (move[Y] != 0)
+		len = prot[Y_W] - prot[Y];
+	else
+		return;
+	map_adj = (t_map **)malloc(sizeof(t_map *) * len);
+	if (map_adj == NULL)
+		unexpected_close(ERR_MALLOC, sl, sl->map);
+	i = 0;
+	while (i < len)
+	{
+		map_adj[i] = sl->map[prot[Y] / PPT][(prot[X] / PPT) + (move[X] / MOVE)];
+		i++;
+	}
+
+}
+static size_t	sl_move_authorized(t_win *sl, t_cat *cat, keys_t key, mlx_image_t **img)
 {
 	size_t	n;
 	int32_t	pix[4];
 	int32_t	move[2];
-	t_map	map_adj;
-	
+
 	if (PPT < 0)
 		unexpected_close(ERR_PPT, sl, sl->map);
 	n = 0;
@@ -73,36 +107,28 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img
 	if (key == MLX_KEY_RIGHT)
 	{
 		move[X] = MOVE;
-		map_adj = sl->map[pix[Y] / PPT][(pix[X] / PPT) + 1]; //toher collistion check to be done with pix[YBIS] and pix[XBIS]
-		if (check_collision(map_adj, pix, move) == 0)
-		{
-			map_adj = sl->map[pix[YBIS] / PPT][(pix[X] / PPT) + 1]; //toher collistion check to be done with pix[YBIS] and pix[XBIS]
-			if (check_collision(map_adj, pix, move) == 0)
-				n = move_hero(sl->hero_idle, sl->hero_run, move);
-				//img[0]->instances[n++].x += MOVE;
-		}
-
+		//img[0]->instances[n++].x += MOVE;
 	}
 	if (key == MLX_KEY_LEFT)
 	{
-		move[X] = - MOVE;
+		move[X] = -MOVE;
 		map_adj = sl->map[pix[Y] / PPT][(pix[X] / PPT) - 1];
 		if (check_collision(map_adj, pix, move) == 0)
 		{
 			map_adj = sl->map[pix[YBIS] / PPT][(pix[X] / PPT) - 1];
 			if (check_collision(map_adj, pix, move) == 0)
-				n = move_hero(sl->hero_idle, sl->hero_run, move);
+				n = move_hero(cat->h_idle, cat->h_run, move);
 		}
 	}
 	if (key == MLX_KEY_UP)
 	{
-		move[Y] = - MOVE;
+		move[Y] = -MOVE;
 		map_adj = sl->map[(pix[Y] / PPT) - 1][pix[X] / PPT];
 		if (check_collision(map_adj, pix, move) == 0)
 		{
 			map_adj = sl->map[(pix[Y] / PPT) - 1][pix[XBIS] / PPT];
 			if (check_collision(map_adj, pix, move) == 0)
-				n = move_hero(sl->hero_idle, sl->hero_run, move);
+				n = move_hero(cat->h_idle, cat->h_run, move);
 		}
 	}
 	if (key == MLX_KEY_DOWN)
@@ -113,52 +139,8 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img
 		{
 			map_adj = sl->map[(pix[Y] / PPT) + 1][pix[XBIS] / PPT];
 			if (check_collision(map_adj, pix, move) == 0)
-				n = move_hero(sl->hero_idle, sl->hero_run, move);
+				n = move_hero(cat->h_idle, cat->h_run, move);
 		}
 	}
-	return (n);	
-}
-
-static void	sl_move_action(t_mainwindow *sl, mlx_image_t **img)
-{
-	unsigned int	i;
-	unsigned int	j;
-	size_t			n;
-
-	if (PPT < 0)
-		unexpected_close(ERR_PPT, sl, sl->map);
-	i = img[0]->instances[0].y / PPT;
-	j = img[0]->instances[0].x / PPT;
-	if (sl->map[i][j].c == 'C')
-	{
-		n = sl->map[i][j].instance;
-		sl->item->instances[n].enabled = false;
-		sl->map[i][j].c = '0';
-		sl->item_cnt--;
-	}
-	if (sl->map[i][j].c == 'E' && sl->item_cnt == 0)
-		exp_close(&sl) ;//how to call success?
-}
-
-void	sl_keyhook(mlx_key_data_t keydata, void *param)
-{
-	t_mainwindow *sl;
-	size_t		n;
-
-	sl = (t_mainwindow *)param;
-	/*if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		exp_close(sl);*/
-	if (keydata.key >= MLX_KEY_RIGHT && keydata.key <= MLX_KEY_UP)
-		if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
-		{
-			n = sl_move_authorized(sl, keydata.key, sl->hero_idle->img);
-			if (n > 0)
-			{
-				sl->move_cnt += n;
-				ft_printf("Current #movements: %d\n", sl->move_cnt);
-				activate(sl->hero_idle, 0);
-				de_activate(sl->hero_run, 0);
-				sl_move_action(sl, sl->hero_idle->img);
-			}
-		}
+	return (n);
 }

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_map.c                                           :+:      :+:    :+:   */
+/*   maps.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/25 15:51:44 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:51:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
 
-void	map_alloc(t_mainwindow *sl)
+void	map_alloc(t_win *sl)
 {
 	size_t	i;
 
 	i = 0;
 	sl->map = (t_map **)ft_calloc(sl->h_map, sizeof(t_map *));
 	if (sl->map == NULL)
-		unexpected_close(ERR_MALLOC, sl, NULL);	
+		unexpected_close(ERR_MALLOC, sl, NULL);
 	i = 0;
 	sl->mem_count = 0;
 	while (i < (sl->h_map)) //check for valgrind impact
@@ -28,37 +28,18 @@ void	map_alloc(t_mainwindow *sl)
 			unexpected_close(ERR_MALLOC, sl, sl->map);
 		else
 			sl->mem_count++;
-		i++;	
+		i++;
 	}
 }
 
-static void	check_file_ext(t_mainwindow *sl, char *path)
-{
-	int	len;
-	char	*str;
-	
-	if (path == NULL)
-		unexpected_close(ERR_EXT, sl, sl->map);
-	len = ft_strlen(path);
-	str = ft_substr(path, len - 3, 3);
-	if (str == NULL)
-		unexpected_close(ERR_MALLOC, sl, sl->map);
-	if (ft_strncmp(str, "ber", 3) != 0)
-	{
-		free(str);
-		unexpected_close(ERR_EXT, sl, NULL);
-	}
-	free(str);
-}
-
-void	get_map_size(t_mainwindow *sl, char *path)
+void	get_map_size(t_win *sl, char *path)
 {
 	char	*tmp;
-	
+
 	check_file_ext(sl, path);
 	sl->fd = open(path, O_RDONLY);
 	if (sl->fd == -1)
-		unexpected_close(ERR_OPEN_FILE, sl, NULL);	
+		unexpected_close(ERR_OPEN_FILE, sl, NULL);
 	tmp = get_next_line(sl->fd);
 	sl->h_map = 0;
 	sl->w_map = (uint32_t)(ft_strlen(tmp) - 1);
@@ -67,16 +48,16 @@ void	get_map_size(t_mainwindow *sl, char *path)
 		free(tmp);
 		tmp = get_next_line(sl->fd);
 		if (tmp != NULL && sl->w_map != (uint32_t)(ft_strlen(tmp) - 1))
-			unexpected_close(ERR_MAP_NOT_RECT, sl, NULL);	
+			unexpected_close(ERR_MAP_NOT_RECT, sl, NULL);
 		sl->h_map++ ;
 	}
 	free(tmp);
 	tmp = NULL;
 	if (close(sl->fd) < 0)
-		unexpected_close(ERR_CLOSE_FILE, sl, NULL);	
+		unexpected_close(ERR_CLOSE_FILE, sl, NULL);
 }
 
-static unsigned int	sl_line_fill(t_mainwindow *sl, t_map *map, char *line)
+static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line)
 {
 	int32_t		i;
 	uint32_t	item_cnt;
@@ -86,8 +67,8 @@ static unsigned int	sl_line_fill(t_mainwindow *sl, t_map *map, char *line)
 	while (line[i] != '\n')
 	{
 		if (line[i] != '0' && line[i] != '1')
-			if(line[i] !='C' && line[i] != 'E' && line[i] != 'P')
-				unexpected_close(ERR_MAP_FORBID_VALUE, sl, NULL);	
+			if (line[i] != 'C' && line[i] != 'E' && line[i] != 'P')
+				unexpected_close(ERR_MAP_FORBID_VALUE, sl, NULL);
 		map[i].c = line[i];
 		if (line[i++] == 'C')
 			item_cnt++;
@@ -95,14 +76,14 @@ static unsigned int	sl_line_fill(t_mainwindow *sl, t_map *map, char *line)
 	return (item_cnt);
 }
 
-void	sl_map_fill(t_mainwindow *sl, char *path)
+void	sl_map_fill(t_win *sl, char *path)
 {
 	char	*line;
 	int		i;
 
 	sl->fd = open(path, O_RDONLY);
 	if (sl->fd == -1)
-		unexpected_close(ERR_OPEN_FILE, sl, NULL);	
+		unexpected_close(ERR_OPEN_FILE, sl, NULL);
 	line = get_next_line(sl->fd);
 	i = 0;
 	sl->item_cnt = 0;
@@ -117,51 +98,5 @@ void	sl_map_fill(t_mainwindow *sl, char *path)
 	free(line);
 	line = NULL;
 	if (close(sl->fd) < 0)
-		unexpected_close(ERR_CLOSE_FILE, sl, NULL);	
-}
-
-int	sl_map_check_walls(t_map **map, uint32_t w, uint32_t h)
-{
-	uint32_t	i;
-	uint32_t	 j;
-
-	j = 0;
-	while (j <= w)
-		if (map[0][j].c != '1' || map[h][j++].c != '1')
-			return (-1);
-	i = 0;
-	while (i <= h)
-		if (map[i][0].c != '1' || map[i++][w].c != '1')
-			return (-1);
-	return (0);
-}
-
-int	sl_map_check_dups(t_map **map, unsigned int w, unsigned int h)
-{
-	unsigned int i;
-	unsigned int j;
-	unsigned int cnt[3];
-
-	i = 0;
-	j = 0;
-	while (j <= 2)
-		cnt[j++] = 0;
-	while (i <= h && (cnt[0] <= 1 || cnt[1] <= 1))
-	{
-		j = 0;
-		while (j <= w)
-		{
-			if (map[i][j].c == 'E')
-				cnt[0]++;
-			else if (map[i][j].c == 'P')
-				cnt[1]++;
-			else if (map[i][j].c == 'C')
-				cnt[2]++;
-			j++;
-		}
-		i++;
-	}
-	if (cnt[0] > 1 || cnt[1] > 1)	// yet missing cnt[2]==0 for collectibles	
-		return (-1);
-	return (0);
+		unexpected_close(ERR_CLOSE_FILE, sl, NULL);
 }

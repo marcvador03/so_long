@@ -10,10 +10,12 @@ LIB_DIR := lib
 NAME := so_long
 
 SRC_NAMES := so_long.c \
-			 sl_map.c \
-			 sl_movements.c \
-			 sl_texture.c \
-			 animations.c
+			 maps.c \
+			 movements.c \
+			 textures.c \
+			 animations.c \
+			 sprites.c \
+			 utils.c
 
 INC_NAMES := so_long.h \
 			 animations.h \

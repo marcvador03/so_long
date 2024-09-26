@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 12:41:33 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:45:17 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "textures.h"
 # include "animations.h"
 # include "errors.h"
+# define TITLE "so_long mfleury"
 # define BPP 4
 # define MOVE 4
 # define H 0
@@ -37,11 +38,19 @@
 # define YBIS 3
 //#include "../MLX42/include/MLX42/MLX42_Int.h"
 
-typedef struct s_list_cleanup
+typedef struct s_img_cat
 {
-	t_sprite	*sprite;
-	t_anim		*anim;
-}	t_clean;
+	mlx_image_t		*wall;
+	mlx_image_t		*item;
+	mlx_image_t		*exit;
+	mlx_image_t		*bckg;
+	t_anim			*h_idle;
+	t_anim			*h_run;
+	t_anim			*h_dead;
+	t_sprite		*h_idle_s;
+	t_sprite		*h_run_s;
+	t_sprite		*h_dead_s;
+}	t_cat;
 
 typedef struct	s_map
 {
@@ -50,34 +59,28 @@ typedef struct	s_map
 	size_t	instance;
 } t_map;
 
-typedef struct	s_mainwindow 
+typedef struct	s_win 
 {
 	int				fd;
 	t_map			**map;
-	mlx_t			*slx;
-	mlx_image_t		*hero;
-	mlx_image_t		*wall;
-	mlx_image_t		*item;
-	mlx_image_t		*exit;
-	mlx_image_t		*bckg;
+	mlx_t			*mlx;
 	int32_t			h_win;
 	int32_t			w_win;
 	u_int32_t		h_map;
 	u_int32_t		w_map;
+	t_cat			*cat;
 	unsigned int	item_cnt;
 	unsigned int	move_cnt;	
 	u_int32_t		mem_count;
-	t_anim			*hero_idle;
-	t_anim			*hero_run;
-	t_anim			*hero_dead;
-} t_mainwindow;
+} t_win;
 
-void	unexpected_close(char *str, t_mainwindow *sl, t_map **map);
+void	unexpected_close(char *str, t_win *sl, t_map **map);
 void	exp_close(void *ptr);
+void	free_img(t_cat *cat);
 mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
 //void	sl_load_image(t_mainwindow sl);
-void	load_static_image(t_mainwindow *sl);
-void	load_dynamic_image(t_mainwindow sl, t_anim *a, t_sprite *sprite);
+void	load_static_image(t_win *sl, t_cat *cat);
+void	load_dynamic_image(t_win sl, t_anim *a, t_sprite *sprite);
 void	activate(t_anim *a, int n);
 void	de_activate(t_anim *a, int n);
 void	sl_keyhook(mlx_key_data_t keydata, void *param);
@@ -85,9 +88,9 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param);
 /*map generation functions*/
 int		sl_map_check_dups(t_map **map, unsigned int w, unsigned int h);
 int		sl_map_check_walls(t_map **map, unsigned int w, unsigned int h);
-void	sl_map_fill(t_mainwindow *sl, char *path);
-void	get_map_size(t_mainwindow *sl, char *path);
-void	map_alloc(t_mainwindow *sl);
+void	sl_map_fill(t_win *sl, char *path);
+void	get_map_size(t_win *sl, char *path);
+void	map_alloc(t_win *sl);
 
 /*animation functions*/
 t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);

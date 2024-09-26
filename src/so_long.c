@@ -6,132 +6,84 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 13:02:19 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:45:16 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	exp_close(void *ptr)
+static void	image_load_sequence(t_win *sl, t_cat *cat)
 {
-	t_mainwindow	*sl;
-	size_t	i;
-
-	sl = (t_mainwindow *)ptr;	
-	i = 0;
-	while (i < sl->mem_count)
-		free(sl->map[i++]);	
-	free(sl->map);	
+	cat->h_idle = create_anime(0.5, 0, 0);
+	cat->h_run = create_anime(0, 0, 0);
+	cat->h_dead = create_anime(0.5, 0, 0);
+	if (cat->h_idle == NULL || cat->h_run == NULL || cat->h_dead == NULL)
+		unexpected_close(ERR_ANIME, sl, sl->map);
+	load_static_image(sl, cat);
+	load_dynamic_image(*sl, cat->h_idle, cat->h_idle_s);
+	load_dynamic_image(*sl, cat->h_run, cat->h_run_s);
 }
 
-void	unexpected_close(char *str, t_mainwindow *sl, t_map **map)
+static void	texture_load_sequence(t_win *sl, t_cat *cat)
 {
-	size_t	i;
+	cat->wall = NULL;
+	cat->item = NULL;
+	cat->bckg = NULL;
+	cat->exit = NULL;
+	cat->bckg = load_texture(*sl->mlx, mlx_load_png(BCKG), g_bckg);
+	cat->wall = load_texture(*sl->mlx, mlx_load_png(WALL), g_wall);
+	cat->item = load_texture(*sl->mlx, mlx_load_png(CHEST), g_chest);
+	if (cat->bckg == NULL || cat->wall == NULL || cat->item == NULL)
+		unexpected_close(ERR_LOAD_TEXTURE, sl, sl->map);
+	cat->h_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
+	cat->h_run_s = create_sprite(mlx_load_png(HERO_RUN), g_hero_run);
+	cat->h_dead_s = create_sprite(mlx_load_png(HERO_DEAD), g_hero_dead);
+	if (cat->h_idle_s == NULL || cat->h_run_s == NULL || cat->h_dead_s == NULL)
+		unexpected_close(ERR_SPRITE, sl, sl->map);
+}
 
-	i = 0;
-	if (map != NULL)
-	{
-		while (i < sl->mem_count)
-			free(map[i++]);	
-		free(map);	
-	}
-	ft_printf("%s\n", "Error");
-	ft_printf("%s\n", str);
-	exit(1); //mlx_terminate??
+static void	window_init(t_win *sl)
+{
+	sl->cat = (t_cat *)malloc(sizeof(t_cat));
+	if (sl->cat == NULL)
+		unexpected_close(ERR_MALLOC, sl, sl->map);
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
+	sl->mlx = mlx_init(sl->w_map * PPT, sl->h_map * PPT, TITLE, true);
+	if (sl->mlx == NULL)
+		unexpected_close(ERR_MALLOC, sl, sl->map);
+	mlx_get_monitor_size(0, &sl->w_win, &sl->h_win);
+}
+
+static void	map_sequence(t_win *sl, char *path)
+{
+	sl->mlx = NULL;
+	sl->move_cnt = 0;
+	get_map_size(sl, path);
+	map_alloc(sl);
+	sl_map_fill(sl, path);
+	if (sl_map_check_walls(sl->map, sl->w_map - 1, sl->h_map - 1) == -1)
+		unexpected_close(ERR_MAP_FORBID_VALUE, sl, sl->map);
+	if (sl_map_check_dups(sl->map, sl->w_map - 1, sl->h_map - 1) == -1)
+		unexpected_close(ERR_MAP_WALLS, sl, sl->map);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_mainwindow	sl;
-	//t_clean			clean;
-	t_sprite		*hero_idle_s;
-	t_sprite		*hero_run_s;
-	t_sprite		*hero_dead_s;
+	t_win	sl;
 
-	sl.slx = NULL;
 	if (argc != 2)
 		unexpected_close(ERR_MISS_ARG, &sl, NULL);
-	get_map_size(&sl, argv[1]);
-	map_alloc(&sl);
-	sl_map_fill(&sl, argv[1]);
-	if (sl_map_check_walls(sl.map, sl.w_map - 1, sl.h_map - 1) == -1)
-		unexpected_close(ERR_MAP_FORBID_VALUE, &sl, sl.map);
-	if (sl_map_check_dups(sl.map, sl.w_map - 1, sl.h_map - 1) == -1)
-		unexpected_close(ERR_MAP_WALLS, &sl, sl.map);
-	
-	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	sl.slx = mlx_init(sl.w_map * PPT, sl.h_map * PPT, "so_long mfleury", true);
-	if (sl.slx == NULL)
-		unexpected_close(ERR_MALLOC, &sl, sl.map);
-	mlx_get_monitor_size(0, &sl.w_win, &sl.h_win);
-	
-	sl.move_cnt = 0;	
-	
-	sl.wall = NULL; //initialize all sl items to NULL to manage errors
-	sl.item = NULL; //initialize all sl items to NULL to manage errors
-	sl.bckg = NULL; //initialize all sl items to NULL to manage errors*/
-	sl.bckg = load_texture(*sl.slx, mlx_load_png(BCKG), g_bckg);
-	if (sl.bckg == NULL)
-		unexpected_close(ERR_LOAD_TEXTURE, &sl, sl.map);
-	sl.wall = load_texture(*sl.slx, mlx_load_png(WALL), g_wall);	
-	if (sl.wall == NULL)
-		unexpected_close(ERR_LOAD_TEXTURE, &sl, sl.map);
-	sl.item = load_texture(*sl.slx, mlx_load_png(CHEST), g_chest);	
-	if (sl.item == NULL)
-		unexpected_close(ERR_LOAD_TEXTURE, &sl, sl.map);
-	/*sl.hero = load_texture(*sl.slx, mlx_load_png(HERO), g_hero);	
-	if (sl.hero == NULL)
-		unexpected_close(ERR_LOAD_TEXTURE, &sl, sl.map);*/
-	
-	hero_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
-	if (hero_idle_s == NULL)
-		unexpected_close(ERR_SPRITE, &sl, sl.map);
-	
-	sl.hero_idle = create_anime(0.5, 0, 0); 
-	if (sl.hero_idle == NULL)
-		unexpected_close(ERR_ANIME, &sl, sl.map);
-	
-	hero_run_s = create_sprite(mlx_load_png(HERO_RUN), g_hero_run);
-	if (hero_run_s == NULL)
-		unexpected_close(ERR_SPRITE, &sl, sl.map); // sprite free and sub texture and anime?
-	
-	sl.hero_run = create_anime(0.0002, 0, 0); 
-	if (sl.hero_run == NULL)
-		unexpected_close(ERR_ANIME, &sl, sl.map);
-	
-	hero_dead_s = create_sprite(mlx_load_png(HERO_DEAD), g_hero_dead);
-	if (hero_dead_s == NULL)
-		unexpected_close(ERR_SPRITE, &sl, sl.map); // sprite free and sub texture and anime?
-	
-	sl.hero_dead = create_anime(0.5, 0, 0); 
-	if (sl.hero_dead == NULL)
-		unexpected_close(ERR_ANIME, &sl, sl.map); // sprite free and sub texture and anime?*/
-	
-	load_static_image(&sl);
-	load_dynamic_image(sl, sl.hero_idle, hero_idle_s);
-	load_dynamic_image(sl, sl.hero_run, hero_run_s);
-	//load_dynamic_image(sl, hero_dead_s);
-	activate(sl.hero_idle, 0);
-	mlx_close_hook(sl.slx, &exp_close, &sl);	
-	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
-	mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
-	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_run);
-	mlx_loop(sl.slx);
-	
-	size_t	i;
-
-	i = 0;
-	while (i < hero_idle_s->count)
-		mlx_delete_texture(hero_idle_s->texture[i++]);
-	free(hero_idle_s->texture);
-	free(hero_idle_s);
-	free(sl.hero_idle->img);	
-	free(sl.hero_idle);	
-	free(sl.hero_run->img);	
-	free(sl.hero_run);	
-	free(sl.hero_dead->img);	
-	free(sl.hero_dead);	
-	
-	mlx_terminate(sl.slx);
+	map_sequence(&sl, argv[1]);
+	window_init(&sl);
+	texture_load_sequence(&sl, sl.cat);
+	image_load_sequence(&sl, sl.cat);
+	activate(sl.cat->h_idle, 0);
+	mlx_close_hook(sl.mlx, &exp_close, &sl);
+	mlx_key_hook(sl.mlx, &sl_keyhook, &sl);
+	mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_idle);
+	mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_run);
+	mlx_loop(sl.mlx);
+	mlx_terminate(sl.mlx);
+	free_img(sl.cat);
 	return (0);
 }
