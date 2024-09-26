@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 15:45:17 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 19:10:51 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@
 # define W 1
 # define X 0
 # define Y 1
-# define XBIS 2
-# define YBIS 3
+# define X_W 2
+# define Y_H 3
 //#include "../MLX42/include/MLX42/MLX42_Int.h"
 
 typedef struct s_img_cat
