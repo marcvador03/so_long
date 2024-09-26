@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 10:27:53 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 13:01:00 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -33,7 +33,7 @@ static int	check_collision(t_map map_adj, int32_t pos_hero[4], int32_t move[2])
 	
 }
 
-static void	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
+static size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 {
 	size_t	i;
 	
@@ -42,15 +42,16 @@ static void	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 	activate(run, 0);
 	while (i < idle->count)
 	{
-		idle->img[i++]->instances[0].x += move[X];
+		idle->img[i]->instances[0].x += move[X];
 		idle->img[i++]->instances[0].y += move[Y];
 	}
 	i = 0;
 	while (i < run->count)
 	{
-		run->img[i++]->instances[0].x += move[X];
+		run->img[i]->instances[0].x += move[X];
 		run->img[i++]->instances[0].y += move[Y];
 	}
+	return (1);
 }
 
 static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img)
@@ -77,7 +78,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img
 		{
 			map_adj = sl->map[pix[YBIS] / PPT][(pix[X] / PPT) + 1]; //toher collistion check to be done with pix[YBIS] and pix[XBIS]
 			if (check_collision(map_adj, pix, move) == 0)
-				move_hero(sl->hero_idle, sl->hero_run, move);
+				n = move_hero(sl->hero_idle, sl->hero_run, move);
 				//img[0]->instances[n++].x += MOVE;
 		}
 
@@ -90,7 +91,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img
 		{
 			map_adj = sl->map[pix[YBIS] / PPT][(pix[X] / PPT) - 1];
 			if (check_collision(map_adj, pix, move) == 0)
-				move_hero(sl->hero_idle, sl->hero_run, move);
+				n = move_hero(sl->hero_idle, sl->hero_run, move);
 		}
 	}
 	if (key == MLX_KEY_UP)
@@ -101,7 +102,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img
 		{
 			map_adj = sl->map[(pix[Y] / PPT) - 1][pix[XBIS] / PPT];
 			if (check_collision(map_adj, pix, move) == 0)
-				move_hero(sl->hero_idle, sl->hero_run, move);
+				n = move_hero(sl->hero_idle, sl->hero_run, move);
 		}
 	}
 	if (key == MLX_KEY_DOWN)
@@ -112,7 +113,7 @@ static size_t	sl_move_authorized(t_mainwindow *sl, keys_t key, mlx_image_t **img
 		{
 			map_adj = sl->map[(pix[Y] / PPT) + 1][pix[XBIS] / PPT];
 			if (check_collision(map_adj, pix, move) == 0)
-				move_hero(sl->hero_idle, sl->hero_run, move);
+				n = move_hero(sl->hero_idle, sl->hero_run, move);
 		}
 	}
 	return (n);	
@@ -155,6 +156,8 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param)
 			{
 				sl->move_cnt += n;
 				ft_printf("Current #movements: %d\n", sl->move_cnt);
+				activate(sl->hero_idle, 0);
+				de_activate(sl->hero_run, 0);
 				sl_move_action(sl, sl->hero_idle->img);
 			}
 		}

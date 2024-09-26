@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 12:26:21 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 13:02:19 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	main(int argc, char *argv[])
 	if (hero_run_s == NULL)
 		unexpected_close(ERR_SPRITE, &sl, sl.map); // sprite free and sub texture and anime?
 	
-	sl.hero_run = create_anime(0.5, 0, 0); 
+	sl.hero_run = create_anime(0.0002, 0, 0); 
 	if (sl.hero_run == NULL)
 		unexpected_close(ERR_ANIME, &sl, sl.map);
 	
@@ -108,13 +108,13 @@ int	main(int argc, char *argv[])
 		unexpected_close(ERR_ANIME, &sl, sl.map); // sprite free and sub texture and anime?*/
 	
 	load_static_image(&sl);
-	load_dynamic_image(sl, hero_idle_s);
-	//load_dynamic_image(sl, hero_run_s);
+	load_dynamic_image(sl, sl.hero_idle, hero_idle_s);
+	load_dynamic_image(sl, sl.hero_run, hero_run_s);
 	//load_dynamic_image(sl, hero_dead_s);
 	activate(sl.hero_idle, 0);
 	mlx_close_hook(sl.slx, &exp_close, &sl);	
 	mlx_key_hook(sl.slx, &sl_keyhook, &sl);
-	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
+	mlx_loop_hook(sl.slx, anime_sprite, sl.hero_idle);
 	//mlx_loop_hook(sl.slx, anime_sprite, sl.hero_run);
 	mlx_loop(sl.slx);
 	

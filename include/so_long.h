@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 10:59:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 12:41:33 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	exp_close(void *ptr);
 mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
 //void	sl_load_image(t_mainwindow sl);
 void	load_static_image(t_mainwindow *sl);
-void	load_dynamic_image(t_mainwindow sl, t_sprite *sprite);
+void	load_dynamic_image(t_mainwindow sl, t_anim *a, t_sprite *sprite);
 void	activate(t_anim *a, int n);
 void	de_activate(t_anim *a, int n);
 void	sl_keyhook(mlx_key_data_t keydata, void *param);

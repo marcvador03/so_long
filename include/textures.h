@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:58:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 12:25:59 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/26 12:32:17 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static const t_sprite g_wall = { 1, 80, 0, 32, 32, PPT, PPT, NULL };
 # define HERO_IDLE "textures/pixel_crawler_1.8/Heroes/Knight/Idle/Idle-Sheet.png"
 static const t_sprite g_hero_idle = { 4, 0, 0, 32, 32, PPT, PPT, NULL };
 # define HERO_RUN "textures/pixel_crawler_1.8/Heroes/Knight/Run/Run2-Sheet.png"
-static const t_sprite g_hero_run = { 11, 0, 0, 32, 32, PPT, PPT, NULL };
+static const t_sprite g_hero_run = { 6, 0, 0, 32, 32, PPT, PPT, NULL };
 # define HERO_DEAD "textures/pixel_crawler_1.8/Heroes/Knight/Death/Death-Sheet.png"
 static const t_sprite g_hero_dead = { 6, 0, 0, 32, 48, PPT, PPT, NULL };
 # define CHEST "textures/pixel_crawler_1.8/Environment/Dungeon Prison/Assets/Props.png"

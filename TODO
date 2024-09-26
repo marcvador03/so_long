@@ -1,10 +1,13 @@
 Manage screen size
+Mirror hero
+Implement monster
+Implement death
 Show move count on game
 Implement path validation
 extension.ber file check OK
 Correct collision (up & right)
-Manage sprites
-Update textures
+Manage sprites OK (bug with weird dim)
+Update textures OK
 Error management OK?
 Fix ESC
 Fix exit sequence (mlx terminate)
