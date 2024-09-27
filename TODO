@@ -3,10 +3,14 @@ Mirror hero
 Implement monster
 Implement death
 Show move count on game
-Implement path validation
+Implement path validation - OK
+	further tests to done
+	error messges are not accurate to be tested
 extension.ber file check OK
 Correct collision (up & right)
+	OK but bugged when screen resized - to be checked with screen resize
 Manage sprites OK (bug with weird dim)
+	redo function + norminette
 Update textures OK
 Error management OK?
 Fix ESC

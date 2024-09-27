@@ -6,70 +6,16 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 15:34:39 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 15:52:34 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
 
-static int	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2])
-{
-	int32_t	pos_adj[4];
-
-	if (map_adj->c != '1')
-		return (0);
-	pos_adj[X] = map_adj->img[0]->instances[map_adj->instance].x;
-	pos_adj[Y] = map_adj->img[0]->instances[map_adj->instance].y;
-	pos_adj[X_W] = pos_adj[X] + map_adj->img[0]->width;
-	pos_adj[Y_H] = pos_adj[Y] + map_adj->img[0]->height;
-	if (move[X] > 0 && hero[X_W] + move[X] > pos_adj[X])
-		return (1);
-	if (move[X] < 0 && hero[X] + move[X] < pos_adj[X_W])
-		return (1);
-	if (move[Y] > 0 && hero[Y_H] + move[Y] > pos_adj[Y])
-		return (1);
-	if (move[Y] < 0 && hero[Y] + move[Y] < pos_adj[Y_H])
-		return (1);
-	return (0);
-}
-
-static size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
-{
-	size_t	i;
-
-	i = 0;
-	//de_activate(idle, 0);
-	//activate(run, 0);
-	while (i < idle->count)
-	{
-		idle->img[i]->instances[0].x += move[X];
-		idle->img[i++]->instances[0].y += move[Y];
-	}
-	i = 0;
-	while (i < run->count)
-	{
-		run->img[i]->instances[0].x += move[X];
-		run->img[i++]->instances[0].y += move[Y];
-	}
-	return (1);
-}
-
-/*static size_t	check_move(t_win *sl, int32_t pix[4], int32_t move[2])
-{		
-	t_map	map_adj;
-	
-	move[X] = MOVE;
-	map_adj = sl->map[pix[Y] / PPT][(pix[X] / PPT) + 1]; //toher collistion check to be done with pix[YBIS] and pix[XBIS]
-	if (check_collision(map_adj, pix, move) == 0)
-	{
-		map_adj = sl->map[pix[YBIS] / PPT][(pix[X] / PPT) + 1]; //toher collistion check to be done with pix[YBIS] and pix[XBIS]
-		if (check_collision(map_adj, pix, move) == 0)
-			n = move_hero(sl->cat->h_idle, sl->cat->h_run, move);
-}*/
 static int32_t	map_len(int32_t move[2], int32_t hero[4])
 {
 	int32_t	len;
 	int32_t	n;
-		
+
 	len = 0;
 	n = 0;
 	if (move[X] != 0)
@@ -77,7 +23,7 @@ static int32_t	map_len(int32_t move[2], int32_t hero[4])
 		if ((hero[Y_H] - hero[Y]) >= PPT && hero[Y] % PPT != 0)
 			n = 1;
 		len = ((hero[Y_H] - hero[Y]) / PPT) + n;
-	}	
+	}
 	else if (move[Y] != 0)
 	{
 		if ((hero[X_W] - hero[X]) >= PPT && hero[X] % PPT != 0)
@@ -88,66 +34,63 @@ static int32_t	map_len(int32_t move[2], int32_t hero[4])
 		return (0);
 	return (len);
 }
-static t_map **identify_adj_map(t_win *sl, int32_t move[2], int32_t hero[4])
+
+static t_map	*algo(t_win *sl, int32_t move[2], int32_t hero[4], int32_t i)
 {
-	t_map	**map_adj;
-	int32_t i;
 	int		x;
 	int		y;
 
+	if (move[Y] < 0)
+	{
+		x = (hero[X] + (i * PPT) + (move[X] / MOVE)) / PPT;
+		y = (hero[Y] + (move[Y] / MOVE)) / PPT;
+	}
+	else if (move[X] < 0)
+	{
+		x = (hero[X] + (move[X] / MOVE)) / PPT;
+		y = (hero[Y] + (i * PPT) + (move[Y] / MOVE)) / PPT;
+	}
+	else if (move[X] > 0)
+	{
+		x = (hero[X_W] + (move[X] / MOVE)) / PPT;
+		y = (hero[Y] + (i * PPT) + (move[Y] / MOVE)) / PPT;
+	}
+	else if (move[Y] > 0)
+	{
+		x = (hero[X] + (i * PPT) + (move[X] / MOVE)) / PPT;
+		y = (hero[Y_H] + (move[Y] / MOVE)) / PPT;
+	}
+	return (&sl->map[y][x]);
+}
+
+static t_map	**identify_adj_map(t_win *sl, int32_t move[2], int32_t hero[4])
+{
+	t_map	**map_adj;
+	int32_t	i;
+
 	map_adj = (t_map **)malloc(sizeof(t_map *) * (map_len(move, hero) + 1));
-	if (map_adj == NULL)	
+	if (map_adj == NULL || (move[Y] == 0 && move[X] == 0))
 		return (NULL);
 	i = 0;
 	while (i < map_len(move, hero))
 	{
-		if (move[Y] < 0)
-		{
-			x = (hero[X] + (i * PPT) + (move[X] / MOVE)) / PPT;
-			y = (hero[Y] + (move[Y] / MOVE)) / PPT;
-			map_adj[i] = &sl->map[y][x];
-			i++;
-		}
-		else if (move[X] < 0)
-		{
-			x = (hero[X] + (move[X] / MOVE)) / PPT;
-			y = (hero[Y] + (i * PPT) + (move[Y] / MOVE)) / PPT;
-			map_adj[i] = &sl->map[y][x];
-			i++;
-		}
-		else if (move[X] > 0)
-		{
-			x = (hero[X_W] + (move[X] / MOVE)) / PPT;
-			y = (hero[Y] + (i * PPT) + (move[Y] / MOVE)) / PPT;
-			map_adj[i] = &sl->map[y][x];
-			i++;
-		}
-		else if (move[Y] > 0)
-		{
-			x = (hero[X] + (i * PPT) + (move[X] / MOVE)) / PPT;
-			y = (hero[Y_H] + (move[Y] / MOVE)) / PPT;
-			map_adj[i] = &sl->map[y][x];
-			i++;
-		}
-		else
-			return (NULL);
+		map_adj[i] = algo(sl, move, hero, i);
+		i++;
 	}
 	map_adj[i] = NULL;
 	return (map_adj);
-
 }
+
 size_t	move_auth(t_map **map_adj, t_cat *cat, int32_t move[2], int32_t hero[4])
 {
-	int		i;
-	
+	int	i;
+
 	i = 0;
 	while (map_adj[i] != NULL)
 	{
 		if (check_collision(map_adj[i++], hero, move) == 1)
 			return (0);
-		//free(map_adj[i++]);
 	}
-	//free(map_adj[i]);
 	return (free(map_adj), move_hero(cat->h_idle, cat->h_run, move));
 }
 

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 12:05:38 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 20:44:42 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,9 @@ static void	map_sequence(t_win *sl, char *path)
 	get_map_size(sl, path);
 	map_alloc(sl);
 	sl_map_fill(sl, path);
-	if (sl_map_check_walls(sl->map, sl->w_map - 1, sl->h_map - 1) == -1)
-		unexpected_close(ERR_MAP_FORBID_VALUE, sl, sl->map);
-	if (sl_map_check_dups(sl->map, sl->w_map - 1, sl->h_map - 1) == -1)
+	if (map_check_walls(sl->map, sl->w_map - 1, sl->h_map - 1) == -1)
 		unexpected_close(ERR_MAP_WALLS, sl, sl->map);
+	check_path_init(sl, sl->map);
 }
 
 int	main(int argc, char *argv[])

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 13:28:46 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 20:43:46 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_img_cat
 typedef struct	s_map
 {
 	char	c;
+	char	v;
 	mlx_image_t	**img;
 	size_t	instance;
 } t_map;
@@ -86,12 +87,13 @@ void	de_activate(t_anim *a, int n);
 void	sl_keyhook(mlx_key_data_t keydata, void *param);
 
 /*map generation functions*/
-int		sl_map_check_dups(t_map **map, unsigned int w, unsigned int h);
-int		sl_map_check_walls(t_map **map, unsigned int w, unsigned int h);
+//int		sl_map_check_dups(t_map **map, unsigned int w, unsigned int h);
+int		map_check_walls(t_map **map, unsigned int w, unsigned int h);
 void	check_file_ext(t_win *sl, char *path);
 void	sl_map_fill(t_win *sl, char *path);
 void	get_map_size(t_win *sl, char *path);
 void	map_alloc(t_win *sl);
+void	check_path_init(t_win *sl, t_map **map);
 
 /*animation functions*/
 t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
@@ -100,6 +102,8 @@ void	anime_sprite(void *ptr);
 
 /*movements functions*/
 size_t	move_init(t_win *sl, t_cat *cat, keys_t key, mlx_image_t **img);
+int	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2]);
+size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2]);
 /*int	create_rgba(int r, int g, int b, int a);
 int	get_r(int rgba);
 int	get_g(int rgba);

@@ -6,11 +6,69 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 12:02:56 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 17:15:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+void	activate(t_anim *a, int n)
+{
+	a->enabled = true;
+	a->img[0]->instances[n].enabled = true;
+}
+
+void	de_activate(t_anim *a, int n)
+{
+	size_t	i;
+
+	a->enabled = false;
+	i = 0;
+	while (i < a->count)
+		a->img[i++]->instances[n].enabled = false;
+}
+
+int	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2])
+{
+	int32_t	pos_adj[4];
+
+	if (map_adj->c != '1')
+		return (0);
+	pos_adj[X] = map_adj->img[0]->instances[map_adj->instance].x;
+	pos_adj[Y] = map_adj->img[0]->instances[map_adj->instance].y;
+	pos_adj[X_W] = pos_adj[X] + map_adj->img[0]->width;
+	pos_adj[Y_H] = pos_adj[Y] + map_adj->img[0]->height;
+	if (move[X] > 0 && hero[X_W] + move[X] > pos_adj[X])
+		return (1);
+	if (move[X] < 0 && hero[X] + move[X] < pos_adj[X_W])
+		return (1);
+	if (move[Y] > 0 && hero[Y_H] + move[Y] > pos_adj[Y])
+		return (1);
+	if (move[Y] < 0 && hero[Y] + move[Y] < pos_adj[Y_H])
+		return (1);
+	return (0);
+}
+
+size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
+{
+	size_t	i;
+
+	i = 0;
+	//de_activate(idle, 0);
+	//activate(run, 0);
+	while (i < idle->count)
+	{
+		idle->img[i]->instances[0].x += move[X];
+		idle->img[i++]->instances[0].y += move[Y];
+	}
+	i = 0;
+	while (i < run->count)
+	{
+		run->img[i]->instances[0].x += move[X];
+		run->img[i++]->instances[0].y += move[Y];
+	}
+	return (1);
+}
 
 static void	sl_move_action(t_win *sl, mlx_image_t **img)
 {
@@ -42,6 +100,7 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param)
 	/*if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		exp_close(sl);*/
 	if (keydata.key >= MLX_KEY_RIGHT && keydata.key <= MLX_KEY_UP)
+	{
 		if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 		{
 			n = move_init(sl, sl->cat, keydata.key, sl->cat->h_idle->img);
@@ -49,12 +108,13 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param)
 			{
 				sl->move_cnt += n;
 				ft_printf("Current #movements: %d\n", sl->move_cnt);
-				if (keydata.action == MLX_PRESS)
-				/*{
+				/*if (keydata.action == MLX_PRESS)
+				{
 					activate(sl->cat->h_idle, 0);
 					de_activate(sl->cat->h_run, 0);
 				}*/
 				sl_move_action(sl, sl->cat->h_idle->img);
 			}
 		}
+	}
 }

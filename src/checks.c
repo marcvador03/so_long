@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:51:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 11:32:42 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 21:43:41 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	check_file_ext(t_win *sl, char *path)
 	free(str);
 }
 
-int	sl_map_check_walls(t_map **map, uint32_t w, uint32_t h)
+int	map_check_walls(t_map **map, uint32_t w, uint32_t h)
 {
 	uint32_t	i;
 	uint32_t	j;
@@ -47,7 +47,7 @@ int	sl_map_check_walls(t_map **map, uint32_t w, uint32_t h)
 	return (0);
 }
 
-static int check_flag(uint32_t flag[3])
+/*static int	check_flag(uint32_t flag[3])
 {
 	if (flag[0] > 1 || flag[1] > 1) // yet missing cnt[2]==0 for collectibles
 		return (-1);
@@ -66,7 +66,7 @@ int	sl_map_check_dups(t_map **map, uint32_t w, uint32_t h)
 	i = 0;
 	while (i <= h && (flag[0] <= 1 || flag[1] <= 1))
 	{
-		j = 0;	
+		j = 0;
 		while (j <= w)
 		{
 			if (map[i][j].c == 'E')
@@ -80,4 +80,4 @@ int	sl_map_check_dups(t_map **map, uint32_t w, uint32_t h)
 		i++;
 	}
 	return (check_flag(flag));
-}
+}*/
