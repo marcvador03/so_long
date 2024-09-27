@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 19:10:51 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 13:28:46 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param);
 /*map generation functions*/
 int		sl_map_check_dups(t_map **map, unsigned int w, unsigned int h);
 int		sl_map_check_walls(t_map **map, unsigned int w, unsigned int h);
+void	check_file_ext(t_win *sl, char *path);
 void	sl_map_fill(t_win *sl, char *path);
 void	get_map_size(t_win *sl, char *path);
 void	map_alloc(t_win *sl);
@@ -97,7 +98,8 @@ t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
 t_anim		*create_anime(double fps, int32_t x_move, int32_t y_move);
 void	anime_sprite(void *ptr);
 
-		
+/*movements functions*/
+size_t	move_init(t_win *sl, t_cat *cat, keys_t key, mlx_image_t **img);
 /*int	create_rgba(int r, int g, int b, int a);
 int	get_r(int rgba);
 int	get_g(int rgba);

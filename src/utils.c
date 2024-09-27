@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:22 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 15:46:25 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 13:01:50 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,12 @@ void	unexpected_close(char *str, t_win *sl, t_map **map)
 	ft_printf("%s\n", "Error");
 	ft_printf("%s\n", str);
 	exit(1); //mlx_terminate??
+}
+
+int32_t	abs(int32_t n)
+{
+	int	mask;
+
+	mask = n >> (sizeof(int32_t) * 8 - 1);
+	return ((n + mask) ^ mask);
 }

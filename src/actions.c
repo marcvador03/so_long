@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 16:06:40 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 12:02:56 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ void	sl_keyhook(mlx_key_data_t keydata, void *param)
 	if (keydata.key >= MLX_KEY_RIGHT && keydata.key <= MLX_KEY_UP)
 		if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 		{
-			n = sl_move_authorized(sl, sl->cat, keydata.key, sl->cat->h_idle->img);
+			n = move_init(sl, sl->cat, keydata.key, sl->cat->h_idle->img);
 			if (n > 0)
 			{
 				sl->move_cnt += n;
 				ft_printf("Current #movements: %d\n", sl->move_cnt);
 				if (keydata.action == MLX_PRESS)
-				{
+				/*{
 					activate(sl->cat->h_idle, 0);
 					de_activate(sl->cat->h_run, 0);
-				}
+				}*/
 				sl_move_action(sl, sl->cat->h_idle->img);
 			}
 		}

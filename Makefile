@@ -15,7 +15,9 @@ SRC_NAMES := so_long.c \
 			 textures.c \
 			 animations.c \
 			 sprites.c \
-			 utils.c
+			 utils.c \
+			 checks.c \
+			 actions.c
 
 INC_NAMES := so_long.h \
 			 animations.h \

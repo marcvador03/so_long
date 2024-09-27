@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 19:36:01 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/27 15:34:39 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -37,8 +37,8 @@ static size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 	size_t	i;
 
 	i = 0;
-	de_activate(idle, 0);
-	activate(run, 0);
+	//de_activate(idle, 0);
+	//activate(run, 0);
 	while (i < idle->count)
 	{
 		idle->img[i]->instances[0].x += move[X];
@@ -65,39 +65,94 @@ static size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 		if (check_collision(map_adj, pix, move) == 0)
 			n = move_hero(sl->cat->h_idle, sl->cat->h_run, move);
 }*/
-
+static int32_t	map_len(int32_t move[2], int32_t hero[4])
+{
+	int32_t	len;
+	int32_t	n;
+		
+	len = 0;
+	n = 0;
+	if (move[X] != 0)
+	{
+		if ((hero[Y_H] - hero[Y]) >= PPT && hero[Y] % PPT != 0)
+			n = 1;
+		len = ((hero[Y_H] - hero[Y]) / PPT) + n;
+	}	
+	else if (move[Y] != 0)
+	{
+		if ((hero[X_W] - hero[X]) >= PPT && hero[X] % PPT != 0)
+			n = 1;
+		len = ((hero[X_W] - hero[X]) / PPT) + n;
+	}
+	else
+		return (0);
+	return (len);
+}
 static t_map **identify_adj_map(t_win *sl, int32_t move[2], int32_t hero[4])
 {
 	t_map	**map_adj;
-	int32_t	len;
 	int32_t i;
 	int		x;
 	int		y;
 
-	if (move[X] != 0)
-		len = hero[X_W] - hero[X];
-	else if (move[Y] != 0)
-		len = hero[Y_H] - hero[Y];
-	else
-		return (NULL);
-	map_adj = (t_map **)malloc(sizeof(t_map *) * (len + 1));
+	map_adj = (t_map **)malloc(sizeof(t_map *) * (map_len(move, hero) + 1));
 	if (map_adj == NULL)	
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < map_len(move, hero))
 	{
-		x = (hero[X] / PPT) + (i * PPT) + (move[Y] / MOVE);
-		y = (hero[Y] / PPT) + (i * PPT) + (move[X] / MOVE);
-		map_adj[i] = &sl->map[y][x];
-		i++;
+		if (move[Y] < 0)
+		{
+			x = (hero[X] + (i * PPT) + (move[X] / MOVE)) / PPT;
+			y = (hero[Y] + (move[Y] / MOVE)) / PPT;
+			map_adj[i] = &sl->map[y][x];
+			i++;
+		}
+		else if (move[X] < 0)
+		{
+			x = (hero[X] + (move[X] / MOVE)) / PPT;
+			y = (hero[Y] + (i * PPT) + (move[Y] / MOVE)) / PPT;
+			map_adj[i] = &sl->map[y][x];
+			i++;
+		}
+		else if (move[X] > 0)
+		{
+			x = (hero[X_W] + (move[X] / MOVE)) / PPT;
+			y = (hero[Y] + (i * PPT) + (move[Y] / MOVE)) / PPT;
+			map_adj[i] = &sl->map[y][x];
+			i++;
+		}
+		else if (move[Y] > 0)
+		{
+			x = (hero[X] + (i * PPT) + (move[X] / MOVE)) / PPT;
+			y = (hero[Y_H] + (move[Y] / MOVE)) / PPT;
+			map_adj[i] = &sl->map[y][x];
+			i++;
+		}
+		else
+			return (NULL);
 	}
 	map_adj[i] = NULL;
 	return (map_adj);
 
 }
-static size_t	move_auth(t_win *sl, t_cat *cat, keys_t key, mlx_image_t **img)
+size_t	move_auth(t_map **map_adj, t_cat *cat, int32_t move[2], int32_t hero[4])
 {
 	int		i;
+	
+	i = 0;
+	while (map_adj[i] != NULL)
+	{
+		if (check_collision(map_adj[i++], hero, move) == 1)
+			return (0);
+		//free(map_adj[i++]);
+	}
+	//free(map_adj[i]);
+	return (free(map_adj), move_hero(cat->h_idle, cat->h_run, move));
+}
+
+size_t	move_init(t_win *sl, t_cat *cat, keys_t key, mlx_image_t **img)
+{
 	int32_t	hero[4];
 	int32_t	move[2];
 	t_map	**map_adj;
@@ -121,12 +176,5 @@ static size_t	move_auth(t_win *sl, t_cat *cat, keys_t key, mlx_image_t **img)
 	map_adj = identify_adj_map(sl, move, hero);
 	if (map_adj == NULL)
 		unexpected_close(ERR_MALLOC, sl, sl->map);
-	i = 0;
-	while (map_adj[i] != NULL)
-	{
-		if (check_collision(map_adj[i], hero, move) == 1)
-			return (0);
-		free(map_adj[i++]);
-	}
-	return (free(map_adj[i]), free(map_adj), move_hero(cat->h_idle, cat->h_run, move));
+	return (move_auth(map_adj, cat, move, hero));
 }
