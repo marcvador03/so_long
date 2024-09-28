@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:05:14 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 17:41:10 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/28 22:56:12 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,6 @@ static mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 	return (s);
 }*/
 
-void	sprite_init(t_sprite *s, t_sprite in)
-{
-	s->count = in.count;
-	s->pos_x = 0;
-	s->pos_y = 0;
-	s->width = in.width;
-	s->height = in.height;
-	s->r_width = in.r_width;
-	s->r_height = in.r_height;
-}
 
 /*size_t	*init_cnt(t_sprite *in, mlx_texture_t *t, size_t *init_w, int i)
 {

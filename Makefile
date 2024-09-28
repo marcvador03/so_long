@@ -14,7 +14,7 @@ SRC_NAMES := so_long.c \
 			 movements.c \
 			 textures.c \
 			 animations.c \
-			 sprites.c \
+			 test_sprite.c \
 			 utils.c \
 			 checks.c \
 			 actions.c \
