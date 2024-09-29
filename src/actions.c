@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 17:15:56 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/29 18:51:22 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	activate(t_anim *a, int n)
 {
+	//manage NULL value
 	a->enabled = true;
 	a->img[0]->instances[n].enabled = true;
 }
@@ -22,6 +23,7 @@ void	de_activate(t_anim *a, int n)
 {
 	size_t	i;
 
+	//manage NULL value
 	a->enabled = false;
 	i = 0;
 	while (i < a->count)

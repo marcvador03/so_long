@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:22 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 15:52:34 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/29 18:03:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	exp_close(void *ptr)
 	while (i < sl->mem_count)
 		free(sl->map[i++]);
 	free(sl->map);
+	//free(sl->cat);
 }
 
 void	unexpected_close(char *str, t_win *sl, t_map **map)
@@ -52,6 +53,7 @@ void	unexpected_close(char *str, t_win *sl, t_map **map)
 			free(map[i++]);
 		free(map);
 	}
+	//free(sl->cat);
 	ft_printf("%s\n", "Error");
 	ft_printf("%s\n", str);
 	exit(1); //mlx_terminate??

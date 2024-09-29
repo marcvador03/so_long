@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 20:43:46 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/29 18:53:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@
 # define Y 1
 # define X_W 2
 # define Y_H 3
+# define TXT 2
+# define INIT 3
+# define PIX 4
 //#include "../MLX42/include/MLX42/MLX42_Int.h"
 
 typedef struct s_img_cat
@@ -45,9 +48,11 @@ typedef struct s_img_cat
 	mlx_image_t		*exit;
 	mlx_image_t		*bckg;
 	t_anim			*h_idle;
+	t_anim			*h_idle_m;
 	t_anim			*h_run;
 	t_anim			*h_dead;
 	t_sprite		*h_idle_s;
+	t_sprite		*h_idle_sm;
 	t_sprite		*h_run_s;
 	t_sprite		*h_dead_s;
 }	t_cat;
@@ -85,6 +90,7 @@ void	load_dynamic_image(t_win sl, t_anim *a, t_sprite *sprite);
 void	activate(t_anim *a, int n);
 void	de_activate(t_anim *a, int n);
 void	sl_keyhook(mlx_key_data_t keydata, void *param);
+mlx_texture_t	*mirror(mlx_texture_t *in);
 
 /*map generation functions*/
 //int		sl_map_check_dups(t_map **map, unsigned int w, unsigned int h);
