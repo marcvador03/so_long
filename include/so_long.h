@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 18:48:26 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 21:39:07 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/getnextline/get_next_line.h"
 # include "textures.h"
-# include "animations.h"
 # include "errors.h"
 # define TITLE "so_long mfleury"
 # define BPP 4
@@ -37,45 +36,59 @@
 # define X_W 2
 # define Y_H 3
 # define TXT 2
+# define IMG 2
 # define INIT 3
 # define PX 4
-//#include "../MLX42/include/MLX42/MLX42_Int.h"
+
+typedef struct	s_sprite
+{
+//	char			*path;
+	size_t			count;
+	size_t			pos_x;
+	size_t			pos_y;	
+	size_t			width;
+	size_t			height;
+	size_t			r_width;
+	size_t			r_height;
+	mlx_texture_t	**texture;	
+}	t_sprite;
+
+typedef struct	s_anim
+{
+	double			fps;
+	int32_t			x_move;
+	int32_t			y_move;
+	size_t			count;
+//	size_t			frame;
+	int32_t			depth;
+	bool			enabled; //used?
+	mlx_image_t		**img;
+}	t_anim;
 
 typedef struct s_img_cat
 {
-	mlx_image_t	*wall;
-	mlx_image_t	*item;
-	mlx_image_t	*exit;
-	mlx_image_t	*bckg;
-	mlx_image_t	*hero;
-	mlx_image_t	*m_hero;
-		
-
-
-
-
-
-
-
-/*	t_anim			*h_idle;
-	t_anim			*h_idle_m;
-	t_anim			*h_run;
-	t_anim			*h_dead;
-	t_sprite		*h_idle_s;
-	t_sprite		*h_idle_sm;
-	t_sprite		*h_run_s;
-	t_sprite		*h_dead_s;*/
+	t_sprite	*s_wall;
+	t_sprite	*s_item;
+	t_sprite	*s_exit;
+	t_sprite	*s_bckg;
+	t_sprite	*s_hero;
+	t_anim		*wall;
+	t_anim		*item;
+	t_anim		*exit;
+	t_anim		*bckg;
+	t_anim		*hero;
 }	t_cat;
 
 typedef struct	s_map
 {
 	char	c;
 	char	v;
-	int32_t	x;
-	int32_t	y;
-	mlx_image_t	**img;
-	size_t	instance;
-	size_t	count_img; //to be updated
+	int32_t	x; //used?
+	int32_t	y; //used?
+	t_anim	**a;
+	size_t	cur_img;
+	size_t	inst;
+	size_t	count_img; //= anime.frame --> to be updated?
 } t_map;
 
 typedef struct	s_hero
@@ -96,13 +109,13 @@ typedef struct	s_win
 	int32_t		w_win;
 	u_int32_t	h_map;
 	u_int32_t	w_map;
-	t_hero		*hero;
+	t_hero		*hero; //used?
 	u_int32_t	w_hero;
 	u_int32_t	h_hero;
 	t_cat		*cat;
 	u_int32_t	item_cnt;
 	u_int32_t	move_cnt;	
-	u_int32_t	mem_count;
+	u_int32_t	mem_count; //used?
 } t_win;
 
 void	unexpected_close(char *str, t_win *sl, t_map **map);
@@ -124,7 +137,7 @@ void	check_path_init(t_win *sl, t_map **map);
 int32_t	map_len(int32_t move[2], int32_t hero[4]);
 
 /*animation functions*/
-t_anim		*create_anime(double fps, int32_t x_move, int32_t y_move);
+t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move, int32_t z);
 void	anime_sprite(void *ptr);
 
 /* Sprite and Sprite utils*/

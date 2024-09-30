@@ -6,22 +6,23 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/26 15:46:52 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 21:00:21 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move)
+t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move, int32_t z)
 {
 	t_anim	*anime;
 
-	anime = (t_anim *)malloc(sizeof(t_anim));
+	anime = (t_anim *)ft_calloc(sizeof(t_anim), 1);
 	if (anime == NULL)
 		return (NULL);
 	anime->fps = fps;
 	anime->x_move = x_move;
 	anime->y_move = y_move;
+	anime->depth = z;
 	anime->count = 0;
 	anime->frame = 0;
 	anime->img = NULL;

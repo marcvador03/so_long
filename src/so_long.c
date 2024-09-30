@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 14:42:31 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 21:00:54 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,24 @@ static void	image_load_sequence(t_win *sl, t_cat *cat)
 
 static void	texture_load_sequence(t_win *sl, t_cat *cat)
 {
-	cat->wall = NULL;
-	cat->item = NULL;
-	cat->bckg = NULL;
-	cat->hero = NULL;
-	cat->m_hero = NULL;
-	cat->exit = NULL;
-	cat->bckg = load_texture(*sl->mlx, mlx_load_png(BCKG), g_bckg);
-	cat->wall = load_texture(*sl->mlx, mlx_load_png(WALL), g_wall);
-	cat->item = load_texture(*sl->mlx, mlx_load_png(CHEST), g_chest);
-	if (cat->bckg == NULL || cat->wall == NULL || cat->item == NULL)
-		unexpected_close(ERR_LOAD_TEXTURE, sl, sl->map);
-	cat->hero = load_texture(*sl->mlx, mlx_load_png(HERO), g_hero);
-	cat->m_hero = load_texture_mirror(*sl->mlx, mlx_load_png(HERO), g_hero);
-	if (cat->hero == NULL || cat->m_hero == NULL)
-		unexpected_close(ERR_LOAD_TEXTURE, sl, sl->map);
-	/*cat->h_idle_s = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
-	cat->h_run_s = create_sprite(mlx_load_png(HERO_RUN), g_hero_run);
-	cat->h_dead_s = create_sprite(mlx_load_png(HERO_DEAD), g_hero_dead);
-	if (cat->h_idle_s == NULL || cat->h_run_s == NULL || cat->h_dead_s == NULL)
-		unexpected_close(ERR_SPRITE, sl, sl->map);*/
+	cat->s_bckg = create_sprite(mlx_load_png(BCKG), g_bckg);
+	cat->s_item = create_sprite(mlx_load_png(CHEST), g_chest);
+	cat->s_hero = create_sprite(mlx_load_png(HERO), g_hero);
+	cat->s_wall = create_sprite(mlx_load_png(WALL), g_wall);
+	//cat->s_exit = create_sprite(mlx_load_png(EXIT), g_exit);
+//  NULL condition check. Within create_sprite or here
+//		unexpected_close(ERR_SPRITE, sl, sl->map);
+	cat->bckg = create_anime(0.05, 0, 0, 0);
+	cat->item = create_anime(0.05, 0, 0, 2);
+	cat->hero = create_anime(0.05, 0, 0, 3);
+	cat->wall = create_anime(0.05, 0, 0, 1);
+	//cat->exit = create_anime(0.05, 0, 0);
+		//unexpected_close(ERR_ANIME, sl, sl->map);
 }
 
 static void	window_init(t_win *sl)
 {
-	sl->cat = (t_cat *)malloc(sizeof(t_cat));
+	sl->cat = (t_cat *)ft_calloc(sizeof(t_cat), 1);
 	if (sl->cat == NULL)
 		unexpected_close(ERR_MALLOC, sl, sl->map);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);

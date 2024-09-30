@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:33:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 14:38:51 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 21:02:48 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
 	int32_t			q;
 	size_t			*cnt;
 
-	cnt = (size_t *)calloc(5, sizeof(size_t));
+	cnt = (size_t *)ft_calloc(5, sizeof(size_t));
 	t = create_sub_txt(in.width, in.height);
 	if (cnt == NULL || t_in == NULL || t == NULL)
 		return (NULL);
@@ -64,7 +64,7 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
 	int32_t			q;
 	size_t			*cnt;
 
-	cnt = (size_t *)calloc(5, sizeof(size_t));
+	cnt = (size_t *)ft_calloc(5, sizeof(size_t));
 	t = create_sub_txt(in.width, in.height);
 	if (cnt == NULL || t_in == NULL || t == NULL)
 		return (NULL);

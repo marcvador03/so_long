@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:43:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 22:10:34 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 21:02:48 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*check_all_items(t_win *sl, t_map **map)
 	uint32_t		*flag;
 
 	h = 0;
-	flag = (uint32_t *)calloc(3, sizeof(uint32_t));
+	flag = (uint32_t *)ft_calloc(3, sizeof(uint32_t));
 	if (flag == NULL)
 		unexpected_close(ERR_MALLOC, sl, sl->map);
 	while (h < sl->h_map)
