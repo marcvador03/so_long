@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/29 18:51:22 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 18:04:09 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,9 @@ void	de_activate(t_anim *a, int n)
 		a->img[i++]->instances[n].enabled = false;
 }
 
-int	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2])
-{
-	int32_t	pos_adj[4];
 
-	if (map_adj->c != '1')
-		return (0);
-	pos_adj[X] = map_adj->img[0]->instances[map_adj->instance].x;
-	pos_adj[Y] = map_adj->img[0]->instances[map_adj->instance].y;
-	pos_adj[X_W] = pos_adj[X] + map_adj->img[0]->width;
-	pos_adj[Y_H] = pos_adj[Y] + map_adj->img[0]->height;
-	if (move[X] > 0 && hero[X_W] + move[X] > pos_adj[X])
-		return (1);
-	if (move[X] < 0 && hero[X] + move[X] < pos_adj[X_W])
-		return (1);
-	if (move[Y] > 0 && hero[Y_H] + move[Y] > pos_adj[Y])
-		return (1);
-	if (move[Y] < 0 && hero[Y] + move[Y] < pos_adj[Y_H])
-		return (1);
-	return (0);
-}
 
-size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
+/*size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 {
 	size_t	i;
 
@@ -70,13 +51,13 @@ size_t	move_hero(t_anim *idle, t_anim *run, int32_t move[2])
 		run->img[i++]->instances[0].y += move[Y];
 	}
 	return (1);
-}
+}*/
 
-static void	sl_move_action(t_win *sl, mlx_image_t **img)
+/*static void	sl_move_action(t_win *sl, mlx_image_t **img)
 {
-	unsigned int	i;
-	unsigned int	j;
-	size_t			n;
+	uint32_t	i;
+	uint32_t	j;
+	size_t		n;
 
 	if (PPT < 0)
 		unexpected_close(ERR_PPT, sl, sl->map);
@@ -91,32 +72,26 @@ static void	sl_move_action(t_win *sl, mlx_image_t **img)
 	}
 	if (sl->map[i][j].c == 'E' && sl->item_cnt == 0)
 		exp_close(&sl);//how to call success?
-}
+}*/
 
-void	sl_keyhook(mlx_key_data_t keydata, void *param)
+void	keyhook(mlx_key_data_t k, void *param)
 {
 	t_win	*sl;
+	t_map	map;
 	size_t	n;
 
 	sl = (t_win *)param;
-	/*if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		exp_close(sl);*/
-	if (keydata.key >= MLX_KEY_RIGHT && keydata.key <= MLX_KEY_UP)
+	map = sl->map[sl->h_hero][sl->w_hero];
+	if (k.key == MLX_KEY_ESCAPE && k.action == MLX_PRESS)
+		exp_close(sl);
+	if (k.key >= MLX_KEY_RIGHT && k.key <= MLX_KEY_UP && k.action >= MLX_PRESS)
 	{
-		if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
+		if (move_init(sl, sl->cat, k.key, map) > 0)
+			move_hero();
 		{
-			n = move_init(sl, sl->cat, keydata.key, sl->cat->h_idle->img);
-			if (n > 0)
-			{
-				sl->move_cnt += n;
-				ft_printf("Current #movements: %d\n", sl->move_cnt);
-				/*if (keydata.action == MLX_PRESS)
-				{
-					activate(sl->cat->h_idle, 0);
-					de_activate(sl->cat->h_run, 0);
-				}*/
-				sl_move_action(sl, sl->cat->h_idle->img);
-			}
+			sl->move_cnt += n;
+			ft_printf("Current #movements: %d\n", sl->move_cnt);
+			sl_move_action(sl, sl->cat->h_idle->img);
 		}
 	}
 }

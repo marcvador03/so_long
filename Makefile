@@ -14,15 +14,18 @@ SRC_NAMES := so_long.c \
 			 movements.c \
 			 textures.c \
 			 animations.c \
-			 test_sprite.c \
+			 sprites.c \
+			 sprites_utils.c \
 			 utils.c \
 			 checks.c \
 			 actions.c \
+			 loading.c \
 			 path.c
 
 INC_NAMES := so_long.h \
 			 animations.h \
-			 textures.h
+			 textures.h \
+			 errors.h
 
 SOURCES := $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_NAMES))
 

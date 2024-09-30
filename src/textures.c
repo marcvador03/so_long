@@ -3,114 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
+/*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 12:49:59 by mfleury          ###   ########.fr       */
+/*   Created: 2024/09/30 14:33:11 by mfleury           #+#    #+#             */
+/*   Updated: 2024/09/30 14:38:51 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-static size_t	load_sprite(mlx_t *mlx, t_sprite *s, t_anim *a, uint32_t p[3])
+mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 {
-	size_t			i;
-	size_t			n;
+	mlx_texture_t	*texture;
 
-	if (s == NULL || s->count <= 0 || a == NULL)
-		return (0);
-	a->img = (mlx_image_t **)malloc(sizeof(mlx_image_t *) * s->count);
-	if (a->img == NULL)
-		return (0);
-	i = 0;
-	n = 0;
-	a->enabled = false;
-	while (i < s->count)
+	if (w == 0 && h == 0)
+		return (NULL);
+	texture = (mlx_texture_t *)malloc(sizeof(mlx_texture_t));
+	if (texture == NULL)
+		return (NULL);
+	texture->width = w;
+	texture->height = h;
+	texture->bytes_per_pixel = BPP;
+	texture->pixels = (uint8_t *)malloc(sizeof(uint8_t) * w * h * BPP);
+	if (texture->pixels == NULL)
+		return (NULL);
+	return (texture);
+}
+
+mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
+{
+	mlx_texture_t	*t;
+	mlx_image_t		*img;
+	int32_t			q;
+	size_t			*cnt;
+
+	cnt = (size_t *)calloc(5, sizeof(size_t));
+	t = create_sub_txt(in.width, in.height);
+	if (cnt == NULL || t_in == NULL || t == NULL)
+		return (NULL);
+	set_var_m(cnt, &q, in, t_in->width);
+	while (cnt[H] <= in.height)
 	{
-		a->img[i] = mlx_texture_to_image(mlx, s->texture[i]);
-		if (mlx_resize_image(a->img[i], s->r_width, s->r_height) == false)
-			return (0);
-		mlx_image_to_window(mlx, a->img[i], p[W] * PPT, p[H] * PPT);
-		n = a->img[i]->count - 1;
-		a->img[i]->instances[0].enabled = false;
-		mlx_set_instance_depth(&a->img[i]->instances[n], (int32_t)p[2]);
-		i++;
-	}
-//	a->img[s->count - 1]->instances[0].enabled = true;
-	a->count = s->count;
-	return (1);
-}
-
-static size_t	load(mlx_t *mlx, mlx_image_t *img, uint32_t p[2], int32_t z)
-{
-	size_t	n;
-
-	if (img == NULL)
-		return (0);
-	n = 0;
-	mlx_image_to_window(mlx, img, p[W] * PPT, p[H] * PPT);
-	n = img->count - 1;
-	mlx_set_instance_depth(&img->instances[n], z);
-	img->instances[n].enabled = true;
-	return (n);
-}
-
-static size_t	update_map(t_map *map, mlx_image_t **img, size_t n)
-{
-	map->instance = n;
-	map->img = img;
-	return (map->instance);
-}
-
-void	load_static_image(t_win *sl, t_cat *cat)
-{
-	uint32_t	cnt[2];
-	mlx_image_t	**img;
-	t_map		map;
-
-	cnt[H] = 0;
-	while (cnt[H] < sl->h_map)
-	{
-		cnt[W] = 0;
-		while (cnt[W] < sl->w_map)
+		while (cnt[W] < (in.width * BPP))
 		{
-			map = sl->map[cnt[H]][cnt[W]];
-			if (map.c == '1')
-				img = &cat->wall;
-			else if (map.c == 'C')
-				img = &cat->item;
-			else
-				img = &cat->bckg;
-			update_map(&map, img, load(sl->mlx, *img, cnt, 1));
-			update_map(&map, &cat->bckg, load(sl->mlx, cat->bckg, cnt, 0));
-			cnt[W]++;
+			t->pixels[cnt[PX] + q] = t_in->pixels[cnt[INIT] - cnt[W] + q];
+			set_q(cnt, &q);
 		}
-		cnt[H]++;
+		set_var_m(cnt, &q, in, t_in->width);
 	}
+	img = mlx_texture_to_image(&sl, t);
+	if (mlx_resize_image(img, in.r_width, in.r_height) == false)
+		return (NULL);
+	return (mlx_delete_texture(t_in), mlx_delete_texture(t), img);
 }
 
-void	load_dynamic_image(t_win sl, t_anim *a, t_sprite *sprite)
+mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
 {
-	uint32_t	cnt[3];
-	size_t		n;
+	mlx_texture_t	*t;
+	mlx_image_t		*img;
+	int32_t			q;
+	size_t			*cnt;
 
-	n = 0;
-	cnt[H] = 0;
-	while (cnt[H] <= sl.h_map - 1)
+	cnt = (size_t *)calloc(5, sizeof(size_t));
+	t = create_sub_txt(in.width, in.height);
+	if (cnt == NULL || t_in == NULL || t == NULL)
+		return (NULL);
+	set_var(cnt, &q, in, t_in->width);
+	while (cnt[H] <= in.height)
 	{
-		cnt[W] = 0;
-		while (cnt[W] <= sl.w_map - 1)
+		while (cnt[W] < (in.width * BPP))
 		{
-			if (sl.map[cnt[H]][cnt[W]].c == 'P')
-			{
-				cnt[2] = 3;
-				n = load_sprite(sl.mlx, sprite, a, cnt);
-				if (n == 0)
-					unexpected_close(ERR_SPRITE, &sl, sl.map);
-				sl.map[cnt[H]][cnt[W]].instance = n;
-			}
-			cnt[W]++;
+			t->pixels[cnt[PX] + q] = t_in->pixels[cnt[INIT] + cnt[W] + q];
+			set_q(cnt, &q);
 		}
-		cnt[H]++;
+		set_var(cnt, &q, in, t_in->width);
 	}
+	img = mlx_texture_to_image(&sl, t);
+	if (mlx_resize_image(img, in.r_width, in.r_height) == false)
+		return (NULL);
+	return (mlx_delete_texture(t_in), mlx_delete_texture(t), img);
 }
