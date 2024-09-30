@@ -68,7 +68,7 @@ void	load_static_image(t_win *sl, t_cat *cat)
 	}
 }
 
-void	attach_image(t_win *sl, t_map map, t_anim *a, uint32_t cnt[3])
+void	attach_image(t_win *sl, t_map map, t_anim *a, uint32_t cnt[2])
 {
 	int32_t	i;
 	
@@ -113,13 +113,12 @@ void	load_sprite(mlx_t *mlx, t_sprite *s, t_anim *a, uint32_t p[2])
 
 void	load_dynamic_image(t_win *sl, t_anim *a, t_sprite *sprite, char c)
 {
-	uint32_t	cnt[3];
+	uint32_t	cnt[2];
 	t_map		map;
 	size_t		n;
 
 	n = 0;
 	cnt[H] = 0;
-	cnt[IMG] = 0;
 	load_sprite(sl.mlx, sprite, a, cnt);
 	//delete sprite + malloc
 	while (cnt[H] < sl->h_map)
@@ -131,21 +130,6 @@ void	load_dynamic_image(t_win *sl, t_anim *a, t_sprite *sprite, char c)
 			{
 				map = sl->map[cnt[H]][cnt[W]];
 				attach_image(sl, map, cat, cnt);
-				
-				
-				sl.map[cnt[H]][cnt[W]].instance = n;
-			}		
-			
-				
-			
-			if (sl.map[cnt[H]][cnt[W]].c == 'P')
-			{
-				map = 
-					cnt[2] = 3;
-				n = load_sprite(sl.mlx, sprite, a, cnt);
-				if (n == 0)
-					unexpected_close(ERR_SPRITE, &sl, sl.map);
-				sl.map[cnt[H]][cnt[W]].instance = n;
 			}
 			cnt[W]++;
 		}
