@@ -6,13 +6,13 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:22 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/29 18:03:24 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 23:02:17 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	free_img(t_cat *cat)
+/*void	free_img(t_cat *cat)
 {
 	size_t	i;
 
@@ -28,7 +28,7 @@ void	free_img(t_cat *cat)
 	free(cat->h_dead->img);
 	free(cat->h_dead);
 }
-
+*/
 void	exp_close(void *ptr)
 {
 	t_win	*sl;

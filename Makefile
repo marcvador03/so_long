@@ -20,7 +20,9 @@ SRC_NAMES := so_long.c \
 			 checks.c \
 			 actions.c \
 			 loading.c \
-			 path.c
+			 path.c \
+			 physics.c
+
 
 INC_NAMES := so_long.h \
 			 animations.h \

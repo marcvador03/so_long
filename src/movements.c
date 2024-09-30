@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:17:46 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 18:49:37 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 23:03:53 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@
 void	collect_item(t_win *sl, t_map **map, t_map a)
 {
 	//place for animation
-	map[a.y][a.x].img[0]->instances[map[a.y][a.x].instance].enabled= false;
+	map[a.y][a.x].a->img[0]->instances[map[a.y][a.x].inst].enabled= false;
 	map[a.y][a.x].c = '0';
 	sl->item_cnt--;
 }
 
-size_t	move_hero(t_map **map_adj, int32_t move[2], int32_t hero[4])
+/*size_t	move_hero(t_map **map_adj, int32_t move[2])
 {
 	//update image?
 	int32_t		i;
@@ -52,12 +52,12 @@ size_t	move_hero(t_map **map_adj, int32_t move[2], int32_t hero[4])
 	while (map_adj[i] != NULL)
 	{
 		if (map_adj[i]->c == 'C')
-			collect_item(*map_adj[i]);
-		else if (map_adj[i]-> == 'E')	
+			collect_item(,*map_adj[i]);
+		else if (map_adj[i]->c == 'E')	
 		i++;
 	}
 	map.img[0]->instances[map.instance].x += move[X]; //manage img frames		
 	map.img[0]->instances[map.instance].y += move[Y]; //manage img frames
 		
-}
+}*/
 

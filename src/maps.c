@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 18:28:44 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 23:24:31 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -57,7 +57,7 @@ void	get_map_size(t_win *sl, char *path)
 		unexpected_close(ERR_CLOSE_FILE, sl, NULL);
 }
 
-static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t y)
+static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t *y)
 {
 	int32_t		i;
 	uint32_t	item_cnt;
@@ -72,10 +72,12 @@ static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t y)
 		map[i].c = line[i];
 		map[i].v = 0;
 		map[i].x = i * PPT;
-		map[i].y = y * PPT;
+		map[i].y = *y * PPT;
+		map[i].cnt_a = 0;
 		if (line[i++] == 'C')
 			item_cnt++;
 	}
+	*y = *y + 1;
 	return (item_cnt);
 }
 
@@ -90,13 +92,13 @@ void	sl_map_fill(t_win *sl, char *path)
 	line = get_next_line(sl->fd);
 	i = 0;
 	sl->item_cnt = 0;
-	sl->item_cnt += sl_line_fill(sl, sl->map[i++], line, 0);
+	sl->item_cnt += sl_line_fill(sl, sl->map[i], line, &i);
 	while (line != NULL)
 	{
 		free(line);
 		line = get_next_line(sl->fd);
 		if (line != NULL)
-			sl->item_cnt += sl_line_fill(sl, sl->map[i], line, i++);
+			sl->item_cnt += sl_line_fill(sl, sl->map[i], line, &i);
 	}
 	free(line);
 	line = NULL;

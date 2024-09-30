@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 18:48:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 23:09:21 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -17,10 +17,10 @@ char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2])
 
 	if (map_adj->c != '1')
 		return (0);
-	pos_adj[X] = map_adj->img[0]->instances[map_adj->instance].x;
-	pos_adj[Y] = map_adj->img[0]->instances[map_adj->instance].y;
-	pos_adj[X_W] = pos_adj[X] + map_adj->img[0]->width;
-	pos_adj[Y_H] = pos_adj[Y] + map_adj->img[0]->height;
+	pos_adj[X] = map_adj->a->img[0]->instances[map_adj->inst].x; //manage img
+	pos_adj[Y] = map_adj->a->img[0]->instances[map_adj->inst].y;
+	pos_adj[X_W] = pos_adj[X] + map_adj->a->img[0]->width;
+	pos_adj[Y_H] = pos_adj[Y] + map_adj->a->img[0]->height;
 	if (move[X] > 0 && hero[X_W] + move[X] > pos_adj[X])
 		return (map_adj->c);
 	if (move[X] < 0 && hero[X] + move[X] < pos_adj[X_W])
@@ -100,7 +100,7 @@ size_t	move_auth(t_win *sl, t_map **map_adj, int32_t move[2], int32_t hero[4])
 	return (1);
 }
 
-size_t	move_init(t_win *sl, t_cat *cat, keys_t key, t_map map)
+size_t	move_init(t_win *sl, keys_t key, t_map map)
 {
 	int32_t	hero[4];
 	int32_t	move[2];
@@ -110,10 +110,10 @@ size_t	move_init(t_win *sl, t_cat *cat, keys_t key, t_map map)
 		unexpected_close(ERR_PPT, sl, sl->map);
 	move[X] = 0;
 	move[Y] = 0;
-	hero[X] = map.img[0]->instances[map.instance].x; //manage image frames
-	hero[Y] = map.img[0]->instances[map.instance].y; //manage image frames
-	hero[X_W] = hero[X] + map.img[0]->width;
-	hero[Y_H] = hero[Y] + map.img[0]->height;
+	hero[X] = map.a->img[0]->instances[map.inst].x; //manage image frames
+	hero[Y] = map.a->img[0]->instances[map.inst].y; //manage image frames
+	hero[X_W] = hero[X] + map.a->img[0]->width;
+	hero[Y_H] = hero[Y] + map.a->img[0]->height;
 	if (key == MLX_KEY_RIGHT)
 		move[X] = MOVE;
 	if (key == MLX_KEY_LEFT)

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 21:00:21 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 22:39:21 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move, int32_t z)
 	anime->y_move = y_move;
 	anime->depth = z;
 	anime->count = 0;
-	anime->frame = 0;
 	anime->img = NULL;
 	return (anime);
 }

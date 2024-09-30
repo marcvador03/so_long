@@ -6,13 +6,27 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:58:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 14:13:30 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 22:43:49 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEXTURE_H
 # define TEXTURE_H
-# include "animations.h"
+# include "so_long.h"
+
+typedef struct	s_sprite
+{
+//	char			*path;
+	size_t			count;
+	size_t			pos_x;
+	size_t			pos_y;	
+	size_t			width;
+	size_t			height;
+	size_t			r_width;
+	size_t			r_height;
+	mlx_texture_t	**texture;	
+}	t_sprite;
+
 //# define HERO "textures/knight/Walk1.png"
 # define ITEM "textures/graveyard/png/Objects/Skeleton.png"
 //# define WALL "textures/graveyard/png/Objects/TombStone1.png"

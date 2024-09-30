@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 18:04:09 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 23:09:41 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	keyhook(mlx_key_data_t k, void *param)
 {
 	t_win	*sl;
 	t_map	map;
-	size_t	n;
 
 	sl = (t_win *)param;
 	map = sl->map[sl->h_hero][sl->w_hero];
@@ -86,12 +85,11 @@ void	keyhook(mlx_key_data_t k, void *param)
 		exp_close(sl);
 	if (k.key >= MLX_KEY_RIGHT && k.key <= MLX_KEY_UP && k.action >= MLX_PRESS)
 	{
-		if (move_init(sl, sl->cat, k.key, map) > 0)
-			move_hero();
+		if (move_init(sl, k.key, map) > 0)
 		{
-			sl->move_cnt += n;
+			sl->move_cnt++;
 			ft_printf("Current #movements: %d\n", sl->move_cnt);
-			sl_move_action(sl, sl->cat->h_idle->img);
+			//sl_move_action(sl, sl->cat->h_idle->img);
 		}
 	}
 }

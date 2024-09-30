@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 21:39:07 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 23:09:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/getnextline/get_next_line.h"
-# include "textures.h"
 # include "errors.h"
+# include "textures.h"
 # define TITLE "so_long mfleury"
 # define BPP 4
 # define MOVE 4
@@ -40,26 +40,13 @@
 # define INIT 3
 # define PX 4
 
-typedef struct	s_sprite
-{
-//	char			*path;
-	size_t			count;
-	size_t			pos_x;
-	size_t			pos_y;	
-	size_t			width;
-	size_t			height;
-	size_t			r_width;
-	size_t			r_height;
-	mlx_texture_t	**texture;	
-}	t_sprite;
-
 typedef struct	s_anim
 {
 	double			fps;
 	int32_t			x_move;
 	int32_t			y_move;
 	size_t			count;
-//	size_t			frame;
+	size_t			frame; //where init??
 	int32_t			depth;
 	bool			enabled; //used?
 	mlx_image_t		**img;
@@ -85,10 +72,10 @@ typedef struct	s_map
 	char	v;
 	int32_t	x; //used?
 	int32_t	y; //used?
-	t_anim	**a;
+	t_anim	*a;
 	size_t	cur_img;
 	size_t	inst;
-	size_t	count_img; //= anime.frame --> to be updated?
+	size_t	cnt_a; 
 } t_map;
 
 typedef struct	s_hero
@@ -122,7 +109,7 @@ void	unexpected_close(char *str, t_win *sl, t_map **map);
 void	exp_close(void *ptr);
 void	free_img(t_cat *cat);
 void	load_static_image(t_win *sl, t_cat *cat);
-void	load_dynamic_image(t_win sl, t_anim *a, t_sprite *sprite);
+void	load_dynamic_image(t_win *sl, t_anim *a, t_sprite *sprite, char c);
 void	activate(t_anim *a, int n);
 void	de_activate(t_anim *a, int n);
 void	keyhook(mlx_key_data_t keydata, void *param);
@@ -155,10 +142,10 @@ mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t, t_sprite in);
 mlx_texture_t	*create_sub_txt(size_t w, size_t h);
 
 /*movements functions*/
-size_t	move_init(t_win *sl, t_cat *cat, keys_t key, t_map map);
-int	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2]);
-size_t	move_hero(t_map **map_adj, t_map map, int32_t move[2], int32_t hero[4]);
-void	collect_item(t_win *sl, t_map **map, t_map a)
+size_t	move_init(t_win *sl, keys_t key, t_map map);
+char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2]);
+size_t	move_hero(t_map **map_adj, int32_t move[2], int32_t hero[4]);
+void	collect_item(t_win *sl, t_map **map, t_map a);
 
 #endif
 
