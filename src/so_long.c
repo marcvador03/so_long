@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 22:47:15 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 01:20:52 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	image_load_sequence(t_win *sl, t_cat *cat)
 {
-	//load_static_image(sl, cat);
 	load_dynamic_image(sl, cat->bckg, cat->s_bckg, '0');
 	load_dynamic_image(sl, cat->item, cat->s_item, 'C');
 	load_dynamic_image(sl, cat->wall, cat->s_wall, '1');
 	load_dynamic_image(sl, cat->hero, cat->s_hero, 'P');
-	//load_dynamic_image(*sl, cat->h_run, cat->h_run_s);
+	load_dynamic_image(sl, cat->exit, cat->s_exit, 'E');
+	sl->str_move = mlx_put_string(sl->mlx, "Movements :", 0, 0);
 }
 
 static void	texture_load_sequence(t_win *sl, t_cat *cat)
@@ -28,15 +28,15 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 	cat->s_item = create_sprite(mlx_load_png(CHEST), g_chest);
 	cat->s_hero = create_sprite(mlx_load_png(HERO), g_hero);
 	cat->s_wall = create_sprite(mlx_load_png(WALL), g_wall);
-	//cat->s_exit = create_sprite(mlx_load_png(EXIT), g_exit);
+	cat->s_exit = create_sprite(mlx_load_png(EXIT), g_exit);
 //  NULL condition check. Within create_sprite or here
 	if (cat->s_bckg == NULL)
 		unexpected_close(ERR_SPRITE, sl, sl->map);
-	cat->bckg = create_anime(0, 0, 0, 0);
-	cat->item = create_anime(0, 0, 0, 2);
-	cat->hero = create_anime(0, 0, 0, 3);
-	cat->wall = create_anime(0, 0, 0, 1);
-	//cat->exit = create_anime(0.05, 0, 0);
+	cat->bckg = create_anime(0, 0, 0, 0, "bckg");
+	cat->item = create_anime(0, 0, 0, 2, "item");
+	cat->hero = create_anime(0, 0, 0, 3, "hero");
+	cat->wall = create_anime(0, 0, 0, 1, "wall");
+	cat->exit = create_anime(0, 0, 0, 2, "exit");
 		//unexpected_close(ERR_ANIME, sl, sl->map);
 }
 

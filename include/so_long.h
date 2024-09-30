@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 23:09:29 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 01:04:08 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 
 typedef struct	s_anim
 {
+	char			*name;
 	double			fps;
 	int32_t			x_move;
 	int32_t			y_move;
@@ -72,10 +73,10 @@ typedef struct	s_map
 	char	v;
 	int32_t	x; //used?
 	int32_t	y; //used?
-	t_anim	*a;
-	size_t	cur_img;
+	//t_anim	**a;
+	t_anim	*cur_a;
 	size_t	inst;
-	size_t	cnt_a; 
+	size_t	cnt; 
 } t_map;
 
 typedef struct	s_hero
@@ -96,13 +97,14 @@ typedef struct	s_win
 	int32_t		w_win;
 	u_int32_t	h_map;
 	u_int32_t	w_map;
-	t_hero		*hero; //used?
 	u_int32_t	w_hero;
 	u_int32_t	h_hero;
 	t_cat		*cat;
 	u_int32_t	item_cnt;
 	u_int32_t	move_cnt;	
-	u_int32_t	mem_count; //used?
+	u_int32_t	mem_count;
+	mlx_image_t	*str_move;
+	mlx_image_t	*s_cnt;
 } t_win;
 
 void	unexpected_close(char *str, t_win *sl, t_map **map);
@@ -124,7 +126,7 @@ void	check_path_init(t_win *sl, t_map **map);
 int32_t	map_len(int32_t move[2], int32_t hero[4]);
 
 /*animation functions*/
-t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move, int32_t z);
+t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move, int32_t z, char *name);
 void	anime_sprite(void *ptr);
 
 /* Sprite and Sprite utils*/
@@ -144,7 +146,6 @@ mlx_texture_t	*create_sub_txt(size_t w, size_t h);
 /*movements functions*/
 size_t	move_init(t_win *sl, keys_t key, t_map map);
 char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2]);
-size_t	move_hero(t_map **map_adj, int32_t move[2], int32_t hero[4]);
 void	collect_item(t_win *sl, t_map **map, t_map a);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 23:07:20 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 00:32:08 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	load_static_image(t_win *sl, t_cat *cat)
 	}
 }*/
 
-void	attach_image(t_win *sl, t_map map, t_anim *a, uint32_t p[2])
+void	attach_image(t_win *sl, t_map *map, t_anim *a, uint32_t p[2])
 {
 	size_t	i;
 	size_t	n;
@@ -79,13 +79,13 @@ void	attach_image(t_win *sl, t_map map, t_anim *a, uint32_t p[2])
 		mlx_image_to_window(sl->mlx, a->img[i], p[W] * PPT, p[H] * PPT);
 		n = a->img[i]->count - 1;
 		mlx_set_instance_depth(&a->img[i]->instances[n], a->depth);
-		a->img[i]->instances[n].enabled = false;
+		a->img[i++]->instances[n].enabled = false;
 	}
-	map.a = a;
-	map.cur_img = 0;
-	map.inst = map.a->img[0]->count - 1;
-	a->img[0]->instances[n].enabled = true;
-	map.cnt_a++;
+	//map->a = &a;
+	map->cur_a = a;
+	map->inst = map->cur_a->img[0]->count - 1;
+	map->cur_a->img[0]->instances[n].enabled = true;
+	map->cnt++;
 }
 
 void	load_sprite(mlx_t *mlx, t_sprite *s, t_anim *a)
@@ -116,7 +116,7 @@ void	load_sprite(mlx_t *mlx, t_sprite *s, t_anim *a)
 void	load_dynamic_image(t_win *sl, t_anim *a, t_sprite *sprite, char c)
 {
 	uint32_t	cnt[2];
-	t_map		map;
+	t_map		*map;
 
 	cnt[H] = 0;
 	load_sprite(sl->mlx, sprite, a);
@@ -126,11 +126,11 @@ void	load_dynamic_image(t_win *sl, t_anim *a, t_sprite *sprite, char c)
 		cnt[W] = 0;
 		while (cnt[W] < sl->w_map)
 		{
+			map = &sl->map[cnt[H]][cnt[W]];
 			if (sl->map[cnt[H]][cnt[W]].c == c)
-			{
-				map = sl->map[cnt[H]][cnt[W]];
 				attach_image(sl, map, a, cnt);
-			}
+			else if (ft_strncmp(a->name, "bckg", 4) == 0)
+				attach_image(sl, map, a, cnt);
 			cnt[W]++;
 		}
 		cnt[H]++;

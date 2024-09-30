@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 23:09:21 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 01:09:05 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -15,12 +15,12 @@ char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2])
 {
 	int32_t	pos_adj[4];
 
-	if (map_adj->c != '1')
+	if (map_adj->c == '0')
 		return (0);
-	pos_adj[X] = map_adj->a->img[0]->instances[map_adj->inst].x; //manage img
-	pos_adj[Y] = map_adj->a->img[0]->instances[map_adj->inst].y;
-	pos_adj[X_W] = pos_adj[X] + map_adj->a->img[0]->width;
-	pos_adj[Y_H] = pos_adj[Y] + map_adj->a->img[0]->height;
+	pos_adj[X] = map_adj->cur_a->img[0]->instances[map_adj->inst].x; //manage img
+	pos_adj[Y] = map_adj->cur_a->img[0]->instances[map_adj->inst].y;
+	pos_adj[X_W] = pos_adj[X] + map_adj->cur_a->img[0]->width;
+	pos_adj[Y_H] = pos_adj[Y] + map_adj->cur_a->img[0]->height;
 	if (move[X] > 0 && hero[X_W] + move[X] > pos_adj[X])
 		return (map_adj->c);
 	if (move[X] < 0 && hero[X] + move[X] < pos_adj[X_W])
@@ -86,7 +86,7 @@ size_t	move_auth(t_win *sl, t_map **map_adj, int32_t move[2], int32_t hero[4])
 	i = 0;
 	while (map_adj[i] != NULL)
 	{
-		c = check_collision(map_adj[i++], hero, move);
+		c = check_collision(map_adj[i], hero, move);
 		if (c == '1')
 			return (free(map_adj), 0);
 		else if (c == 'C')
@@ -96,6 +96,7 @@ size_t	move_auth(t_win *sl, t_map **map_adj, int32_t move[2], int32_t hero[4])
 		}
 		else if (c == 'E' && sl->item_cnt == 0)
 			return (free(map_adj), 2);
+		i++;
 	}
 	return (1);
 }
@@ -110,10 +111,10 @@ size_t	move_init(t_win *sl, keys_t key, t_map map)
 		unexpected_close(ERR_PPT, sl, sl->map);
 	move[X] = 0;
 	move[Y] = 0;
-	hero[X] = map.a->img[0]->instances[map.inst].x; //manage image frames
-	hero[Y] = map.a->img[0]->instances[map.inst].y; //manage image frames
-	hero[X_W] = hero[X] + map.a->img[0]->width;
-	hero[Y_H] = hero[Y] + map.a->img[0]->height;
+	hero[X] = map.cur_a->img[0]->instances[map.inst].x; //manage image frames
+	hero[Y] = map.cur_a->img[0]->instances[map.inst].y; //manage image frames
+	hero[X_W] = hero[X] + map.cur_a->img[0]->width;
+	hero[Y_H] = hero[Y] + map.cur_a->img[0]->height;
 	if (key == MLX_KEY_RIGHT)
 		move[X] = MOVE;
 	if (key == MLX_KEY_LEFT)

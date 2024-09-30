@@ -1,15 +1,16 @@
 Manage img and sprite update on screen and in map
-    move static image to anime with 1 image
-		store info for active img / instance
+    move static image to anime with 1 image OK
+	store info for active img / instance OK
+	enable list of anim linked to map point
     function to perform switch of image / sprite
-     all images must have been loaded to window?
+    all images must have been loaded to window? OK
 Manage screen size
 Mirror hero
 Implement monster
 Implement death
-Show move count on game
+Show move count on game OK
 Implement path validation - OK
-	further tests to done
+	further tests to done NOK!!!!!
 	error messges are not accurate to be tested
 extension.ber file check OK
 Correct collision (up & right) - OK
