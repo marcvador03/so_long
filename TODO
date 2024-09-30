@@ -1,3 +1,7 @@
+Manage img and sprite update on screen and in map
+    store info for active img / instance
+    function to perform switch of image / sprite
+     all images must have been loaded to window?
 Manage screen size
 Mirror hero
 Implement monster
@@ -7,10 +11,11 @@ Implement path validation - OK
 	further tests to done
 	error messges are not accurate to be tested
 extension.ber file check OK
-Correct collision (up & right)
+Correct collision (up & right) - OK
 	OK but bugged when screen resized - to be checked with screen resize
-Manage sprites OK (bug with weird dim)
-	redo function + norminette
+Manage sprites OK
+	redo function + norminette OK
+   implement check for weird values?
 Update textures OK
 Error management OK?
 Fix ESC
@@ -18,4 +23,4 @@ Fix exit sequence (mlx terminate)
 Leaks
   Maps - OK? something strange with KEY escape
 
-Norminette 
+Norminette - 90%
