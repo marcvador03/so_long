@@ -14,14 +14,12 @@
 
 static void	image_load_sequence(t_win *sl, t_cat *cat)
 {
-	/*cat->h_idle = create_anime(0.5, 0, 0);
-	cat->h_run = create_anime(0, 0, 0);
-	cat->h_dead = create_anime(0.5, 0, 0);
-	if (cat->h_idle == NULL || cat->h_run == NULL || cat->h_dead == NULL)
-		unexpected_close(ERR_ANIME, sl, sl->map);*/
-	load_static_image(sl, cat);
-	/*load_dynamic_image(*sl, cat->h_idle, cat->h_idle_s);
-	load_dynamic_image(*sl, cat->h_run, cat->h_run_s);*/
+	//load_static_image(sl, cat);
+	load_dynamic_image(*sl, cat->bckg, cat->s_bckg, '0');
+	load_dynamic_image(*sl, cat->item, cat->s_item, 'C');
+	load_dynamic_image(*sl, cat->wall, cat->s_wall, '1');
+	load_dynamic_image(*sl, cat->hero, cat->s_hero, 'P');
+	//load_dynamic_image(*sl, cat->h_run, cat->h_run_s);
 }
 
 static void	texture_load_sequence(t_win *sl, t_cat *cat)
@@ -33,10 +31,10 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 	//cat->s_exit = create_sprite(mlx_load_png(EXIT), g_exit);
 //  NULL condition check. Within create_sprite or here
 //		unexpected_close(ERR_SPRITE, sl, sl->map);
-	cat->bckg = create_anime(0.05, 0, 0, 0);
-	cat->item = create_anime(0.05, 0, 0, 2);
-	cat->hero = create_anime(0.05, 0, 0, 3);
-	cat->wall = create_anime(0.05, 0, 0, 1);
+	cat->bckg = create_anime(0, 0, 0, 0);
+	cat->item = create_anime(0, 0, 0, 2);
+	cat->hero = create_anime(0, 0, 0, 3);
+	cat->wall = create_anime(0, 0, 0, 1);
 	//cat->exit = create_anime(0.05, 0, 0);
 		//unexpected_close(ERR_ANIME, sl, sl->map);
 }
