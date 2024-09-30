@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:28:09 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/29 19:35:14 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 12:53:24 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 {
 	mlx_texture_t	*texture;
 
+	if (w == 0 && h == 0)
+		return (NULL);
 	texture = (mlx_texture_t *)malloc(sizeof(mlx_texture_t));
 	if (texture == NULL)
 		return (NULL);
@@ -56,36 +58,53 @@ void	free_sprite(size_t *cnt, t_sprite *s, mlx_texture_t *t)
 	mlx_delete_texture(t);
 }
 
+
+void	set_q(size_t cnt[5], int32_t *q)
+{
+	*q = (*q + 1) % BPP;
+	if (*q == 0)
+	{
+		cnt[PX] += BPP;
+		cnt[W] += BPP;
+	}
+
+}
+
+void	set_var(size_t cnt[5], int32_t *q, t_sprite in, int32_t w)
+{
+	*q = 0;
+	cnt[INIT] = (in.pos_x + (in.pos_y * w)) * BPP; 
+	cnt[INIT] += cnt[H] * w * BPP; 
+	cnt[W] = 0;
+	cnt[H]++;
+}
+
+void	set_var_m(size_t cnt[5], int32_t *q, t_sprite in, int32_t w)
+{
+	*q = 0;
+	cnt[INIT] = ((in.pos_x + (in.pos_y * w)) + in.width) * BPP - 4;
+	cnt[INIT] += cnt[H] * w * BPP; 
+	cnt[W] = 0;
+	cnt[H]++;
+}
+
 mlx_texture_t	*sprite_loop_m(mlx_texture_t *t_in, t_sprite in, size_t cnt[5])
 {
 	mlx_texture_t	*t;
 	int32_t			q;
-	uint32_t		i;
 
 	t = create_sub_txt(in.width, in.height);
-	if (t == NULL)
+	if (cnt == NULL || t_in == NULL || t == NULL)
 		return (NULL);
-	q = 0;
-	i = 0;
-	cnt[INIT] = (in.pos_x + in.width + (in.pos_y * in.width)) * BPP;
-	cnt[H] = 1;
-	cnt[W] = cnt[H] * t_in->width * BPP; 
-	while (cnt[H] < in.height)
+	set_var_m(cnt, &q, in, t_in->width);
+	while (cnt[H] <= in.height)
 	{
-		while (i < in.width)
+		while (cnt[W] < (in.width * BPP))
 		{
-			t->pixels[cnt[PIX] + q] = t_in->pixels[cnt[INIT] - cnt[W] - q ^ 3];
-			q = (q + 1) % BPP;
-			if (q == 0)
-			{
-				cnt[PIX] += BPP;
-				cnt[W] += BPP;
-				i++;
-			}
+			t->pixels[cnt[PX] + q] = t_in->pixels[cnt[INIT] - cnt[W] + q];
+			set_q(cnt, &q);
 		}
-		cnt[H]++;
-		cnt[W] = cnt[H] * t_in->width * BPP; 
-		i = 0;
+		set_var_m(cnt, &q, in, t_in->width);
 	}
 	return (t);
 }
@@ -94,32 +113,19 @@ mlx_texture_t	*sprite_loop(mlx_texture_t *t_in, t_sprite in, size_t cnt[5])
 {
 	mlx_texture_t	*t;
 	int32_t			q;
-	uint32_t		i;
 
 	t = create_sub_txt(in.width, in.height);
-	if (t == NULL)
+	if (cnt == NULL || t_in == NULL || t == NULL)
 		return (NULL);
-	q = 0;
-	i = 0;
-	cnt[INIT] = (in.pos_x + (in.pos_y * in.width)) * BPP;
-	cnt[H] = 1;
-	cnt[W] = cnt[H] * t_in->width * BPP; 
-	while (cnt[H] < in.height)
+	set_var(cnt, &q, in, t_in->width);
+	while (cnt[H] <= in.height)
 	{
-		while (i < in.width)
+		while (cnt[W] < (in.width * BPP))
 		{
-			t->pixels[cnt[PIX] + q] = t_in->pixels[cnt[INIT] + cnt[W] + q];
-			q = (q + 1) % BPP;
-			if (q == 0)
-			{
-				cnt[PIX] += BPP;
-				cnt[W] += BPP;
-				i++;
-			}
+			t->pixels[cnt[PX] + q] = t_in->pixels[cnt[INIT] + cnt[W] + q];
+			set_q(cnt, &q);
 		}
-		cnt[H]++;
-		cnt[W] = cnt[H] * t_in->width * BPP; 
-		i = 0;
+		set_var(cnt, &q, in, t_in->width);
 	}
 	return (t);
 }
@@ -141,14 +147,68 @@ t_sprite	*create_sprite(mlx_texture_t *t, t_sprite in)
 		if (s->texture[cnt[TXT]] == NULL)
 			return (NULL);
 		cnt[TXT]++;
-		cnt[PIX] = 0;
+		cnt[PX] = 0;
 		cnt[INIT] += in.width * BPP; 
 	}
 	sprite_init(s, in);
 	return (free_sprite(cnt, NULL, t), s);
 }
 
-mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
+mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
+{
+	mlx_texture_t	*t;
+	mlx_image_t		*img;
+	int32_t			q;
+	size_t			*cnt;
+
+	cnt = (size_t *)calloc(5, sizeof(size_t));
+	t = create_sub_txt(in.width, in.height);
+	if (cnt == NULL || t_in == NULL || t == NULL)
+		return (NULL);
+	set_var_m(cnt, &q, in, t_in->width);
+	while (cnt[H] <= in.height)
+	{
+		while (cnt[W] < (in.width * BPP))
+		{
+			t->pixels[cnt[PX] + q] = t_in->pixels[cnt[INIT] - cnt[W] + q];
+			set_q(cnt, &q);
+		}
+		set_var_m(cnt, &q, in, t_in->width);
+	}
+	img = mlx_texture_to_image(&sl, t);
+	if (mlx_resize_image(img, in.r_width, in.r_height) == false)
+		return (NULL);
+	return (mlx_delete_texture(t_in), mlx_delete_texture(t), img);
+}
+
+mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
+{
+	mlx_texture_t	*t;
+	mlx_image_t		*img;
+	int32_t			q;
+	size_t			*cnt;
+
+	cnt = (size_t *)calloc(5, sizeof(size_t));
+	t = create_sub_txt(in.width, in.height);
+	if (cnt == NULL || t_in == NULL || t == NULL)
+		return (NULL);
+	set_var(cnt, &q, in, t_in->width);
+	while (cnt[H] <= in.height)
+	{
+		while (cnt[W] < (in.width * BPP))
+		{
+			t->pixels[cnt[PX] + q] = t_in->pixels[cnt[INIT] + cnt[W] + q];
+			set_q(cnt, &q);
+		}
+		set_var(cnt, &q, in, t_in->width);
+	}
+	img = mlx_texture_to_image(&sl, t);
+	if (mlx_resize_image(img, in.r_width, in.r_height) == false)
+		return (NULL);
+	return (mlx_delete_texture(t_in), mlx_delete_texture(t), img);
+}
+
+/*mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
 {
 	mlx_texture_t		*t_out;
 	mlx_image_t			*img;
@@ -175,4 +235,4 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in)
 	if (mlx_resize_image(img, in.r_width, in.r_height) == false)
 		return (NULL);
 	return (mlx_delete_texture(t), mlx_delete_texture(t_out), img);
-}
+}*/

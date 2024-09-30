@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/29 18:53:44 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 11:48:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define Y_H 3
 # define TXT 2
 # define INIT 3
-# define PIX 4
+# define PX 4
 //#include "../MLX42/include/MLX42/MLX42_Int.h"
 
 typedef struct s_img_cat
@@ -84,6 +84,7 @@ void	unexpected_close(char *str, t_win *sl, t_map **map);
 void	exp_close(void *ptr);
 void	free_img(t_cat *cat);
 mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
+mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t, t_sprite in);
 //void	sl_load_image(t_mainwindow sl);
 void	load_static_image(t_win *sl, t_cat *cat);
 void	load_dynamic_image(t_win sl, t_anim *a, t_sprite *sprite);

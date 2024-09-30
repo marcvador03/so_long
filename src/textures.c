@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 17:50:01 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 12:49:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ void	load_static_image(t_win *sl, t_cat *cat)
 	t_map		map;
 
 	cnt[H] = 0;
-	while (cnt[H] <= sl->h_map - 1)
+	while (cnt[H] < sl->h_map)
 	{
 		cnt[W] = 0;
-		while (cnt[W] <= sl->w_map - 1)
+		while (cnt[W] < sl->w_map)
 		{
-			map = sl->map[cnt[H]][cnt[W]++];
+			map = sl->map[cnt[H]][cnt[W]];
 			if (map.c == '1')
 				img = &cat->wall;
 			else if (map.c == 'C')
@@ -83,6 +83,7 @@ void	load_static_image(t_win *sl, t_cat *cat)
 				img = &cat->bckg;
 			update_map(&map, img, load(sl->mlx, *img, cnt, 1));
 			update_map(&map, &cat->bckg, load(sl->mlx, cat->bckg, cnt, 0));
+			cnt[W]++;
 		}
 		cnt[H]++;
 	}

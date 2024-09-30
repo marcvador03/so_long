@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 19:06:11 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/09/30 12:37:00 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -21,7 +21,7 @@ void	map_alloc(t_win *sl)
 		unexpected_close(ERR_MALLOC, sl, NULL);
 	i = 0;
 	sl->mem_count = 0;
-	while (i < (sl->h_map)) //check for valgrind impact
+	while (i < sl->h_map)
 	{
 		sl->map[i] = (t_map *)ft_calloc(sl->w_map, sizeof(t_map));
 		if (sl->map[i] == NULL)
