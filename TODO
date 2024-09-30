@@ -1,5 +1,6 @@
 Manage img and sprite update on screen and in map
-    store info for active img / instance
+    move static image to anime with 1 image
+		store info for active img / instance
     function to perform switch of image / sprite
      all images must have been loaded to window?
 Manage screen size
