@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 01:04:08 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 10:07:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct	s_anim
 	size_t			count;
 	size_t			frame; //where init??
 	int32_t			depth;
-	bool			enabled; //used?
+	bool			enabled; //used ?
 	mlx_image_t		**img;
 }	t_anim;
 
@@ -109,7 +109,6 @@ typedef struct	s_win
 
 void	unexpected_close(char *str, t_win *sl, t_map **map);
 void	exp_close(void *ptr);
-void	free_img(t_cat *cat);
 void	load_static_image(t_win *sl, t_cat *cat);
 void	load_dynamic_image(t_win *sl, t_anim *a, t_sprite *sprite, char c);
 void	activate(t_anim *a, int n);

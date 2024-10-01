@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:29:04 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 21:00:54 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 09:53:59 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	init_var(size_t **cnt, t_sprite **s, t_sprite in)
 {
 	*cnt = (size_t *)ft_calloc(5, sizeof(size_t));
 	*s = (t_sprite *)ft_calloc(sizeof(t_sprite), 1);
-	(*s)->texture = ft_calloc(in.count, sizeof(mlx_texture_t *));
+	(*s)->texture = ft_calloc(in.count, sizeof(mlx_texture_t));
 	if ((*s)->texture == NULL || *s == NULL || *cnt == NULL)
 		return (0);
 	return (1);

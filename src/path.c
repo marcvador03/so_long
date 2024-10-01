@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:43:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 21:02:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 10:10:16 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*check_all_items(t_win *sl, t_map **map)
 		return (free(flag), ERR_MAP_EXIT);
 	if (flag[1] != sl->item_cnt)
 		return (free(flag), ERR_MAP_PATH);
-	return (NULL);
+	return (free(flag), NULL);
 }
 
 void	find_start_position(t_win *sl, t_map **map, uint32_t *h, uint32_t *w)
