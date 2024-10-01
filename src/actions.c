@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 01:33:06 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 10:40:04 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	keyhook(mlx_key_data_t k, void *param)
 	sl = (t_win *)param;
 	map = sl->map[sl->h_hero][sl->w_hero];
 	if (k.key == MLX_KEY_ESCAPE && k.action == MLX_PRESS)
-		exp_close(&sl);
+		esc_close(sl, sl->map);
 	if (k.key >= MLX_KEY_RIGHT && k.key <= MLX_KEY_UP && k.action >= MLX_PRESS)
 	{
 		n = move_init(sl, k.key, map);

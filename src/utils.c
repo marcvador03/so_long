@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:22 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 10:08:53 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 10:42:04 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,21 @@ static void	free_cat(mlx_t *mlx, t_cat *cat)
 	free(cat);
 }
 
+void	esc_close(t_win *sl, t_map **map)
+{
+	size_t	i;
+
+	i = 0;
+	if (map != NULL)
+	{
+		while (i < sl->mem_count)
+			free(map[i++]);
+		free(map);
+	}
+	free_cat(sl->mlx, sl->cat);
+	mlx_terminate(sl->mlx);
+	exit(1);
+}
 
 void	exp_close(void *ptr)
 {
@@ -45,6 +60,8 @@ void	exp_close(void *ptr)
 		free(sl->map[i++]);
 	free(sl->map);
 	free_cat(sl->mlx, sl->cat);
+	//mlx_delete_image(sl->mlx, sl->s_cnt);
+	mlx_delete_image(sl->mlx, sl->str_move);
 }
 
 void	unexpected_close(char *str, t_win *sl, t_map **map)
@@ -58,8 +75,11 @@ void	unexpected_close(char *str, t_win *sl, t_map **map)
 			free(map[i++]);
 		free(map);
 	}
+	free(sl->map);
 	free_cat(sl->mlx, sl->cat);
+	mlx_delete_image(sl->mlx, sl->str_move);
 	ft_printf("%s\n", "Error");
 	ft_printf("%s\n", str);
-	exit(1); //mlx_terminate??
+	mlx_terminate(sl->mlx);
+	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 01:20:52 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 10:31:45 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,5 @@ int	main(int argc, char *argv[])
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_run);
 	mlx_loop(sl.mlx);
 	mlx_terminate(sl.mlx);
-	//free_img(sl.cat);
 	return (0);
 }
