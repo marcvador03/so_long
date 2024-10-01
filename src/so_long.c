@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 10:31:45 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 18:35:33 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,35 @@
 
 static void	image_load_sequence(t_win *sl, t_cat *cat)
 {
-	load_dynamic_image(sl, cat->bckg, cat->s_bckg, '0');
-	load_dynamic_image(sl, cat->item, cat->s_item, 'C');
-	load_dynamic_image(sl, cat->wall, cat->s_wall, '1');
-	load_dynamic_image(sl, cat->hero, cat->s_hero, 'P');
-	load_dynamic_image(sl, cat->exit, cat->s_exit, 'E');
+	load_image_init(sl, cat->bckg, cat->s_bckg, '0');
+	load_image_init(sl, cat->item_c, cat->s_item_c, 'C');
+	load_image_init(sl, cat->wall, cat->s_wall, '1');
+	load_image_init(sl, cat->hero, cat->s_hero, 'P');
+	load_image_init(sl, cat->exit, cat->s_exit, 'E');
+	load_image_init(sl, cat->item_o, cat->s_item_o, 'C');
+	load_image_init(sl, cat->mush, cat->s_mush, 'C');
 	sl->str_move = mlx_put_string(sl->mlx, "Movements :", 0, 0);
 }
 
 static void	texture_load_sequence(t_win *sl, t_cat *cat)
 {
 	cat->s_bckg = create_sprite(mlx_load_png(BCKG), g_bckg);
-	cat->s_item = create_sprite(mlx_load_png(CHEST), g_chest);
+	cat->s_item_c = create_sprite(mlx_load_png(CHEST_C), g_chest_c);
 	cat->s_hero = create_sprite(mlx_load_png(HERO), g_hero);
 	cat->s_wall = create_sprite(mlx_load_png(WALL), g_wall);
 	cat->s_exit = create_sprite(mlx_load_png(EXIT), g_exit);
+	cat->s_item_o = create_sprite(mlx_load_png(CHEST_O), g_chest_o);
+	cat->s_mush = create_sprite(mlx_load_png(MUSH), g_mush);
 //  NULL condition check. Within create_sprite or here
 	if (cat->s_bckg == NULL)
 		unexpected_close(ERR_SPRITE, sl, sl->map);
 	cat->bckg = create_anime(0, 0, 0, 0, "bckg");
-	cat->item = create_anime(0, 0, 0, 2, "item");
+	cat->item_c = create_anime(0, 0, 0, 2, "item_c");
 	cat->hero = create_anime(0, 0, 0, 3, "hero");
 	cat->wall = create_anime(0, 0, 0, 1, "wall");
 	cat->exit = create_anime(0, 0, 0, 2, "exit");
+	cat->item_o = create_anime(0, 0, 0, 2, "item_o");
+	cat->mush = create_anime(0, 0, 0, 2, "mush");
 		//unexpected_close(ERR_ANIME, sl, sl->map);
 }
 
@@ -74,7 +80,6 @@ int	main(int argc, char *argv[])
 	window_init(&sl);
 	texture_load_sequence(&sl, sl.cat);
 	image_load_sequence(&sl, sl.cat);
-	///activate(sl.cat->h_idle, 0);
 	mlx_close_hook(sl.mlx, &exp_close, &sl);
 	mlx_key_hook(sl.mlx, &keyhook, &sl);
 	//manage NULL value for hooks parameters

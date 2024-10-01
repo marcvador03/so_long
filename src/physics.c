@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   physics.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
+/*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 12:37:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 01:09:05 by mfleury          ###   ########.fr       */
+/*   Created: 2024/10/01 17:45:42 by mfleury           #+#    #+#             */
+/*   Updated: 2024/10/01 17:45:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../include/so_long.h"
 
 char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2])

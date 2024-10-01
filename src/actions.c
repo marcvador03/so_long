@@ -6,34 +6,35 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 10:40:04 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 18:30:07 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	activate(t_anim *a, int n)
-{
-	//manage NULL value
-	a->enabled = true;
-	a->img[0]->instances[n].enabled = true;
-}
-
-void	de_activate(t_anim *a, int n)
+void	switch_img(t_map *map, t_anim *out, t_anim *in)
 {
 	size_t	i;
-
-	//manage NULL value
-	a->enabled = false;
+	
 	i = 0;
-	while (i < a->count)
-		a->img[i++]->instances[n].enabled = false;
+	while (i < in->count)
+		in->img[i++]->instances[map->inst].enabled = false;
+	i = 0;
+	while (i < out->count)
+	{
+		out->img[i]->instances[map->inst].x = in->img[0]->instances[map->inst].x;
+		out->img[i++]->instances[map->inst].y = in->img[0]->instances[map->inst].y;
+	}
+	out->img[0]->instances[map->inst].enabled = true;
+	map->cur_a = out;
 }
 
 static void	move_hero(t_win *sl, keys_t key, t_map *map)
 {
 	int32_t	move[2];
 
+	move[X] = 0;
+	move[Y] = 0;
 	if (key == MLX_KEY_RIGHT)
 		move[X] = MOVE;
 	if (key == MLX_KEY_LEFT)

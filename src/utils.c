@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:22 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 10:42:04 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 14:51:20 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ static void	free_img(mlx_t *mlx, t_anim *a)
 static void	free_cat(mlx_t *mlx, t_cat *cat)
 {
 	free_img(mlx, cat->wall);
-	free_img(mlx, cat->item);
+	free_img(mlx, cat->item_c);
 	free_img(mlx, cat->exit);
 	free_img(mlx, cat->hero);
 	free_img(mlx, cat->bckg);
+	free_img(mlx, cat->item_o);
 	free(cat);
 }
 

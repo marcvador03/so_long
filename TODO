@@ -2,7 +2,8 @@ Manage img and sprite update on screen and in map
     move static image to anime with 1 image OK
 	store info for active img / instance OK
 	enable list of anim linked to map point
-    function to perform switch of image / sprite
+    function to perform switch of image / sprite OK
+		function to check if instances are the same (based on img pos anf if inst > 1)?
     all images must have been loaded to window? OK
 Manage screen size
 Mirror hero

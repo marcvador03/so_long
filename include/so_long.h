@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 10:39:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 18:34:40 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,19 @@ typedef struct	s_anim
 typedef struct s_img_cat
 {
 	t_sprite	*s_wall;
-	t_sprite	*s_item;
+	t_sprite	*s_item_c;
 	t_sprite	*s_exit;
 	t_sprite	*s_bckg;
 	t_sprite	*s_hero;
+	t_sprite	*s_item_o;
+	t_sprite	*s_mush;
 	t_anim		*wall;
-	t_anim		*item;
+	t_anim		*item_c;
 	t_anim		*exit;
 	t_anim		*bckg;
 	t_anim		*hero;
+	t_anim		*item_o;
+	t_anim		*mush;
 }	t_cat;
 
 typedef struct	s_map
@@ -79,7 +83,7 @@ typedef struct	s_map
 	size_t	cnt; 
 } t_map;
 
-typedef struct	s_hero
+typedef struct	s_hero // used??
 {
 	mlx_image_t	**img;
 	size_t	instance;
@@ -111,7 +115,9 @@ void	unexpected_close(char *str, t_win *sl, t_map **map);
 void	exp_close(void *ptr);
 void	esc_close(t_win *sl, t_map **map);
 void	load_static_image(t_win *sl, t_cat *cat);
-void	load_dynamic_image(t_win *sl, t_anim *a, t_sprite *sprite, char c);
+void	attach_image(t_map *map, t_anim *a);
+void	load_image_init(t_win *sl, t_anim *a, t_sprite *sprite, char c);
+void	load_no_attach(t_win *sl, t_anim *a, t_sprite *sprite);
 void	activate(t_anim *a, int n);
 void	de_activate(t_anim *a, int n);
 void	keyhook(mlx_key_data_t keydata, void *param);
@@ -128,6 +134,7 @@ int32_t	map_len(int32_t move[2], int32_t hero[4]);
 /*animation functions*/
 t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move, int32_t z, char *name);
 void	anime_sprite(void *ptr);
+void	switch_img(t_map *map, t_anim *out, t_anim *in);
 
 /* Sprite and Sprite utils*/
 t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
