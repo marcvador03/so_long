@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:22 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 14:51:20 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 22:56:15 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ static void	free_img(mlx_t *mlx, t_anim *a)
 
 	i = 0;
 	while (i < a->count)
+	{
 		mlx_delete_image(mlx, a->img[i++]);
+		free(a->frame[i]);
+	}
+	free(a->frame);
 	free(a->img);
 	free(a);	
 }

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:58:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 18:33:56 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 20:05:05 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static const t_sprite g_chest_c = { 1, 95, 204, 32, 22, PPT, 44, NULL };
 # define CHEST_O "textures/pixel_crawler_1.8/Environment/Dungeon Prison/Assets/Props.png"
 static const t_sprite g_chest_o = { 1, 127, 204, 32, 22, PPT, 44, NULL };
 # define MUSH "textures/pixel_crawler_1.8/Environment/Green Woods/Assets/Props.png"
-static const t_sprite g_mush = { 1, 32, 32, 15, 15, 15, 15, NULL };
+static const t_sprite g_mush = { 1, 32, 16, 16, 16, PPT / 2, PPT / 2, NULL };
 # define EXIT "textures/pixel_crawler_1.8/Environment/Dungeon Prison/Assets/Tiles.png"
 static const t_sprite g_exit = { 1, 32, 112, 32, 48, PPT, PPT, NULL };
 

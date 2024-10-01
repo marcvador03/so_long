@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 18:34:40 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 23:57:20 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ typedef struct	s_anim
 {
 	char			*name;
 	double			fps;
-	int32_t			x_move;
-	int32_t			y_move;
+	double			time;
 	size_t			count;
-	size_t			frame; //where init??
+	int32_t			**frame;
 	int32_t			depth;
 	bool			enabled; //used ?
 	mlx_image_t		**img;
@@ -60,6 +59,13 @@ typedef struct s_img_cat
 	t_sprite	*s_exit;
 	t_sprite	*s_bckg;
 	t_sprite	*s_hero;
+	t_sprite	*sm_hero;
+	t_sprite	*s_hero_idle;
+	t_sprite	*sm_hero_idle;
+	t_sprite	*s_hero_run;
+	t_sprite	*sm_hero_run;
+	t_sprite	*s_hero_dead;
+	t_sprite	*sm_hero_dead;
 	t_sprite	*s_item_o;
 	t_sprite	*s_mush;
 	t_anim		*wall;
@@ -67,6 +73,13 @@ typedef struct s_img_cat
 	t_anim		*exit;
 	t_anim		*bckg;
 	t_anim		*hero;
+	t_anim		*hero_m;
+	t_anim		*hero_idle;
+	t_anim		*hero_idle_m;
+	t_anim		*hero_run;
+	t_anim		*hero_run_m;
+	t_anim		*hero_dead;
+	t_anim		*hero_dead_m;
 	t_anim		*item_o;
 	t_anim		*mush;
 }	t_cat;
@@ -97,8 +110,8 @@ typedef struct	s_win
 	int			fd;
 	t_map		**map;
 	mlx_t		*mlx;
-	int32_t		h_win;
-	int32_t		w_win;
+	int32_t		h_win; // used?
+	int32_t		w_win; // used?
 	u_int32_t	h_map;
 	u_int32_t	w_map;
 	u_int32_t	w_hero;
@@ -109,6 +122,7 @@ typedef struct	s_win
 	u_int32_t	mem_count;
 	mlx_image_t	*str_move;
 	mlx_image_t	*s_cnt;
+	t_anim		*hero;
 } t_win;
 
 void	unexpected_close(char *str, t_win *sl, t_map **map);
@@ -132,12 +146,18 @@ void	check_path_init(t_win *sl, t_map **map);
 int32_t	map_len(int32_t move[2], int32_t hero[4]);
 
 /*animation functions*/
-t_anim	*create_anime(double fps, int32_t x_move, int32_t y_move, int32_t z, char *name);
+t_anim	*create_anime(double fps, int32_t z, char *name);
 void	anime_sprite(void *ptr);
 void	switch_img(t_map *map, t_anim *out, t_anim *in);
+void	activate_anim(t_map *map, t_anim *out, t_anim *in);
+void	move_mush(t_win *sl, mlx_image_t *img, int32_t i);
+void	hook_mush(void *ptr);
+void	hook_idle(void *ptr);
+void	anime_hero(t_win *sl, int32_t n); 
 
 /* Sprite and Sprite utils*/
 t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
+t_sprite 	*create_sprite_m(mlx_texture_t *t, t_sprite in);
 void	sprite_init(t_sprite *s, t_sprite in);
 int		init_var(size_t **cnt, t_sprite **s, t_sprite in);
 void	free_sprite(size_t *cnt, t_sprite *s, mlx_texture_t *t);

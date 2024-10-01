@@ -6,11 +6,24 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 18:30:07 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/01 20:10:40 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+void	activate_anim(t_map *map, t_anim *out, t_anim *in)
+{
+	size_t	i;
+	
+	i = 0;
+	while (i < out->count)
+	{
+		out->img[i]->instances[map->inst].x = in->img[0]->instances[map->inst].x;
+		out->img[i++]->instances[map->inst].y = in->img[0]->instances[map->inst].y;
+	}
+	out->img[0]->instances[map->inst].enabled = true;
+}
 
 void	switch_img(t_map *map, t_anim *out, t_anim *in)
 {
