@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:45:42 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:53:58 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:45:43 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_map	**identify_adj_map(t_win *sl, int32_t move[2], int32_t hero[4])
 	t_map	**map_adj;
 	int32_t	i;
 
-	map_adj = (t_map **)malloc(sizeof(t_map *) * (map_len(move, hero) + 1));
+	map_adj = (t_map **)ft_calloc(sizeof(t_map *), (map_len(move, hero) + 1));
 	if (map_adj == NULL || (move[Y] == 0 && move[X] == 0))
 		return (NULL);
 	i = 0;
@@ -104,7 +104,35 @@ size_t	move_auth(t_win *sl, t_map **map_adj, int32_t move[2], int32_t hero[4])
 	return (free(map_adj), 1);
 }
 
-size_t	move_auth_init(t_win *sl, keys_t key, t_map map)
+size_t	move_auth_init(t_win *sl, keys_t key, t_anim *a)
+{
+	int32_t	hero[4];
+	int32_t	move[2];
+	t_map	**map_adj;
+
+	if (PPT < 0)
+		unexpected_close(ERR_PPT, sl, sl->map);
+	move[X] = 0;
+	move[Y] = 0;
+	hero[X] = a->img[0]->instances[0].x;
+	hero[Y] = a->img[0]->instances[0].y;
+	hero[X_W] = hero[X] + a->img[0]->width;
+	hero[Y_H] = hero[Y] + a->img[0]->height;
+	if ((key == MLX_KEY_RIGHT) || (key == 0 && a->name[6] == 'r'))
+		move[X] = MOVE;
+	if ((key == MLX_KEY_LEFT) || (key == 0 && a->name[6] == 'l'))
+		move[X] = -MOVE;
+	if ((key == MLX_KEY_UP) || (key == 0 && a->name[6] == 'u'))
+		move[Y] = -MOVE;
+	if ((key == MLX_KEY_DOWN) || (key == 0 && a->name[6] == 'd'))
+		move[Y] = MOVE;
+	map_adj = identify_adj_map(sl, move, hero);
+	if (map_adj == NULL)
+		unexpected_close(ERR_MALLOC, sl, sl->map);
+	return (move_auth(sl, map_adj, move, hero));
+}
+
+/*size_t	move_auth_init(t_win *sl, keys_t key, t_map map)
 {
 	int32_t	hero[4];
 	int32_t	move[2];
@@ -130,4 +158,4 @@ size_t	move_auth_init(t_win *sl, keys_t key, t_map map)
 	if (map_adj == NULL)
 		unexpected_close(ERR_MALLOC, sl, sl->map);
 	return (move_auth(sl, map_adj, move, hero));
-}
+}*/

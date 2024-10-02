@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:49:12 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:12:50 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ static void	image_load_sequence(t_win *sl, t_cat *cat)
 	load_image_init(sl, cat->hero_dead_m, cat->sm_hero_dead, 'P');
 	load_image_init(sl, cat->mons, cat->s_mons, 'M');
 	load_image_init(sl, cat->mons_dead, cat->s_mons_dead, 'M');
+	load_image_init(sl, cat->arrow_up, cat->s_arrow_up, 'P');
+	load_image_init(sl, cat->arrow_down, cat->s_arrow_down, 'P');
+	load_image_init(sl, cat->arrow_r, cat->s_arrow_r, 'P');
+	load_image_init(sl, cat->arrow_l, cat->s_arrow_l, 'P');
 	sl->str_move = mlx_put_string(sl->mlx, "Movements :", 0, 0);
 }
 
@@ -51,6 +55,10 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 	cat->sm_hero_dead = create_sprite_m(mlx_load_png(HERO_DEAD), g_hero_dead);
 	cat->s_mons = create_sprite(mlx_load_png(MONS), g_mons);
 	cat->s_mons_dead = create_sprite(mlx_load_png(MONS_DEAD), g_mons_dead);
+	cat->s_arrow_down = create_sprite(mlx_load_png(ARROW_UP), g_arrow_up);
+	cat->s_arrow_up = create_sprite(mlx_load_png(ARROW_UP), g_arrow_up);
+	cat->s_arrow_r = create_sprite(mlx_load_png(ARROW_R), g_arrow_r);
+	cat->s_arrow_l = create_sprite_m(mlx_load_png(ARROW_R), g_arrow_r);
 //  NULL condition check. Within create_sprite or here
 	if (cat->s_bckg == NULL)
 		unexpected_close(ERR_SPRITE, sl, sl->map);
@@ -70,6 +78,10 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 	cat->hero_dead_m = create_anime(0, 4, "hero_dead_m");
 	cat->mons = create_anime(0, 3, "mons");
 	cat->mons_dead = create_anime(0, 3, "mons_dead");
+	cat->arrow_up = create_anime(0, 3, "arrow_up");
+	cat->arrow_down = create_anime(0, 3, "arrow_down");
+	cat->arrow_r = create_anime(0, 3, "arrow_r");
+	cat->arrow_l = create_anime(0, 3, "arrow_l");
 		//unexpected_close(ERR_ANIME, sl, sl->map);
 }
 
@@ -111,6 +123,7 @@ int	main(int argc, char *argv[])
 	mlx_close_hook(sl.mlx, &exp_close, &sl);
 	mlx_key_hook(sl.mlx, &keyhook, &sl);
 	mlx_loop_hook(sl.mlx, hook_mush, &sl);
+	//mlx_loop_hook(sl.mlx, hook_weapon, &sl);
 	//mlx_loop_hook(sl.mlx, hook_idle, &sl);
 	//manage NULL value for hooks parameters
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_idle_m);

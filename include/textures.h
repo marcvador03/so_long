@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:58:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:53:27 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 15:29:39 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ static const t_sprite g_exit = { 1, 32, 112, 32, 48, PPT, PPT, NULL };
 static const t_sprite g_mons = { 4, 64, 0, 32, 32, PPT, PPT, NULL };
 # define MONS_DEAD "textures/pixel_crawler_1.8/Enemy/Orc Crew/Orc - Rogue/Death/Death-Sheet.png"
 static const t_sprite g_mons_dead = { 6, 0, 0, 48, 32, 96, PPT, NULL };
+# define ARROW_UP "textures/pixel_crawler_1.8/Weapons/Wood/Wood.png"
+static const t_sprite g_arrow_up = { 1, 16, 0, 12, 16, 12, 16, NULL };
+# define ARROW_R "textures/pixel_crawler_1.8/Weapons/Wood/Wood.png"
+static const t_sprite g_arrow_r = { 1, 32, 0, 12, 16, 12, 16, NULL };
 
 //# define HERO "textures/pixel_crawler_1.8/Heroes/Knight/Idle/Idle-Sheet.png"
 //static const t_sprite g_hero = { 1, 0, 0, 32, 32, PPT, PPT, NULL };

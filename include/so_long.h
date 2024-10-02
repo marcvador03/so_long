@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:25:50 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:46:07 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,10 @@ typedef struct s_img_cat
 	t_sprite	*s_mush;
 	t_sprite	*s_mons;
 	t_sprite	*s_mons_dead;
+	t_sprite	*s_arrow_up;
+	t_sprite	*s_arrow_down;
+	t_sprite	*s_arrow_r;
+	t_sprite	*s_arrow_l;
 	t_anim		*wall;
 	t_anim		*item_c;
 	t_anim		*exit;
@@ -86,6 +90,10 @@ typedef struct s_img_cat
 	t_anim		*mush;
 	t_anim		*mons;
 	t_anim		*mons_dead;
+	t_anim		*arrow_up;
+	t_anim		*arrow_down;
+	t_anim		*arrow_r;
+	t_anim		*arrow_l;
 }	t_cat;
 
 typedef struct	s_map
@@ -118,8 +126,10 @@ typedef struct	s_win
 	int32_t		w_win; // used?
 	u_int32_t	h_map;
 	u_int32_t	w_map;
-	u_int32_t	w_hero;
-	u_int32_t	h_hero;
+	//u_int32_t	w_hero;
+	//u_int32_t	h_hero;
+	//u_int32_t	w_weapon;
+	//u_int32_t	h_weapon;
 	t_cat		*cat;
 	u_int32_t	item_cnt;
 	u_int32_t	move_cnt;	
@@ -156,8 +166,10 @@ void	anime_sprite(void *ptr);
 void	switch_img(t_map *map, t_anim *out, t_anim *in);
 void	activate_anim(t_map *map, t_anim *out, t_anim *in);
 void	move_mush(t_win *sl, mlx_image_t *img, int32_t i);
+void	move_weapon_init(t_win *sl, t_anim *t); 
 void	hook_mush(void *ptr);
 void	hook_idle(void *ptr);
+void	hook_weapon(void *ptr);
 void	anime_hero(t_win *sl); 
 
 /* Sprite and Sprite utils*/
@@ -176,7 +188,7 @@ mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t, t_sprite in);
 mlx_texture_t	*create_sub_txt(size_t w, size_t h);
 
 /*movements functions*/
-size_t	move_auth_init(t_win *sl, keys_t key, t_map map);
+size_t	move_auth_init(t_win *sl, keys_t key, t_anim *a);
 char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2]);
 void	collect_item(t_win *sl, t_map **map, t_map a);
 

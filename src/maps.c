@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:44:44 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:20:20 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -72,11 +72,11 @@ static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t *y)
 		map[i].c = line[i];
 		map[i].x = i;
 		map[i].y = *y;
-		if (line[i] == 'P')
+		/*if (line[i] == 'P')
 		{
 			sl->h_hero = *y;
 			sl->w_hero = i;
-		}		
+		}*/		
 		if (line[i++] == 'C')
 			item_cnt++;
 	}
@@ -112,21 +112,21 @@ void	sl_map_fill(t_win *sl, char *path)
 int32_t	map_len(int32_t move[2], int32_t hero[4])
 {
 	int32_t	len;
-	int32_t	n;
 
 	len = 0;
-	n = 0;
 	if (move[X] != 0)
 	{
 		if ((hero[Y_H] - hero[Y]) >= PPT && hero[Y] % PPT != 0)
-			n = 1;
-		len = ((hero[Y_H] - hero[Y]) / PPT) + n;
+			len = ((hero[Y_H] - hero[Y]) / PPT) + 1;
+		else
+			len = 1;
 	}
 	else if (move[Y] != 0)
 	{
 		if ((hero[X_W] - hero[X]) >= PPT && hero[X] % PPT != 0)
-			n = 1;
-		len = ((hero[X_W] - hero[X]) / PPT) + n;
+			len = ((hero[X_W] - hero[X]) / PPT) + 1;
+		else
+			len = 1;
 	}
 	else
 		return (0);

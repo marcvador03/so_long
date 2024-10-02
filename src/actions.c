@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:54:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:51:16 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void switch_direction(t_win *sl, int32_t move[2])
 	}
 }
 
-static void	move_hero(t_win *sl, keys_t key, t_map *map)
+static void	move_hero(t_win *sl, keys_t key)
 {
 	int32_t	move[2];
 	size_t	i;
@@ -93,22 +93,22 @@ static void	move_hero(t_win *sl, keys_t key, t_map *map)
 		move[Y] = MOVE;
 	while (i < sl->hero->count)
 	{
-		sl->hero->img[i]->instances[map->inst].x += move[X];
-		sl->hero->img[i++]->instances[map->inst].y += move[Y];
+		sl->hero->img[i]->instances[0].x += move[X];
+		sl->hero->img[i++]->instances[0].y += move[Y];
 	}
 	switch_direction(sl, move);
-	sl->h_hero += move[Y] / PPT;
-	sl->w_hero += move[X] / PPT;
+	//sl->h_hero = sl->hero->img[0]->instances[map->inst].y / PPT;
+	//sl->w_hero = sl->hero->img[0]->instances[map->inst].x / PPT;
 }
 
-static void	move_init(t_win *sl, keys_t key, t_map map)
+static void	move_init(t_win *sl, keys_t key)
 {
 	size_t	n;
 	
-	n = move_auth_init(sl, key, map);
+	n = move_auth_init(sl, key, sl->hero);
 	if (n == 1)
 	{
-		move_hero(sl, key, &map); 
+		move_hero(sl, key); 
 		sl->move_cnt++;
 		if (sl->s_cnt != NULL)
 			mlx_delete_image(sl->mlx, sl->s_cnt);
@@ -120,15 +120,41 @@ static void	move_init(t_win *sl, keys_t key, t_map map)
 		exit(0);
 }
 
+static void	weapon_launch(t_win *sl, keys_t key)
+{
+	mlx_image_t *img;
+
+	if (key == MLX_KEY_RIGHT)
+		img = sl->cat->arrow_r->img[0];
+	if (key == MLX_KEY_LEFT)
+		img = sl->cat->arrow_l->img[0];
+	if (key == MLX_KEY_DOWN)
+		img = sl->cat->arrow_down->img[0];
+	if (key == MLX_KEY_UP)
+		img = sl->cat->arrow_up->img[0];
+	img->instances[0].x = sl->hero->img[0]->instances[0].x; 
+	img->instances[0].y = sl->hero->img[0]->instances[0].y;
+	img->instances[0].enabled = true;
+}
+
 void	keyhook(mlx_key_data_t k, void *param)
 {
-	t_win	*sl;
-	t_map	map;
+	t_win		*sl;
+	//t_map		map;
+	//uint32_t 	h_hero;
+	//uint32_t	w_hero;
 
 	sl = (t_win *)param;
-	map = sl->map[sl->h_hero][sl->w_hero];
+	/*h_hero = sl->hero->img[0]->instances[0].y / PPT;
+	w_hero = sl->hero->img[0]->instances[0].x / PPT;
+	map = sl->map[h_hero][w_hero];*/
 	if (k.key == MLX_KEY_ESCAPE && k.action == MLX_PRESS)
 		esc_close(sl, sl->map);
-	if (k.key >= MLX_KEY_RIGHT && k.key <= MLX_KEY_UP && k.action >= MLX_PRESS)
-		move_init(sl, k.key, map);
+	if (k.modifier == MLX_SHIFT && k.action == MLX_PRESS)
+	{
+		if (k.key >= MLX_KEY_RIGHT && k.key <= MLX_KEY_UP)
+			weapon_launch(sl, k.key);
+	}
+	else if (k.key >= MLX_KEY_RIGHT && k.key <= MLX_KEY_UP && k.action >= MLX_PRESS)
+		move_init(sl, k.key);
 }
