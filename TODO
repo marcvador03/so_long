@@ -1,13 +1,36 @@
+fix sprite count
+implement animation monster
+implement animation hero (death?)
+implement attack (all directions)
+fix list of malloc to clean (incl. frames)
+review error management:
+	avoid 'NULL' when possible
+	review mlx functions requiring null check
+retest and fix map path check
+clean struct
+clean .h
+norminette
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------
 Manage img and sprite update on screen and in map
     move static image to anime with 1 image OK
 	store info for active img / instance OK
-	enable list of anim linked to map point
+	enable list of anim linked to map point - not needed
     function to perform switch of image / sprite OK
 		function to check if instances are the same (based on img pos anf if inst > 1)?
     all images must have been loaded to window? OK
 Manage screen size
-Mirror hero
-Implement monster
+Mirror hero - OK
+Implement monster OK partial
 Implement death
 Show move count on game OK
 Implement path validation - OK
@@ -20,10 +43,7 @@ Manage sprites OK
 	redo function + norminette OK
    implement check for weird values?
 Update textures OK
-Error management OK?
-Fix ESC
-Fix exit sequence (mlx terminate)
+Error management NOK - fixed unexpected_close
+Fix ESC - OK
 Leaks
-  Maps - OK? something strange with KEY escape
-
 Norminette - 90%

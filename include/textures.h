@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:58:32 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 20:05:05 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:53:27 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static const t_sprite g_hero_idle = { 4, 0, 0, 32, 32, PPT, PPT, NULL };
 # define HERO_RUN "textures/pixel_crawler_1.8/Heroes/Knight/Run/Run2-Sheet.png"
 static const t_sprite g_hero_run = { 6, 0, 0, 32, 32, PPT, PPT, NULL };
 # define HERO_DEAD "textures/pixel_crawler_1.8/Heroes/Knight/Death/Death-Sheet.png"
-static const t_sprite g_hero_dead = { 6, 0, 0, 48, 32, PPT, PPT, NULL };
+static const t_sprite g_hero_dead = { 6, 0, 0, 48, 32, 96, PPT, NULL };
 # define CHEST_C "textures/pixel_crawler_1.8/Environment/Dungeon Prison/Assets/Props.png"
 static const t_sprite g_chest_c = { 1, 95, 204, 32, 22, PPT, 44, NULL };
 # define CHEST_O "textures/pixel_crawler_1.8/Environment/Dungeon Prison/Assets/Props.png"
@@ -48,6 +48,10 @@ static const t_sprite g_chest_o = { 1, 127, 204, 32, 22, PPT, 44, NULL };
 static const t_sprite g_mush = { 1, 32, 16, 16, 16, PPT / 2, PPT / 2, NULL };
 # define EXIT "textures/pixel_crawler_1.8/Environment/Dungeon Prison/Assets/Tiles.png"
 static const t_sprite g_exit = { 1, 32, 112, 32, 48, PPT, PPT, NULL };
+# define MONS "textures/pixel_crawler_1.8/Enemy/Orc Crew/Orc - Rogue/Idle/Idle-Sheet.png"
+static const t_sprite g_mons = { 4, 64, 0, 32, 32, PPT, PPT, NULL };
+# define MONS_DEAD "textures/pixel_crawler_1.8/Enemy/Orc Crew/Orc - Rogue/Death/Death-Sheet.png"
+static const t_sprite g_mons_dead = { 6, 0, 0, 48, 32, 96, PPT, NULL };
 
 //# define HERO "textures/pixel_crawler_1.8/Heroes/Knight/Idle/Idle-Sheet.png"
 //static const t_sprite g_hero = { 1, 0, 0, 32, 32, PPT, PPT, NULL };

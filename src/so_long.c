@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:17:45 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:49:12 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	image_load_sequence(t_win *sl, t_cat *cat)
 	load_image_init(sl, cat->hero_run_m, cat->sm_hero_run, 'P');
 	load_image_init(sl, cat->hero_dead, cat->s_hero_dead, 'P');
 	load_image_init(sl, cat->hero_dead_m, cat->sm_hero_dead, 'P');
+	load_image_init(sl, cat->mons, cat->s_mons, 'M');
+	load_image_init(sl, cat->mons_dead, cat->s_mons_dead, 'M');
 	sl->str_move = mlx_put_string(sl->mlx, "Movements :", 0, 0);
 }
 
@@ -47,6 +49,8 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 	cat->sm_hero_idle = create_sprite_m(mlx_load_png(HERO_IDLE), g_hero_idle);
 	cat->sm_hero_run = create_sprite_m(mlx_load_png(HERO_RUN), g_hero_run);
 	cat->sm_hero_dead = create_sprite_m(mlx_load_png(HERO_DEAD), g_hero_dead);
+	cat->s_mons = create_sprite(mlx_load_png(MONS), g_mons);
+	cat->s_mons_dead = create_sprite(mlx_load_png(MONS_DEAD), g_mons_dead);
 //  NULL condition check. Within create_sprite or here
 	if (cat->s_bckg == NULL)
 		unexpected_close(ERR_SPRITE, sl, sl->map);
@@ -64,6 +68,8 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 	cat->hero_run_m = create_anime(0, 4, "hero_run_m");
 	cat->hero_dead = create_anime(0, 4, "hero_dead");
 	cat->hero_dead_m = create_anime(0, 4, "hero_dead_m");
+	cat->mons = create_anime(0, 3, "mons");
+	cat->mons_dead = create_anime(0, 3, "mons_dead");
 		//unexpected_close(ERR_ANIME, sl, sl->map);
 }
 
@@ -105,7 +111,7 @@ int	main(int argc, char *argv[])
 	mlx_close_hook(sl.mlx, &exp_close, &sl);
 	mlx_key_hook(sl.mlx, &keyhook, &sl);
 	mlx_loop_hook(sl.mlx, hook_mush, &sl);
-	mlx_loop_hook(sl.mlx, hook_idle, &sl);
+	//mlx_loop_hook(sl.mlx, hook_idle, &sl);
 	//manage NULL value for hooks parameters
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_idle_m);
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_run);

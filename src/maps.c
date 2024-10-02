@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 01:14:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:44:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -66,7 +66,7 @@ static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t *y)
 	item_cnt = 0;
 	while (line[i] != '\n')
 	{
-		if (line[i] != '0' && line[i] != '1')
+		if (line[i] != '0' && line[i] != '1' && line[i] != 'M')
 			if (line[i] != 'C' && line[i] != 'E' && line[i] != 'P')
 				unexpected_close(ERR_MAP_FORBID_VALUE, sl, NULL);
 		map[i].c = line[i];

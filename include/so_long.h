@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 09:49:40 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:25:50 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct s_img_cat
 	t_sprite	*sm_hero_dead;
 	t_sprite	*s_item_o;
 	t_sprite	*s_mush;
+	t_sprite	*s_mons;
+	t_sprite	*s_mons_dead;
 	t_anim		*wall;
 	t_anim		*item_c;
 	t_anim		*exit;
@@ -82,6 +84,8 @@ typedef struct s_img_cat
 	t_anim		*hero_dead_m;
 	t_anim		*item_o;
 	t_anim		*mush;
+	t_anim		*mons;
+	t_anim		*mons_dead;
 }	t_cat;
 
 typedef struct	s_map

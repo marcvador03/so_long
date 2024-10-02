@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:45:42 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:21:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:53:58 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,11 @@ size_t	move_auth(t_win *sl, t_map **map_adj, int32_t move[2], int32_t hero[4])
 		}
 		else if (c == 'E' && sl->item_cnt == 0)
 			return (free(map_adj), 2);
+		else if (c == 'M')
+			return (free(map_adj), 3);
 		i++;
 	}
-	return (1);
+	return (free(map_adj), 1);
 }
 
 size_t	move_auth_init(t_win *sl, keys_t key, t_map map)

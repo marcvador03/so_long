@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 10:19:53 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:54:43 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ static void	move_hero(t_win *sl, keys_t key, t_map *map)
 		move[Y] = MOVE;
 	while (i < sl->hero->count)
 	{
-		sl->hero->img[i]->instances[map->inst].x += move[X]; //manage image frames
-		sl->hero->img[i++]->instances[map->inst].y += move[Y]; //manage image frames
+		sl->hero->img[i]->instances[map->inst].x += move[X];
+		sl->hero->img[i++]->instances[map->inst].y += move[Y];
 	}
 	switch_direction(sl, move);
 	sl->h_hero += move[Y] / PPT;
@@ -116,6 +116,8 @@ static void	move_init(t_win *sl, keys_t key, t_map map)
 	}
 	else if (n == 2)
 		exit(1);
+	else if (n == 3)
+		exit(0);
 }
 
 void	keyhook(mlx_key_data_t k, void *param)
