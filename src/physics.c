@@ -6,13 +6,13 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:45:42 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 18:45:43 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:38:34 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2])
+char	check_collision(t_map *map_adj, int32_t hero[5], int32_t move[2])
 {
 	int32_t	pos_adj[4];
 
@@ -33,7 +33,7 @@ char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2])
 	return ('\0');
 }
 
-static t_map	*algo(t_win *sl, int32_t move[2], int32_t hero[4], int32_t i)
+static t_map	*algo(t_win *sl, int32_t move[2], int32_t hero[5], int32_t i)
 {
 	int		x;
 	int		y;
@@ -61,7 +61,7 @@ static t_map	*algo(t_win *sl, int32_t move[2], int32_t hero[4], int32_t i)
 	return (&sl->map[y][x]);
 }
 
-static t_map	**identify_adj_map(t_win *sl, int32_t move[2], int32_t hero[4])
+t_map	**identify_adj_map(t_win *sl, int32_t *move, int32_t *hero)
 {
 	t_map	**map_adj;
 	int32_t	i;
@@ -79,7 +79,7 @@ static t_map	**identify_adj_map(t_win *sl, int32_t move[2], int32_t hero[4])
 	return (map_adj);
 }
 
-size_t	move_auth(t_win *sl, t_map **map_adj, int32_t move[2], int32_t hero[4])
+size_t	move_auth(t_win *sl, t_map **map_adj, int32_t *move, int32_t *hero)
 {
 	int		i;
 	char	c;
@@ -89,35 +89,28 @@ size_t	move_auth(t_win *sl, t_map **map_adj, int32_t move[2], int32_t hero[4])
 	{
 		c = check_collision(map_adj[i], hero, move);
 		if (c == '1')
-			return (free(map_adj), 0);
-		else if (c == 'C')
+			return (free(map_adj), free(move), free(hero), 0);
+		else if (c == 'C' && hero[4] == 0)
 		{
 			collect_item(sl, sl->map, *map_adj[i]);
-			return (free(map_adj), 1);
+			return (free(map_adj), free(move), free(hero), 1);
 		}
 		else if (c == 'E' && sl->item_cnt == 0)
-			return (free(map_adj), 2);
+			return (free(map_adj), free(move), free(hero), 2);
 		else if (c == 'M')
-			return (free(map_adj), 3);
+			return (free(map_adj), free(move), free(hero), 3);
 		i++;
 	}
-	return (free(map_adj), 1);
+	return (free(map_adj), free(move), free(hero), 1);
 }
 
-size_t	move_auth_init(t_win *sl, keys_t key, t_anim *a)
+int32_t	*fill_move(t_anim *a, keys_t key) // utils?
 {
-	int32_t	hero[4];
-	int32_t	move[2];
-	t_map	**map_adj;
+	int32_t	*move;
 
-	if (PPT < 0)
-		unexpected_close(ERR_PPT, sl, sl->map);
-	move[X] = 0;
-	move[Y] = 0;
-	hero[X] = a->img[0]->instances[0].x;
-	hero[Y] = a->img[0]->instances[0].y;
-	hero[X_W] = hero[X] + a->img[0]->width;
-	hero[Y_H] = hero[Y] + a->img[0]->height;
+	move = (int32_t *)ft_calloc(sizeof(int32_t), 2);
+	if (move == NULL)
+		exit(2);
 	if ((key == MLX_KEY_RIGHT) || (key == 0 && a->name[6] == 'r'))
 		move[X] = MOVE;
 	if ((key == MLX_KEY_LEFT) || (key == 0 && a->name[6] == 'l'))
@@ -126,6 +119,33 @@ size_t	move_auth_init(t_win *sl, keys_t key, t_anim *a)
 		move[Y] = -MOVE;
 	if ((key == MLX_KEY_DOWN) || (key == 0 && a->name[6] == 'd'))
 		move[Y] = MOVE;
+	return (move);	
+}
+
+int32_t	*fill_coord(t_anim *a, keys_t key) // utils?
+{
+	int32_t	*hero;
+
+	hero = (int32_t *)ft_calloc(sizeof(int32_t), 5);
+	hero[4] = 0;
+	if (key == 0)
+		hero[4] = 1;
+	hero[X] = a->img[0]->instances[0].x;
+	hero[Y] = a->img[0]->instances[0].y;
+	hero[X_W] = hero[X] + a->img[0]->width;
+	hero[Y_H] = hero[Y] + a->img[0]->height;
+	return (hero);	
+}
+size_t	move_auth_init(t_win *sl, keys_t key, t_anim *a) // merge with functino in animations.c
+{
+	int32_t	*hero;
+	int32_t	*move;
+	t_map	**map_adj;
+
+	if (PPT < 0)
+		unexpected_close(ERR_PPT, sl, sl->map);
+	hero = fill_coord(a, key);
+	move = fill_move(a, key); 
 	map_adj = identify_adj_map(sl, move, hero);
 	if (map_adj == NULL)
 		unexpected_close(ERR_MALLOC, sl, sl->map);

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 18:12:50 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:57:41 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	main(int argc, char *argv[])
 	mlx_close_hook(sl.mlx, &exp_close, &sl);
 	mlx_key_hook(sl.mlx, &keyhook, &sl);
 	mlx_loop_hook(sl.mlx, hook_mush, &sl);
-	//mlx_loop_hook(sl.mlx, hook_weapon, &sl);
+	mlx_loop_hook(sl.mlx, hook_weapon, &sl);
 	//mlx_loop_hook(sl.mlx, hook_idle, &sl);
 	//manage NULL value for hooks parameters
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_idle_m);

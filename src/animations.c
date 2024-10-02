@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 18:46:35 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:36:20 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,43 +92,30 @@ void	move_mush(t_win *sl, mlx_image_t *img, int32_t n)
 	}
 }
 
-static int32_t	*fill_move(t_anim *a, int32_t *move) // utils?
+void	kill_monster(t_win *sl, t_map **map_adj)
 {
-	move = (int32_t *)ft_calloc(sizeof(int32_t), 2);
-	if (move == NULL)
-		exit(2);
-	if (a->name[6] == 'r')
-		move[X] = MOVE;
-	if (a->name[6] == 'l')
-		move[X] = -MOVE;
-	if (a->name[6] == 'u')
-		move[Y] = -MOVE;
-	if (a->name[6] == 'd')
-		move[Y] = MOVE;
-	return (move);	
-}
+	int	i;
 
-void	kill_monster(t_win *sl, uint32_t h_weapon, uint32_t w_weapon)
-{
-	t_map		*map;
-
-	map = &sl->map[h_weapon][w_weapon];
-	switch_img(map, sl->cat->mons_dead, sl->cat->mons);	
-	map->c = '0';
+	i = 0;
+	while (map_adj[i] != NULL)
+	{  	
+		if (map_adj[i]->c == 'M')
+		{
+			switch_img(map_adj[i], sl->cat->mons_dead, sl->cat->mons);	
+			map_adj[i]->c = '0';
+		}
+		i++;
+	}
 }
 
 void	move_weapon_init(t_win *sl, t_anim *a) 
 {
 	size_t		n;
 	int32_t		*move;
-	uint32_t	h_weapon;
-	uint32_t	w_weapon;
 
 	move = NULL;
 	a->time += sl->mlx->delta_time * 1000;
-	move = fill_move(a, move);
-	h_weapon = a->img[0]->instances[0].y;
-	w_weapon = a->img[0]->instances[0].x;
+	move = fill_move(a, 0);
 	if (a->time > a->fps)
 	{
 		a->time -= a->fps;
@@ -140,7 +127,7 @@ void	move_weapon_init(t_win *sl, t_anim *a)
 		else if (n == 3)
 		{
 			a->img[0]->instances[0].enabled = false;
-			kill_monster(sl, h_weapon, w_weapon);
+			kill_monster(sl, identify_adj_map(sl, move, fill_coord(a, 0)));
 		}
 		else
 		{

@@ -6,13 +6,13 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 18:51:16 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:14:01 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	activate_anim(t_map *map, t_anim *out, t_anim *in)
+void	activate_anim(t_map *map, t_anim *out, t_anim *in) // remove map.inst?
 {
 	size_t	i;
 	
@@ -25,7 +25,7 @@ void	activate_anim(t_map *map, t_anim *out, t_anim *in)
 	out->img[0]->instances[map->inst].enabled = true;
 }
 
-void	switch_img(t_map *map, t_anim *out, t_anim *in)
+void	switch_img(t_map *map, t_anim *out, t_anim *in) // removed map inst
 {
 	size_t	i;
 	

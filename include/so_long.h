@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 18:46:07 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:37:47 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	sl_map_fill(t_win *sl, char *path);
 void	get_map_size(t_win *sl, char *path);
 void	map_alloc(t_win *sl);
 void	check_path_init(t_win *sl, t_map **map);
-int32_t	map_len(int32_t move[2], int32_t hero[4]);
+int32_t	map_len(int32_t move[2], int32_t hero[5]);
 
 /*animation functions*/
 t_anim	*create_anime(double fps, int32_t z, char *name);
@@ -189,8 +189,11 @@ mlx_texture_t	*create_sub_txt(size_t w, size_t h);
 
 /*movements functions*/
 size_t	move_auth_init(t_win *sl, keys_t key, t_anim *a);
-char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2]);
+char	check_collision(t_map *map_adj, int32_t hero[5], int32_t move[2]);
 void	collect_item(t_win *sl, t_map **map, t_map a);
+int32_t	*fill_move(t_anim *a, keys_t key); 
+int32_t	*fill_coord(t_anim *a, keys_t key);
+t_map	**identify_adj_map(t_win *sl, int32_t *move, int32_t *hero);
 
 #endif
 

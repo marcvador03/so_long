@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 18:20:20 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:03:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -109,7 +109,7 @@ void	sl_map_fill(t_win *sl, char *path)
 		unexpected_close(ERR_CLOSE_FILE, sl, NULL);
 }
 
-int32_t	map_len(int32_t move[2], int32_t hero[4])
+int32_t	map_len(int32_t move[2], int32_t hero[5])
 {
 	int32_t	len;
 
