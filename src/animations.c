@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 19:36:20 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 20:02:54 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,44 @@ void	hook_weapon(void *ptr)
 	if (sl->cat->arrow_l->img[0]->instances[0].enabled == true)
 		move_weapon_init(sl, sl->cat->arrow_l);
 }
+void	hook_mons(void *ptr)
+{
+	int32_t	*frame;
+	int32_t	x;
+	int32_t	y;
+	t_win	*sl;
 
+	sl = (t_win *)ptr;
+	frame = &sl->cat->mons->frame[0][0];
+	x = sl->cat->mons->img[*frame]->instances[0].x;
+	y = sl->cat->mons->img[*frame]->instances[0].y;
+	sl->cat->mons->time += sl->mlx->delta_time * 1000;
+	if (sl->cat->mons->time > sl->cat->mons->fps)
+	{
+		sl->cat->mons->img[*frame]->instances[0].enabled = true;
+		if (*frame == 0 && sl->cat->mons->count > 1)
+		{
+			sl->cat->mons->img[sl->cat->mons->count - 1]->instances[0].x = x;
+			sl->cat->mons->img[sl->cat->mons->count - 1]->instances[0].y = y;
+			sl->cat->mons->img[sl->cat->mons->count - 1]->instances[0].enabled = false;
+		}
+		else if (sl->cat->mons->count > 1)
+		{
+			sl->cat->mons->img[*frame - 1]->instances[0].x = x;
+			sl->cat->mons->img[*frame - 1]->instances[0].y = y;
+			sl->cat->mons->img[*frame - 1]->instances[0].enabled = false;
+		}
+		sl->cat->mons->time -= sl->cat->mons->fps;
+		*frame = (*frame + 1) % sl->cat->mons->count;
+	}
+}
+		
 void	hook_idle(void *ptr)
 {
 	t_win	*sl;
-	//int32_t	frame;
-	//size_t	i;
 
 	sl = (t_win *)ptr;
-	//frame = sl->hero->frame[0][0];
-	/*i = 0;
-	while (i < sl->hero->count)
-	{*/
-	//	if (sl->hero->img[frame]->enabled == true)
 			anime_hero(sl);
-		/*i++;	
-	}*/
 }
 
 void	move_mush(t_win *sl, mlx_image_t *img, int32_t n) 
@@ -165,7 +187,6 @@ void	anime_hero(t_win *sl)
 		}
 		sl->hero->time -= sl->hero->fps;
 		*frame = (*frame + 1) % sl->hero->count;
-		//sl->hero->img[*frame]->enabled = false;
 	}
 }
 

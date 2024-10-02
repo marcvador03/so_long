@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 19:37:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 20:03:16 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void	move_weapon_init(t_win *sl, t_anim *t);
 void	hook_mush(void *ptr);
 void	hook_idle(void *ptr);
 void	hook_weapon(void *ptr);
+void	hook_mons(void *ptr);
 void	anime_hero(t_win *sl); 
 
 /* Sprite and Sprite utils*/

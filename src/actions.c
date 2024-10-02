@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 19:14:01 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:56:23 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ static void switch_direction(t_win *sl, int32_t move[2])
 	if (sl->dir =='R' && move[X] < 0)
 	{
 		sl->dir = 'L';
-		switch_direction_loop(sl->cat->hero_m, sl->cat->hero);	
-		sl->hero = sl->cat->hero_m;
+		switch_direction_loop(sl->cat->hero_idle_m, sl->cat->hero_idle);	
+		sl->hero = sl->cat->hero_idle_m;
 	}
 	else if (sl->dir =='L' && move[X] > 0)
 	{
 		sl->dir = 'R';
-		switch_direction_loop(sl->cat->hero, sl->cat->hero_m);	
-		sl->hero = sl->cat->hero;
+		switch_direction_loop(sl->cat->hero_idle, sl->cat->hero_idle_m);	
+		sl->hero = sl->cat->hero_idle;
 	}
 }
 

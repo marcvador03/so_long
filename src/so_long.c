@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 18:57:41 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 20:04:13 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static void	image_load_sequence(t_win *sl, t_cat *cat)
 	load_image_init(sl, cat->bckg, cat->s_bckg, '0');
 	load_image_init(sl, cat->item_c, cat->s_item_c, 'C');
 	load_image_init(sl, cat->wall, cat->s_wall, '1');
-	load_image_init(sl, cat->hero, cat->s_hero, 'P');
-	load_image_init(sl, cat->hero_m, cat->sm_hero, 'P');
+	//load_image_init(sl, cat->hero, cat->s_hero, 'P');
+	//load_image_init(sl, cat->hero_m, cat->sm_hero, 'P');
 	load_image_init(sl, cat->exit, cat->s_exit, 'E');
 	load_image_init(sl, cat->item_o, cat->s_item_o, 'C');
 	load_image_init(sl, cat->mush, cat->s_mush, 'C');
-	//load_image_init(sl, cat->hero_idle, cat->s_hero_idle, 'P');
-	//load_image_init(sl, cat->hero_idle_m, cat->sm_hero_idle, 'P');
+	load_image_init(sl, cat->hero_idle, cat->s_hero_idle, 'P');
+	load_image_init(sl, cat->hero_idle_m, cat->sm_hero_idle, 'P');
 	load_image_init(sl, cat->hero_run, cat->s_hero_run, 'P');
 	load_image_init(sl, cat->hero_run_m, cat->sm_hero_run, 'P');
 	load_image_init(sl, cat->hero_dead, cat->s_hero_dead, 'P');
@@ -41,14 +41,14 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 {
 	cat->s_bckg = create_sprite(mlx_load_png(BCKG), g_bckg);
 	cat->s_item_c = create_sprite(mlx_load_png(CHEST_C), g_chest_c);
-	cat->s_hero = create_sprite(mlx_load_png(HERO), g_hero);
-	cat->sm_hero = create_sprite_m(mlx_load_png(HERO), g_hero);
+	//cat->s_hero = create_sprite(mlx_load_png(HERO), g_hero);
+	//cat->sm_hero = create_sprite_m(mlx_load_png(HERO), g_hero);
 	cat->s_wall = create_sprite(mlx_load_png(WALL), g_wall);
 	cat->s_exit = create_sprite(mlx_load_png(EXIT), g_exit);
 	cat->s_item_o = create_sprite(mlx_load_png(CHEST_O), g_chest_o);
 	cat->s_mush = create_sprite(mlx_load_png(MUSH), g_mush);
-	//cat->s_hero_idle = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
-	//cat->s_hero_run = create_sprite(mlx_load_png(HERO_RUN), g_hero_run);
+	cat->s_hero_idle = create_sprite(mlx_load_png(HERO_IDLE), g_hero_idle);
+	cat->s_hero_run = create_sprite(mlx_load_png(HERO_RUN), g_hero_run);
 	cat->s_hero_dead = create_sprite(mlx_load_png(HERO_DEAD), g_hero_dead);
 	cat->sm_hero_idle = create_sprite_m(mlx_load_png(HERO_IDLE), g_hero_idle);
 	cat->sm_hero_run = create_sprite_m(mlx_load_png(HERO_RUN), g_hero_run);
@@ -64,19 +64,19 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 		unexpected_close(ERR_SPRITE, sl, sl->map);
 	cat->bckg = create_anime(0, 0, "bckg");
 	cat->item_c = create_anime(0, 2, "item_c");
-	cat->hero = create_anime(0, 4, "hero");
-	cat->hero_m = create_anime(0, 4, "hero_m");
+	//cat->hero = create_anime(0, 4, "hero");
+	//cat->hero_m = create_anime(0, 4, "hero_m");
 	cat->wall = create_anime(0, 1, "wall");
 	cat->exit = create_anime(0, 2, "exit");
 	cat->item_o = create_anime(0, 2, "item_o");
 	cat->mush = create_anime(0.5, 3, "mush");
-	//cat->hero_idle = create_anime(0.5, 4, "hero_idle");
-	//cat->hero_idle_m = create_anime(0.5, 4, "hero_idle_m");
+	cat->hero_idle = create_anime(100, 4, "hero_idle");
+	cat->hero_idle_m = create_anime(100, 4, "hero_idle_m");
 	cat->hero_run = create_anime(0, 4, "hero_run");
 	cat->hero_run_m = create_anime(0, 4, "hero_run_m");
-	cat->hero_dead = create_anime(0, 4, "hero_dead");
-	cat->hero_dead_m = create_anime(0, 4, "hero_dead_m");
-	cat->mons = create_anime(0, 3, "mons");
+	cat->hero_dead = create_anime(100, 4, "hero_dead");
+	cat->hero_dead_m = create_anime(100, 4, "hero_dead_m");
+	cat->mons = create_anime(200, 3, "mons");
 	cat->mons_dead = create_anime(0, 3, "mons_dead");
 	cat->arrow_up = create_anime(0, 3, "arrow_up");
 	cat->arrow_down = create_anime(0, 3, "arrow_down");
@@ -124,7 +124,8 @@ int	main(int argc, char *argv[])
 	mlx_key_hook(sl.mlx, &keyhook, &sl);
 	mlx_loop_hook(sl.mlx, hook_mush, &sl);
 	mlx_loop_hook(sl.mlx, hook_weapon, &sl);
-	//mlx_loop_hook(sl.mlx, hook_idle, &sl);
+	mlx_loop_hook(sl.mlx, hook_idle, &sl);
+	mlx_loop_hook(sl.mlx, hook_mons, &sl);
 	//manage NULL value for hooks parameters
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_idle_m);
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_run);
