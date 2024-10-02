@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 19:56:23 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 20:32:50 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ static void	move_hero(t_win *sl, keys_t key)
 		sl->hero->img[i++]->instances[0].y += move[Y];
 	}
 	switch_direction(sl, move);
-	//sl->h_hero = sl->hero->img[0]->instances[map->inst].y / PPT;
-	//sl->w_hero = sl->hero->img[0]->instances[map->inst].x / PPT;
 }
 
 static void	move_init(t_win *sl, keys_t key)

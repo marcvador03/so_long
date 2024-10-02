@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 20:04:13 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 21:49:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 	cat->hero_dead = create_anime(100, 4, "hero_dead");
 	cat->hero_dead_m = create_anime(100, 4, "hero_dead_m");
 	cat->mons = create_anime(200, 3, "mons");
-	cat->mons_dead = create_anime(0, 3, "mons_dead");
+	cat->mons_dead = create_anime(300, 3, "mons_dead");
 	cat->arrow_up = create_anime(0, 3, "arrow_up");
 	cat->arrow_down = create_anime(0, 3, "arrow_down");
 	cat->arrow_r = create_anime(0, 3, "arrow_r");
@@ -126,6 +126,8 @@ int	main(int argc, char *argv[])
 	mlx_loop_hook(sl.mlx, hook_weapon, &sl);
 	mlx_loop_hook(sl.mlx, hook_idle, &sl);
 	mlx_loop_hook(sl.mlx, hook_mons, &sl);
+	mlx_loop_hook(sl.mlx, hook_mons_dead, &sl);
+
 	//manage NULL value for hooks parameters
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_idle_m);
 	//mlx_loop_hook(sl.mlx, anime_sprite, sl.cat->h_run);

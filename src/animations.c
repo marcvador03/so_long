@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 20:25:10 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 21:48:35 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_anim	*create_anime(double fps, int32_t z, char *name)
 	anime->fps = fps;
 	anime->depth = z;
 	anime->name = name;
-	anime->enabled = false;
+	//anime->enabled = false;
 	return (anime);
 }
 
@@ -56,6 +56,36 @@ void	hook_weapon(void *ptr)
 		move_weapon_init(sl, sl->cat->arrow_l);
 }
 
+void	dead_mons(t_win *sl, int32_t i)
+{
+	int32_t	*frame;
+	int32_t	x;
+	int32_t	y;
+
+	frame = &sl->cat->mons_dead->frame[0][i];
+	x = sl->cat->mons_dead->img[*frame]->instances[i].x;
+	y = sl->cat->mons_dead->img[*frame]->instances[i].y;
+	sl->cat->mons_dead->time += sl->mlx->delta_time * 1000;
+	if (sl->cat->mons_dead->time > sl->cat->mons_dead->fps)
+	{
+		sl->cat->mons_dead->img[*frame]->instances[i].enabled = true;
+		if (*frame == 0 && sl->cat->mons_dead->count > 1)
+		{
+			sl->cat->mons_dead->img[sl->cat->mons_dead->count - 1]->instances[i].x = x;
+			sl->cat->mons_dead->img[sl->cat->mons_dead->count - 1]->instances[i].y = y;
+			sl->cat->mons_dead->img[sl->cat->mons_dead->count - 1]->instances[i].enabled = false;
+		}
+		else if (sl->cat->mons_dead->count > 1)
+		{
+			sl->cat->mons_dead->img[*frame - 1]->instances[i].x = x;
+			sl->cat->mons_dead->img[*frame - 1]->instances[i].y = y;
+			sl->cat->mons_dead->img[*frame - 1]->instances[i].enabled = false;
+		}
+		sl->cat->mons_dead->time -= sl->cat->mons_dead->fps;
+		*frame = (*frame + 1) % sl->cat->mons_dead->count;
+	}
+}
+
 void	idle_mons(t_win *sl, int32_t i)
 {
 	int32_t	*frame;
@@ -83,6 +113,27 @@ void	idle_mons(t_win *sl, int32_t i)
 		}
 		sl->cat->mons->time -= sl->cat->mons->fps;
 		*frame = (*frame + 1) % sl->cat->mons->count;
+	}
+}
+
+void	hook_mons_dead(void *ptr)
+{
+	t_win	*sl;
+	size_t	i;
+	size_t	j;
+	
+	sl = (t_win *)ptr;
+	j = 0;
+	while (j < sl->cat->mons_dead->count)
+	{
+		i = 0;
+		while (i < sl->cat->mons_dead->img[j]->count)
+		{
+			if (sl->cat->mons_dead->img[j]->instances[i].enabled == true)
+				dead_mons(sl, i);
+			i++;
+		}
+		j++;
 	}
 }
 

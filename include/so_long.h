@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 20:03:16 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 21:45:53 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct	s_anim
 	size_t			count;
 	int32_t			**frame;
 	int32_t			depth;
-	bool			enabled; //used ?
+	//bool			enabled; //used ?
 	mlx_image_t		**img;
 }	t_anim;
 
@@ -171,6 +171,7 @@ void	hook_mush(void *ptr);
 void	hook_idle(void *ptr);
 void	hook_weapon(void *ptr);
 void	hook_mons(void *ptr);
+void	hook_mons_dead(void *ptr);
 void	anime_hero(t_win *sl); 
 
 /* Sprite and Sprite utils*/
