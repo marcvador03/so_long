@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 23:57:20 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:49:40 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,11 @@ typedef struct	s_win
 	t_cat		*cat;
 	u_int32_t	item_cnt;
 	u_int32_t	move_cnt;	
-	u_int32_t	mem_count;
+	u_int32_t	mem_count; //used?
 	mlx_image_t	*str_move;
 	mlx_image_t	*s_cnt;
 	t_anim		*hero;
+	char		dir;
 } t_win;
 
 void	unexpected_close(char *str, t_win *sl, t_map **map);
@@ -153,7 +154,7 @@ void	activate_anim(t_map *map, t_anim *out, t_anim *in);
 void	move_mush(t_win *sl, mlx_image_t *img, int32_t i);
 void	hook_mush(void *ptr);
 void	hook_idle(void *ptr);
-void	anime_hero(t_win *sl, int32_t n); 
+void	anime_hero(t_win *sl); 
 
 /* Sprite and Sprite utils*/
 t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
@@ -171,7 +172,7 @@ mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t, t_sprite in);
 mlx_texture_t	*create_sub_txt(size_t w, size_t h);
 
 /*movements functions*/
-size_t	move_init(t_win *sl, keys_t key, t_map map);
+size_t	move_auth_init(t_win *sl, keys_t key, t_map map);
 char	check_collision(t_map *map_adj, int32_t hero[4], int32_t move[2]);
 void	collect_item(t_win *sl, t_map **map, t_map a);
 

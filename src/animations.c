@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 00:09:17 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:37:06 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,18 @@ void	hook_mush(void *ptr)
 void	hook_idle(void *ptr)
 {
 	t_win	*sl;
-	size_t	i;
+	//int32_t	frame;
+	//size_t	i;
 
 	sl = (t_win *)ptr;
-	i = 0;
+	//frame = sl->hero->frame[0][0];
+	/*i = 0;
 	while (i < sl->hero->count)
-	{
-		if (sl->hero->img[i]->enabled == true)
-			anime_hero(sl, i);
-		i++;	
-	}
+	{*/
+	//	if (sl->hero->img[frame]->enabled == true)
+			anime_hero(sl);
+		/*i++;	
+	}*/
 }
 
 void	move_mush(t_win *sl, mlx_image_t *img, int32_t n) 
@@ -75,28 +77,36 @@ void	move_mush(t_win *sl, mlx_image_t *img, int32_t n)
 	}
 }
 
-void	anime_hero(t_win *sl, int32_t n) 
+void	anime_hero(t_win *sl) 
 {
 	int32_t	*frame;
-	int32_t	next_frame;
+	int32_t	x;
+	int32_t	y;
 
 	frame = &sl->hero->frame[0][0];
+	x = sl->hero->img[*frame]->instances[0].x;
+	y = sl->hero->img[*frame]->instances[0].y;
 	sl->hero->time += sl->mlx->delta_time * 1000;
 	if (sl->hero->time > sl->hero->fps)
 	{
+		sl->hero->img[*frame]->instances[0].enabled = true;
+		if (*frame == 0 && sl->hero->count > 1)
+		{
+			sl->hero->img[sl->hero->count - 1]->instances[0].x = x;
+			sl->hero->img[sl->hero->count - 1]->instances[0].y = y;
+			sl->hero->img[sl->hero->count - 1]->instances[0].enabled = false;
+		}
+		else if (sl->hero->count > 1)
+		{
+			sl->hero->img[*frame - 1]->instances[0].x = x;
+			sl->hero->img[*frame - 1]->instances[0].y = y;
+			sl->hero->img[*frame - 1]->instances[0].enabled = false;
+		}
 		sl->hero->time -= sl->hero->fps;
-		next_frame = (*frame + 1) % sl->hero->count;
-		sl->hero->img[next_frame]->enabled = true;
-		sl->hero->img[*frame]->enabled = false;
-		*frame = next_frame;
+		*frame = (*frame + 1) % sl->hero->count;
+		//sl->hero->img[*frame]->enabled = false;
 	}
 }
-
-
-
-
-
-
 
 /*void	anime_sprite(void *ptr)
 {

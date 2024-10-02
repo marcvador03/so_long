@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:45:42 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 17:45:44 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:21:43 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ size_t	move_auth(t_win *sl, t_map **map_adj, int32_t move[2], int32_t hero[4])
 	return (1);
 }
 
-size_t	move_init(t_win *sl, keys_t key, t_map map)
+size_t	move_auth_init(t_win *sl, keys_t key, t_map map)
 {
 	int32_t	hero[4];
 	int32_t	move[2];
@@ -112,10 +112,10 @@ size_t	move_init(t_win *sl, keys_t key, t_map map)
 		unexpected_close(ERR_PPT, sl, sl->map);
 	move[X] = 0;
 	move[Y] = 0;
-	hero[X] = map.cur_a->img[0]->instances[map.inst].x; //manage image frames
-	hero[Y] = map.cur_a->img[0]->instances[map.inst].y; //manage image frames
-	hero[X_W] = hero[X] + map.cur_a->img[0]->width;
-	hero[Y_H] = hero[Y] + map.cur_a->img[0]->height;
+	hero[X] = sl->hero->img[0]->instances[map.inst].x;
+	hero[Y] = sl->hero->img[0]->instances[map.inst].y;
+	hero[X_W] = hero[X] + sl->hero->img[0]->width;
+	hero[Y_H] = hero[Y] + sl->hero->img[0]->height;
 	if (key == MLX_KEY_RIGHT)
 		move[X] = MOVE;
 	if (key == MLX_KEY_LEFT)
