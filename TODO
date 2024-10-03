@@ -1,7 +1,8 @@
-fix sprite count
-implement animation monster
+fix sprite count OK
+implement animation monster OK
 implement animation hero (death?)
-implement attack (all directions)
+implement attack (all directions) OK
+Manage screen size OK to be tested
 fix list of malloc to clean (incl. frames)
 review error management:
 	avoid 'NULL' when possible

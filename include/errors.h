@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:21:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 20:41:16 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 10:48:00 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@
 # define ERR_LOAD_TEXTURE "Error during texture load" 
 # define ERR_PPT "Error in Pixel per Tile (PPT) definition < 0" 
 # define ERR_EXT "Wrong map extension file (expected .ber)" 
+# define ERR_MAP_SIZE "Map is larger than screen resolution" 
 
 #endif
