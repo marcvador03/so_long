@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:43:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 10:10:16 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*check_all_items(t_win *sl, t_map **map)
 	h = 0;
 	flag = (uint32_t *)ft_calloc(3, sizeof(uint32_t));
 	if (flag == NULL)
-		unexpected_close(ERR_MALLOC, sl, sl->map);
+		unexpected_close(ERR_MALLOC, sl);
 	while (h < sl->h_map)
 	{
 		w = 0;
@@ -101,5 +101,5 @@ void	check_path_init(t_win *sl, t_map **map)
 	check_path_loop(sl, map, h, w);
 	error = check_all_items(sl, map);
 	if (error != NULL)
-		unexpected_close(error, sl, sl->map);
+		unexpected_close(error, sl);
 }

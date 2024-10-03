@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 17:45:42 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 19:38:34 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,13 @@ size_t	move_auth(t_win *sl, t_map **map_adj, int32_t *move, int32_t *hero)
 	return (free(map_adj), free(move), free(hero), 1);
 }
 
-int32_t	*fill_move(t_anim *a, keys_t key) // utils?
+int32_t	*fill_move(t_win *sl, t_anim *a, keys_t key) // utils?
 {
 	int32_t	*move;
 
 	move = (int32_t *)ft_calloc(sizeof(int32_t), 2);
 	if (move == NULL)
-		exit(2);
+		unexpected_close(ERR_MALLOC, sl);
 	if ((key == MLX_KEY_RIGHT) || (key == 0 && a->name[6] == 'r'))
 		move[X] = MOVE;
 	if ((key == MLX_KEY_LEFT) || (key == 0 && a->name[6] == 'l'))
@@ -122,11 +122,13 @@ int32_t	*fill_move(t_anim *a, keys_t key) // utils?
 	return (move);	
 }
 
-int32_t	*fill_coord(t_anim *a, keys_t key) // utils?
+int32_t	*fill_coord(t_win *sl, t_anim *a, keys_t key) // utils?
 {
 	int32_t	*hero;
 
 	hero = (int32_t *)ft_calloc(sizeof(int32_t), 5);
+	if (hero == NULL)	
+		unexpected_close(ERR_MALLOC, sl);
 	hero[4] = 0;
 	if (key == 0)
 		hero[4] = 1;
@@ -143,12 +145,12 @@ size_t	move_auth_init(t_win *sl, keys_t key, t_anim *a) // merge with functino i
 	t_map	**map_adj;
 
 	if (PPT < 0)
-		unexpected_close(ERR_PPT, sl, sl->map);
-	hero = fill_coord(a, key);
-	move = fill_move(a, key); 
+		unexpected_close(ERR_PPT, sl);
+	hero = fill_coord(sl, a, key);
+	move = fill_move(sl, a, key); 
 	map_adj = identify_adj_map(sl, move, hero);
 	if (map_adj == NULL)
-		unexpected_close(ERR_MALLOC, sl, sl->map);
+		unexpected_close(ERR_MALLOC, sl);
 	return (move_auth(sl, map_adj, move, hero));
 }
 

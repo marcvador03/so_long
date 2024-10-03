@@ -6,11 +6,19 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:33:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/30 21:02:48 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+void	free_txt(t_win *sl, size_t *cnt, mlx_texture_t *t_in, mlx_texture_t *t)
+{
+	free(cnt);
+	mlx_delete_texture(t);
+	mlx_delete_texture(t_in);
+	unexpected_close(ERR_LOAD_TEXTURE, sl);
+}
 
 mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 {
@@ -30,7 +38,7 @@ mlx_texture_t	*create_sub_txt(size_t w, size_t h)
 	return (texture);
 }
 
-mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
+mlx_image_t	*load_texture_mirror(t_win *sl, mlx_texture_t *t_in, t_sprite in)
 {
 	mlx_texture_t	*t;
 	mlx_image_t		*img;
@@ -40,7 +48,7 @@ mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
 	cnt = (size_t *)ft_calloc(5, sizeof(size_t));
 	t = create_sub_txt(in.width, in.height);
 	if (cnt == NULL || t_in == NULL || t == NULL)
-		return (NULL);
+		free_txt(sl, cnt, t_in, t); 
 	set_var_m(cnt, &q, in, t_in->width);
 	while (cnt[H] <= in.height)
 	{
@@ -51,13 +59,13 @@ mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
 		}
 		set_var_m(cnt, &q, in, t_in->width);
 	}
-	img = mlx_texture_to_image(&sl, t);
-	if (mlx_resize_image(img, in.r_width, in.r_height) == false)
-		return (NULL);
+	img = mlx_texture_to_image(sl->mlx, t);
+	if (img == NULL || mlx_resize_image(img, in.r_width, in.r_height) == false)
+		free_txt(sl, cnt, t_in, t); 
 	return (mlx_delete_texture(t_in), mlx_delete_texture(t), img);
 }
 
-mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
+mlx_image_t	*load_texture(t_win *sl, mlx_texture_t *t_in, t_sprite in)
 {
 	mlx_texture_t	*t;
 	mlx_image_t		*img;
@@ -67,7 +75,7 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
 	cnt = (size_t *)ft_calloc(5, sizeof(size_t));
 	t = create_sub_txt(in.width, in.height);
 	if (cnt == NULL || t_in == NULL || t == NULL)
-		return (NULL);
+		free_txt(sl, cnt, t_in, t); 
 	set_var(cnt, &q, in, t_in->width);
 	while (cnt[H] <= in.height)
 	{
@@ -78,8 +86,8 @@ mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t_in, t_sprite in)
 		}
 		set_var(cnt, &q, in, t_in->width);
 	}
-	img = mlx_texture_to_image(&sl, t);
-	if (mlx_resize_image(img, in.r_width, in.r_height) == false)
-		return (NULL);
-	return (mlx_delete_texture(t_in), mlx_delete_texture(t), img);
+	img = mlx_texture_to_image(sl->mlx, t);
+	if (img == NULL || mlx_resize_image(img, in.r_width, in.r_height) == false)
+		free_txt(sl, cnt, t_in, t); 
+	return (free(cnt), mlx_delete_texture(t_in), mlx_delete_texture(t), img);
 }

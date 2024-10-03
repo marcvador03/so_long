@@ -6,11 +6,19 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:28:09 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 19:53:33 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+void	free_sprite_err(t_win *sl, size_t *cnt, t_sprite *s, mlx_texture_t *t)
+{
+	free(cnt);
+	free(s);
+	mlx_delete_texture(t);
+	unexpected_close(ERR_SPRITE, sl);
+}
 
 void	free_sprite(size_t *cnt, t_sprite *s, mlx_texture_t *t)
 {
@@ -61,7 +69,7 @@ mlx_texture_t	*sprite_loop(mlx_texture_t *t_in, t_sprite in, size_t cnt[5])
 	return (t);
 }
 
-t_sprite	*create_sprite_m(mlx_texture_t *t, t_sprite in)
+t_sprite	*create_sprite_m(t_win *sl, mlx_texture_t *t, t_sprite in)
 {
 	t_sprite	*s;
 	size_t		*cnt;
@@ -69,14 +77,14 @@ t_sprite	*create_sprite_m(mlx_texture_t *t, t_sprite in)
 	cnt = NULL;
 	s = NULL;
 	if (in.count <= 0 || t == NULL)
-		return (mlx_delete_texture(t), NULL);
+		free_sprite_err(sl, NULL, NULL, t);
 	if (init_var(&cnt, &s, in) == 0)
-		return (free_sprite(cnt, s, t), NULL);
+		free_sprite_err(sl, cnt, s, t);
 	while (cnt[TXT] < in.count)
 	{
 		s->texture[cnt[TXT]] = sprite_loop_m(t, in, cnt);
 		if (s->texture[cnt[TXT]] == NULL)
-			return (NULL);
+			free_sprite_err(sl, cnt, s, t);
 		cnt[TXT]++;
 		cnt[PX] = 0;
 		cnt[H] = 0;
@@ -86,7 +94,7 @@ t_sprite	*create_sprite_m(mlx_texture_t *t, t_sprite in)
 	return (free_sprite(cnt, NULL, t), s);
 }
 
-t_sprite	*create_sprite(mlx_texture_t *t, t_sprite in)
+t_sprite	*create_sprite(t_win *sl, mlx_texture_t *t, t_sprite in)
 {
 	t_sprite	*s;
 	size_t		*cnt;
@@ -94,14 +102,14 @@ t_sprite	*create_sprite(mlx_texture_t *t, t_sprite in)
 	cnt = NULL;
 	s = NULL;
 	if (in.count <= 0 || t == NULL)
-		return (mlx_delete_texture(t), NULL);
+		free_sprite_err(sl, NULL, NULL, t);
 	if (init_var(&cnt, &s, in) == 0)
-		return (free_sprite(cnt, s, t), NULL);
+		free_sprite_err(sl, cnt, s, t);
 	while (cnt[TXT] < in.count)
 	{
 		s->texture[cnt[TXT]] = sprite_loop(t, in, cnt);
 		if (s->texture[cnt[TXT]] == NULL)
-			return (NULL);
+			free_sprite_err(sl, cnt, s, t);
 		cnt[TXT]++;
 		cnt[PX] = 0;
 		cnt[H] = 0;

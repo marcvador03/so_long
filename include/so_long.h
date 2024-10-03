@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 21:45:53 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 13:57:43 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,8 @@ typedef struct s_img_cat
 	t_sprite	*s_item_c;
 	t_sprite	*s_exit;
 	t_sprite	*s_bckg;
-	t_sprite	*s_hero;
-	t_sprite	*sm_hero;
 	t_sprite	*s_hero_idle;
 	t_sprite	*sm_hero_idle;
-	t_sprite	*s_hero_run;
-	t_sprite	*sm_hero_run;
 	t_sprite	*s_hero_dead;
 	t_sprite	*sm_hero_dead;
 	t_sprite	*s_item_o;
@@ -78,12 +74,8 @@ typedef struct s_img_cat
 	t_anim		*item_c;
 	t_anim		*exit;
 	t_anim		*bckg;
-	t_anim		*hero;
-	t_anim		*hero_m;
 	t_anim		*hero_idle;
 	t_anim		*hero_idle_m;
-	t_anim		*hero_run;
-	t_anim		*hero_run_m;
 	t_anim		*hero_dead;
 	t_anim		*hero_dead_m;
 	t_anim		*item_o;
@@ -108,7 +100,7 @@ typedef struct	s_map
 	size_t	cnt; 
 } t_map;
 
-typedef struct	s_hero // used??
+/*typedef struct	s_hero // used??
 {
 	mlx_image_t	**img;
 	size_t	instance;
@@ -116,31 +108,25 @@ typedef struct	s_hero // used??
 	u_int32_t	w_hero;
 	u_int32_t	h_hero;
 } t_hero;
-
+*/
 typedef struct	s_win 
 {
 	int			fd;
 	t_map		**map;
 	mlx_t		*mlx;
-	int32_t		h_win; // used?
-	int32_t		w_win; // used?
 	u_int32_t	h_map;
 	u_int32_t	w_map;
-	//u_int32_t	w_hero;
-	//u_int32_t	h_hero;
-	//u_int32_t	w_weapon;
-	//u_int32_t	h_weapon;
 	t_cat		*cat;
 	u_int32_t	item_cnt;
 	u_int32_t	move_cnt;	
-	u_int32_t	mem_count; //used?
+	u_int32_t	map_cnt;
 	mlx_image_t	*str_move;
 	mlx_image_t	*s_cnt;
 	t_anim		*hero;
 	char		dir;
 } t_win;
 
-void	unexpected_close(char *str, t_win *sl, t_map **map);
+void	unexpected_close(char *str, t_win *sl);
 void	exp_close(void *ptr);
 void	esc_close(t_win *sl, t_map **map);
 void	load_static_image(t_win *sl, t_cat *cat);
@@ -161,7 +147,7 @@ void	check_path_init(t_win *sl, t_map **map);
 int32_t	map_len(int32_t move[2], int32_t hero[5]);
 
 /*animation functions*/
-t_anim	*create_anime(double fps, int32_t z, char *name);
+t_anim	*create_anime(t_win *sl, double fps, int32_t z, char *name);
 void	anime_sprite(void *ptr);
 void	switch_img(t_map *map, t_anim *out, t_anim *in);
 void	activate_anim(t_map *map, t_anim *out, t_anim *in);
@@ -175,8 +161,8 @@ void	hook_mons_dead(void *ptr);
 void	anime_hero(t_win *sl); 
 
 /* Sprite and Sprite utils*/
-t_sprite 	*create_sprite(mlx_texture_t *t, t_sprite in);
-t_sprite 	*create_sprite_m(mlx_texture_t *t, t_sprite in);
+t_sprite 	*create_sprite(t_win *sl, mlx_texture_t *t, t_sprite in);
+t_sprite 	*create_sprite_m(t_win *sl, mlx_texture_t *t, t_sprite in);
 void	sprite_init(t_sprite *s, t_sprite in);
 int		init_var(size_t **cnt, t_sprite **s, t_sprite in);
 void	free_sprite(size_t *cnt, t_sprite *s, mlx_texture_t *t);
@@ -185,16 +171,16 @@ void	set_var(size_t cnt[5], int32_t *q, t_sprite in, int32_t w);
 void	set_var_m(size_t cnt[5], int32_t *q, t_sprite in, int32_t w);
 
 /* Texture creation*/
-mlx_image_t	*load_texture(mlx_t sl, mlx_texture_t *t, t_sprite in);
-mlx_image_t	*load_texture_mirror(mlx_t sl, mlx_texture_t *t, t_sprite in);
+mlx_image_t	*load_texture(t_win *sl, mlx_texture_t *t, t_sprite in);
+mlx_image_t	*load_texture_mirror(t_win *sl, mlx_texture_t *t, t_sprite in);
 mlx_texture_t	*create_sub_txt(size_t w, size_t h);
 
 /*movements functions*/
 size_t	move_auth_init(t_win *sl, keys_t key, t_anim *a);
 char	check_collision(t_map *map_adj, int32_t hero[5], int32_t move[2]);
 void	collect_item(t_win *sl, t_map **map, t_map a);
-int32_t	*fill_move(t_anim *a, keys_t key); 
-int32_t	*fill_coord(t_anim *a, keys_t key);
+int32_t	*fill_move(t_win *sl, t_anim *a, keys_t key); 
+int32_t	*fill_coord(t_win *sl, t_anim *a, keys_t key);
 t_map	**identify_adj_map(t_win *sl, int32_t *move, int32_t *hero);
 
 #endif

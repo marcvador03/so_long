@@ -6,27 +6,29 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/01 23:47:19 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-static void	load_sprite(mlx_t *mlx, t_sprite *s, t_anim *a)
+static void	load_sprite(t_win *sl, mlx_t *mlx, t_sprite *s, t_anim *a)
 {
 	size_t	i;
 
 	if (s == NULL || s->count <= 0 || a == NULL)
-		return ;
+		unexpected_close(ERR_SPRITE, sl);
 	a->img = (mlx_image_t **)ft_calloc(s->count, sizeof(mlx_image_t *));
 	if (a->img == NULL)
-		return ;
+		unexpected_close(ERR_MALLOC, sl);
 	i = 0;
 	while (i < s->count)
 	{
 		a->img[i] = mlx_texture_to_image(mlx, s->texture[i]);
+		if (a->img[i] == NULL)
+			unexpected_close(ERR_IMAGE, sl);
 		if (mlx_resize_image(a->img[i], s->r_width, s->r_height) == false)
-			return ;
+			unexpected_close(ERR_IMAGE_RES, sl);
 		mlx_delete_texture(s->texture[i++]);
 	}
 	free(s->texture);
@@ -45,6 +47,19 @@ void	attach_image(t_map *map, t_anim *a)
 	}
 }
 
+void	load_image_loop(t_win *sl, t_anim *a, mlx_image_t *img, uint32_t p[4])
+{
+	size_t	n;
+	
+	p[X_W] = (p[W] * PPT) + (PPT - img->width);
+	p[Y_H] = (p[H] * PPT) + (PPT - img->height);
+	if (mlx_image_to_window(sl->mlx, img, p[X_W], p[Y_H]) == -1)
+		unexpected_close(ERR_IMAGE, sl);
+	n = img->count - 1;
+	mlx_set_instance_depth(&img->instances[n], a->depth);
+	img->instances[n].enabled = false;
+}
+
 void	load_image(t_win *sl, t_map *map, t_anim *a, uint32_t p[4])
 {
 	size_t	i;
@@ -52,14 +67,8 @@ void	load_image(t_win *sl, t_map *map, t_anim *a, uint32_t p[4])
 	
 	i = 0;
 	while (i < a->count)
-	{
-		p[X_W] = (p[W] * PPT) + (PPT - a->img[i]->width);
-		p[Y_H] = (p[H] * PPT) + (PPT - a->img[i]->height);
-		mlx_image_to_window(sl->mlx, a->img[i], p[X_W], p[Y_H]);
-		n = a->img[i]->count - 1;
-		mlx_set_instance_depth(&a->img[i]->instances[n], a->depth);
-		a->img[i++]->instances[n].enabled = false;
-	}
+		load_image_loop(sl, a, a->img[i++], p);
+	n = a->img[0]->count - 1;
 	if (map->cur_a == NULL && (ft_strncmp(a->name, "bckg", 4) != 0))
 	{
 		map->cur_a = a;
@@ -79,13 +88,13 @@ void	update_anim_frame(t_win *sl, t_anim *a)
 
 	a->frame = (int32_t **)ft_calloc(sizeof(int32_t *), a->count);
 	if (a->frame == NULL)
-		unexpected_close(ERR_ANIME, sl, sl->map);
+		unexpected_close(ERR_ANIME, sl);
 	i = 0;
 	while (i < a->count)
 	{
 		a->frame[i] = (int32_t *)ft_calloc(sizeof(int32_t), a->img[i]->count);
 		if (a->frame[i++] == NULL)
-			unexpected_close(ERR_ANIME, sl, sl->map);
+			unexpected_close(ERR_ANIME, sl);
 	}
 }
 
@@ -95,7 +104,7 @@ void	load_image_init(t_win *sl, t_anim *a, t_sprite *sprite, char c)
 	t_map		*map;
 
 	cnt[H] = 0;
-	load_sprite(sl->mlx, sprite, a);
+	load_sprite(sl, sl->mlx, sprite, a);
 	free(sprite);
 	while (cnt[H] < sl->h_map)
 	{

@@ -1,13 +1,13 @@
 fix sprite count OK
 implement animation monster OK
-implement animation hero (death?)
 implement attack (all directions) OK
 Manage screen size OK to be tested
-fix list of malloc to clean (incl. frames)
+fix list of malloc to clean (incl. frames) OK
 review error management:
-	avoid 'NULL' when possible
-	review mlx functions requiring null check
+	avoid 'NULL' when possible - OK
+	review mlx functions requiring null check - OK
 retest and fix map path check
+implement animation hero (death?)
 clean struct
 clean .h
 norminette

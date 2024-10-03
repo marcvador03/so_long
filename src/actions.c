@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 20:32:50 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 void	activate_anim(t_map *map, t_anim *out, t_anim *in) // remove map.inst?
 {
 	size_t	i;
+	int32_t	x;
+	int32_t	y;
 	
 	i = 0;
 	while (i < out->count)
 	{
-		out->img[i]->instances[map->inst].x = in->img[0]->instances[map->inst].x;
-		out->img[i++]->instances[map->inst].y = in->img[0]->instances[map->inst].y;
+		x = in->img[0]->instances[map->inst].x;
+		y = in->img[0]->instances[map->inst].y;
+		out->img[i]->instances[map->inst].x = x;
+		out->img[i++]->instances[map->inst].y = y;
 	}
 	out->img[0]->instances[map->inst].enabled = true;
 }
@@ -28,6 +32,8 @@ void	activate_anim(t_map *map, t_anim *out, t_anim *in) // remove map.inst?
 void	switch_img(t_map *map, t_anim *out, t_anim *in) // removed map inst
 {
 	size_t	i;
+	int32_t	x;
+	int32_t	y;
 	
 	i = 0;
 	while (i < in->count)
@@ -35,8 +41,10 @@ void	switch_img(t_map *map, t_anim *out, t_anim *in) // removed map inst
 	i = 0;
 	while (i < out->count)
 	{
-		out->img[i]->instances[map->inst].x = in->img[0]->instances[map->inst].x;
-		out->img[i++]->instances[map->inst].y = in->img[0]->instances[map->inst].y;
+		x = in->img[0]->instances[map->inst].x;
+		y = in->img[0]->instances[map->inst].y;
+		out->img[i]->instances[map->inst].x = x;
+		out->img[i++]->instances[map->inst].y = y;
 	}
 	out->img[0]->instances[map->inst].enabled = true;
 	map->cur_a = out;
@@ -102,6 +110,7 @@ static void	move_hero(t_win *sl, keys_t key)
 static void	move_init(t_win *sl, keys_t key)
 {
 	size_t	n;
+	char	*str;
 	
 	n = move_auth_init(sl, key, sl->hero);
 	if (n == 1)
@@ -110,7 +119,11 @@ static void	move_init(t_win *sl, keys_t key)
 		sl->move_cnt++;
 		if (sl->s_cnt != NULL)
 			mlx_delete_image(sl->mlx, sl->s_cnt);
-		sl->s_cnt = mlx_put_string(sl->mlx, ft_itoa(sl->move_cnt), 110, 0);
+		str = ft_itoa(sl->move_cnt);
+		if (str == NULL)
+			unexpected_close(ERR_MALLOC, sl);
+		sl->s_cnt = mlx_put_string(sl->mlx, str, 110, 0);
+		free(str);
 	}
 	else if (n == 2)
 		exit(1);
@@ -138,14 +151,8 @@ static void	weapon_launch(t_win *sl, keys_t key)
 void	keyhook(mlx_key_data_t k, void *param)
 {
 	t_win		*sl;
-	//t_map		map;
-	//uint32_t 	h_hero;
-	//uint32_t	w_hero;
 
 	sl = (t_win *)param;
-	/*h_hero = sl->hero->img[0]->instances[0].y / PPT;
-	w_hero = sl->hero->img[0]->instances[0].x / PPT;
-	map = sl->map[h_hero][w_hero];*/
 	if (k.key == MLX_KEY_ESCAPE && k.action == MLX_PRESS)
 		esc_close(sl, sl->map);
 	if (k.modifier == MLX_SHIFT && k.action == MLX_PRESS)

@@ -69,7 +69,7 @@ libft: | $(LIB_DIR) $(INC_DIR)
 	@$(MAKE) -C $(LIBFT_DIR)
 
 libmlx: | $(LIB_DIR) $(INC_DIR)
-	cmake -DDEBUG=1 -S $(LIBMLX_DIR) -B $(CUR_DIR)/$(LIB_DIR)
+	cmake -S $(LIBMLX_DIR) -B $(CUR_DIR)/$(LIB_DIR)
 	$(MAKE) -C $(CUR_DIR)/$(LIB_DIR) -j4
 
 $(OBJ_DIR):

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:51:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/27 21:43:41 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	check_file_ext(t_win *sl, char *path)
 	char	*str;
 
 	if (path == NULL)
-		unexpected_close(ERR_EXT, sl, sl->map);
+		unexpected_close(ERR_EXT, sl);
 	len = ft_strlen(path);
 	str = ft_substr(path, len - 3, 3);
 	if (str == NULL)
-		unexpected_close(ERR_MALLOC, sl, sl->map);
+		unexpected_close(ERR_MALLOC, sl);
 	if (ft_strncmp(str, "ber", 3) != 0)
 	{
 		free(str);
-		unexpected_close(ERR_EXT, sl, NULL);
+		unexpected_close(ERR_EXT, sl);
 	}
 	free(str);
 }

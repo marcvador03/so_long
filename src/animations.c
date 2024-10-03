@@ -6,23 +6,22 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/02 21:48:35 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-t_anim	*create_anime(double fps, int32_t z, char *name)
+t_anim	*create_anime(t_win *sl, double fps, int32_t z, char *name)
 {
 	t_anim	*anime;
 
 	anime = (t_anim *)ft_calloc(sizeof(t_anim), 1);
 	if (anime == NULL)
-		return (NULL);
+		unexpected_close(ERR_MALLOC, sl);
 	anime->fps = fps;
 	anime->depth = z;
 	anime->name = name;
-	//anime->enabled = false;
 	return (anime);
 }
 
@@ -56,37 +55,42 @@ void	hook_weapon(void *ptr)
 		move_weapon_init(sl, sl->cat->arrow_l);
 }
 
-void	dead_mons(t_win *sl, int32_t i)
+static void	anime_object_loop(int32_t frame, int32_t cnt[3], t_anim *a, int32_t i)
 {
-	int32_t	*frame;
-	int32_t	x;
-	int32_t	y;
-
-	frame = &sl->cat->mons_dead->frame[0][i];
-	x = sl->cat->mons_dead->img[*frame]->instances[i].x;
-	y = sl->cat->mons_dead->img[*frame]->instances[i].y;
-	sl->cat->mons_dead->time += sl->mlx->delta_time * 1000;
-	if (sl->cat->mons_dead->time > sl->cat->mons_dead->fps)
+	if (frame == 0 && cnt[3] > 1)
 	{
-		sl->cat->mons_dead->img[*frame]->instances[i].enabled = true;
-		if (*frame == 0 && sl->cat->mons_dead->count > 1)
-		{
-			sl->cat->mons_dead->img[sl->cat->mons_dead->count - 1]->instances[i].x = x;
-			sl->cat->mons_dead->img[sl->cat->mons_dead->count - 1]->instances[i].y = y;
-			sl->cat->mons_dead->img[sl->cat->mons_dead->count - 1]->instances[i].enabled = false;
-		}
-		else if (sl->cat->mons_dead->count > 1)
-		{
-			sl->cat->mons_dead->img[*frame - 1]->instances[i].x = x;
-			sl->cat->mons_dead->img[*frame - 1]->instances[i].y = y;
-			sl->cat->mons_dead->img[*frame - 1]->instances[i].enabled = false;
-		}
-		sl->cat->mons_dead->time -= sl->cat->mons_dead->fps;
-		*frame = (*frame + 1) % sl->cat->mons_dead->count;
+		a->img[cnt[2] - 1]->instances[i].x = cnt[X];
+		a->img[cnt[2] - 1]->instances[i].y = cnt[Y];
+		a->img[cnt[2] - 1]->instances[i].enabled = false;
+	}
+	else if (cnt[2] > 1)
+	{
+		a->img[frame - 1]->instances[i].x = cnt[X];
+		a->img[frame - 1]->instances[i].y = cnt[Y];
+		a->img[frame - 1]->instances[i].enabled = false;
 	}
 }
 
-void	idle_mons(t_win *sl, int32_t i)
+void	anime_object(t_win *sl, t_anim *a, int32_t i)
+{
+	int32_t	*frame;
+	int32_t	cnt[3];
+
+	frame = &a->frame[0][i];
+	cnt[X] = a->img[*frame]->instances[i].x;
+	cnt[Y] = a->img[*frame]->instances[i].y;
+	a->time += sl->mlx->delta_time * 1000;
+	if (a->time > a->fps)
+	{
+		a->img[*frame]->instances[i].enabled = true;
+		cnt[2] = a->count;
+		anime_object_loop(*frame, cnt, a, i);
+		a->time -= a->fps;
+		*frame = (*frame + 1) % a->count;
+	}
+}
+
+/*void	idle_mons(t_win *sl, int32_t i)
 {
 	int32_t	*frame;
 	int32_t	x;
@@ -114,7 +118,7 @@ void	idle_mons(t_win *sl, int32_t i)
 		sl->cat->mons->time -= sl->cat->mons->fps;
 		*frame = (*frame + 1) % sl->cat->mons->count;
 	}
-}
+}*/
 
 void	hook_mons_dead(void *ptr)
 {
@@ -130,7 +134,7 @@ void	hook_mons_dead(void *ptr)
 		while (i < sl->cat->mons_dead->img[j]->count)
 		{
 			if (sl->cat->mons_dead->img[j]->instances[i].enabled == true)
-				dead_mons(sl, i);
+				anime_object(sl,sl->cat->mons_dead, i);
 			i++;
 		}
 		j++;
@@ -152,7 +156,7 @@ void	hook_mons(void *ptr)
 		while (i < sl->cat->mons->img[j]->count)
 		{
 			if (sl->cat->mons->img[j]->instances[i].enabled == true)
-				idle_mons(sl, i);
+				anime_object(sl, sl->cat->mons, i);
 			i++;
 		}
 		j++;
@@ -165,7 +169,7 @@ void	hook_idle(void *ptr)
 	t_win	*sl;
 
 	sl = (t_win *)ptr;
-			anime_hero(sl);
+			anime_object(sl, sl->hero, 0);
 }
 
 void	move_mush(t_win *sl, mlx_image_t *img, int32_t n) 
@@ -208,9 +212,8 @@ void	move_weapon_init(t_win *sl, t_anim *a)
 	size_t		n;
 	int32_t		*move;
 
-	move = NULL;
 	a->time += sl->mlx->delta_time * 1000;
-	move = fill_move(a, 0);
+	move = fill_move(sl, a, 0);
 	if (a->time > a->fps)
 	{
 		a->time -= a->fps;
@@ -222,7 +225,7 @@ void	move_weapon_init(t_win *sl, t_anim *a)
 		else if (n == 3)
 		{
 			a->img[0]->instances[0].enabled = false;
-			kill_monster(sl, identify_adj_map(sl, move, fill_coord(a, 0)));
+			kill_monster(sl, identify_adj_map(sl, move, fill_coord(sl, a, 0)));
 		}
 		else
 		{
@@ -233,7 +236,7 @@ void	move_weapon_init(t_win *sl, t_anim *a)
 	}
 }
 
-void	anime_hero(t_win *sl) 
+/*void	anime_hero(t_win *sl) 
 {
 	int32_t	*frame;
 	int32_t	x;
@@ -261,7 +264,7 @@ void	anime_hero(t_win *sl)
 		sl->hero->time -= sl->hero->fps;
 		*frame = (*frame + 1) % sl->hero->count;
 	}
-}
+}*/
 
 /*void	anime_sprite(void *ptr)
 {
