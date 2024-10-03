@@ -6,134 +6,31 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 21:17:05 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	activate_anim(t_map *map, t_anim *out, t_anim *in) // remove map.inst?
+void	kill_monster(t_win *sl, t_map **map_adj)
 {
-	size_t	i;
-	int32_t	x;
-	int32_t	y;
-	
-	i = 0;
-	while (i < out->count)
-	{
-		x = in->img[0]->instances[map->inst].x;
-		y = in->img[0]->instances[map->inst].y;
-		out->img[i]->instances[map->inst].x = x;
-		out->img[i++]->instances[map->inst].y = y;
-	}
-	out->img[0]->instances[map->inst].enabled = true;
-}
+	int	i;
 
-void	switch_img(t_map *map, t_anim *out, t_anim *in) // removed map inst
-{
-	size_t	i;
-	int32_t	x;
-	int32_t	y;
-	
 	i = 0;
-	while (i < in->count)
-		in->img[i++]->instances[map->inst].enabled = false;
-	i = 0;
-	while (i < out->count)
+	while (map_adj[i] != NULL)
 	{
-		x = in->img[0]->instances[map->inst].x;
-		y = in->img[0]->instances[map->inst].y;
-		out->img[i]->instances[map->inst].x = x;
-		out->img[i++]->instances[map->inst].y = y;
-	}
-	out->img[0]->instances[map->inst].enabled = true;
-	map->cur_a = out;
-}
-
-static void switch_direction_loop(t_anim *out, t_anim *in)
-{
-	size_t	i;
-	
-	i = 0;
-	while (i < out->count)
-	{
-		out->img[i]->instances[0].x = in->img[0]->instances[0].x;
-		out->img[i]->instances[0].y = in->img[0]->instances[0].y;
-		out->img[i++]->instances[0].enabled = true;
-	}
-	i = 0;
-	while (i < in->count)
-		in->img[i++]->instances[0].enabled = false;
-}
-
-static void switch_direction(t_win *sl, int32_t move[2])
-{
-
-	if (sl->dir =='R' && move[X] < 0)
-	{
-		sl->dir = 'L';
-		switch_direction_loop(sl->cat->hero_idle_m, sl->cat->hero_idle);	
-		sl->hero = sl->cat->hero_idle_m;
-	}
-	else if (sl->dir =='L' && move[X] > 0)
-	{
-		sl->dir = 'R';
-		switch_direction_loop(sl->cat->hero_idle, sl->cat->hero_idle_m);	
-		sl->hero = sl->cat->hero_idle;
+		if (map_adj[i]->c == 'M')
+		{
+			switch_img(map_adj[i], sl->cat->mons_dead, sl->cat->mons);
+			map_adj[i]->c = '0';
+		}
+		i++;
 	}
 }
 
-static void	move_hero(t_win *sl, keys_t key)
+void	weapon_launch(t_win *sl, keys_t key)
 {
-	int32_t	move[2];
-	size_t	i;
-
-	move[X] = 0;
-	move[Y] = 0;
-	i = 0;
-	if (key == MLX_KEY_RIGHT)
-		move[X] = MOVE;
-	if (key == MLX_KEY_LEFT)
-		move[X] = -MOVE;
-	if (key == MLX_KEY_UP)
-		move[Y] = -MOVE;
-	if (key == MLX_KEY_DOWN)
-		move[Y] = MOVE;
-	while (i < sl->hero->count)
-	{
-		sl->hero->img[i]->instances[0].x += move[X];
-		sl->hero->img[i++]->instances[0].y += move[Y];
-	}
-	switch_direction(sl, move);
-}
-
-static void	move_init(t_win *sl, keys_t key)
-{
-	size_t	n;
-	char	*str;
-	
-	n = move_auth_init(sl, key, sl->hero);
-	if (n == 1)
-	{
-		move_hero(sl, key); 
-		sl->move_cnt++;
-		if (sl->s_cnt != NULL)
-			mlx_delete_image(sl->mlx, sl->s_cnt);
-		str = ft_itoa(sl->move_cnt);
-		if (str == NULL)
-			unexpected_close(ERR_MALLOC, sl);
-		sl->s_cnt = mlx_put_string(sl->mlx, str, 110, 0);
-		free(str);
-	}
-	else if (n == 2)
-		exit(1);
-	else if (n == 3)
-		exit(0);
-}
-
-static void	weapon_launch(t_win *sl, keys_t key)
-{
-	mlx_image_t *img;
+	mlx_image_t	*img;
 
 	if (key == MLX_KEY_RIGHT)
 		img = sl->cat->arrow_r->img[0];
@@ -143,23 +40,15 @@ static void	weapon_launch(t_win *sl, keys_t key)
 		img = sl->cat->arrow_down->img[0];
 	if (key == MLX_KEY_UP)
 		img = sl->cat->arrow_up->img[0];
-	img->instances[0].x = sl->hero->img[0]->instances[0].x; 
+	img->instances[0].x = sl->hero->img[0]->instances[0].x;
 	img->instances[0].y = sl->hero->img[0]->instances[0].y;
 	img->instances[0].enabled = true;
 }
 
-void	keyhook(mlx_key_data_t k, void *param)
+void	collect_item(t_win *sl, t_map **map, t_map a)
 {
-	t_win		*sl;
-
-	sl = (t_win *)param;
-	if (k.key == MLX_KEY_ESCAPE && k.action == MLX_PRESS)
-		esc_close(sl, sl->map);
-	if (k.modifier == MLX_SHIFT && k.action == MLX_PRESS)
-	{
-		if (k.key >= MLX_KEY_RIGHT && k.key <= MLX_KEY_UP)
-			weapon_launch(sl, k.key);
-	}
-	else if (k.key >= MLX_KEY_RIGHT && k.key <= MLX_KEY_UP && k.action >= MLX_PRESS)
-		move_init(sl, k.key);
+	switch_img(&map[a.y][a.x], sl->cat->item_o, sl->cat->item_c);
+	activate_anim(&map[a.y][a.x], sl->cat->mush, sl->cat->item_o);
+	map[a.y][a.x].c = '0';
+	sl->item_cnt--;
 }

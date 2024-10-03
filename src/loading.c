@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:39:03 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 21:44:54 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	load_sprite(t_win *sl, mlx_t *mlx, t_sprite *s, t_anim *a)
 	}
 	free(s->texture);
 	a->count = s->count;
-	return ; 
+	return ;
 }
 
 void	attach_image(t_map *map, t_anim *a)
@@ -47,10 +47,10 @@ void	attach_image(t_map *map, t_anim *a)
 	}
 }
 
-void	load_image_loop(t_win *sl, t_anim *a, mlx_image_t *img, uint32_t p[4])
+static void	load_img_loop(t_win *sl, t_anim *a, mlx_image_t *img, uint32_t p[4])
 {
 	size_t	n;
-	
+
 	p[X_W] = (p[W] * PPT) + (PPT - img->width);
 	p[Y_H] = (p[H] * PPT) + (PPT - img->height);
 	if (mlx_image_to_window(sl->mlx, img, p[X_W], p[Y_H]) == -1)
@@ -60,14 +60,14 @@ void	load_image_loop(t_win *sl, t_anim *a, mlx_image_t *img, uint32_t p[4])
 	img->instances[n].enabled = false;
 }
 
-void	load_image(t_win *sl, t_map *map, t_anim *a, uint32_t p[4])
+static void	load_image(t_win *sl, t_map *map, t_anim *a, uint32_t p[4])
 {
 	size_t	i;
 	size_t	n;
-	
+
 	i = 0;
 	while (i < a->count)
-		load_image_loop(sl, a, a->img[i++], p);
+		load_img_loop(sl, a, a->img[i++], p);
 	n = a->img[0]->count - 1;
 	if (map->cur_a == NULL && (ft_strncmp(a->name, "bckg", 4) != 0))
 	{
@@ -82,23 +82,7 @@ void	load_image(t_win *sl, t_map *map, t_anim *a, uint32_t p[4])
 		a->img[0]->instances[n].enabled = true;
 }
 
-void	update_anim_frame(t_win *sl, t_anim *a)
-{
-	size_t	i;
-
-	a->frame = (int32_t **)ft_calloc(sizeof(int32_t *), a->count);
-	if (a->frame == NULL)
-		unexpected_close(ERR_ANIME, sl);
-	i = 0;
-	while (i < a->count)
-	{
-		a->frame[i] = (int32_t *)ft_calloc(sizeof(int32_t), a->img[i]->count);
-		if (a->frame[i++] == NULL)
-			unexpected_close(ERR_ANIME, sl);
-	}
-}
-
-void	load_image_init(t_win *sl, t_anim *a, t_sprite *sprite, char c)
+void	load_img_init(t_win *sl, t_anim *a, t_sprite *sprite, char c)
 {
 	uint32_t	cnt[4];
 	t_map		*map;

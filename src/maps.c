@@ -6,16 +6,11 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 16:20:09 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 00:21:13 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
-void	free_line_err(t_win *sl, char *line, char *error)
-{
-	free(line);
-	unexpected_close(error, sl);
 
-}
 void	map_alloc(t_win *sl)
 {
 	size_t	i;
@@ -56,7 +51,7 @@ void	get_map_size(t_win *sl, char *path)
 			free_line_err(sl, tmp, ERR_FILE_EMPTY_LINE);
 		if (tmp != NULL && sl->w_map != (uint32_t)(ft_strlen(tmp) - 1))
 			free_line_err(sl, tmp, ERR_MAP_NOT_RECT);*/
-		sl->h_map++ ;
+		sl->h_map++;
 	}
 	free(tmp);
 	tmp = NULL;
@@ -64,7 +59,7 @@ void	get_map_size(t_win *sl, char *path)
 		unexpected_close(ERR_CLOSE_FILE, sl);
 }
 
-static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t *y)
+static uint32_t	line_fill(t_map *map, char *line, int32_t *y)
 {
 	int32_t		i;
 	uint32_t	item_cnt;
@@ -80,24 +75,14 @@ static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t *y)
 		map[i].c = line[i];
 		map[i].x = i;
 		map[i].y = *y;
-		/*if (line[i] == 'P')
-		{
-			sl->h_hero = *y;
-			sl->w_hero = i;
-		}*/		
 		if (line[i++] == 'C')
 			item_cnt++;
-	}
-	if (i == 0)
-	{
-		free(line);
-		unexpected_close(ERR_FILE_EMPTY_LINE, sl);
 	}
 	*y = *y + 1;
 	return (item_cnt);
 }
 
-void	sl_map_fill(t_win *sl, char *path)
+void	map_fill(t_win *sl, char *path)
 {
 	char	*line;
 	int		i;
@@ -108,40 +93,16 @@ void	sl_map_fill(t_win *sl, char *path)
 	line = get_next_line(sl->fd);
 	i = 0;
 	sl->item_cnt = 0;
-	sl->item_cnt += sl_line_fill(sl, sl->map[i], line, &i);
+	sl->item_cnt += line_fill(sl->map[i], line, &i);
 	while (line != NULL)
 	{
 		free(line);
 		line = get_next_line(sl->fd);
 		if (line != NULL)
-			sl->item_cnt += sl_line_fill(sl, sl->map[i], line, &i);
+			sl->item_cnt += line_fill(sl->map[i], line, &i);
 	}
 	free(line);
 	line = NULL;
 	if (close(sl->fd) < 0)
 		unexpected_close(ERR_CLOSE_FILE, sl);
-}
-
-int32_t	map_len(int32_t move[2], int32_t hero[5])
-{
-	int32_t	len;
-
-	len = 0;
-	if (move[X] != 0)
-	{
-		if ((hero[Y_H] - hero[Y]) >= PPT && hero[Y] % PPT != 0)
-			len = ((hero[Y_H] - hero[Y]) / PPT) + 1;
-		else
-			len = 1;
-	}
-	else if (move[Y] != 0)
-	{
-		if ((hero[X_W] - hero[X]) >= PPT && hero[X] % PPT != 0)
-			len = ((hero[X_W] - hero[X]) / PPT) + 1;
-		else
-			len = 1;
-	}
-	else
-		return (0);
-	return (len);
 }

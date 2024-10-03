@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 16:22:35 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 00:44:47 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 static void	image_load_sequence(t_win *sl, t_cat *cat)
 {
-	load_image_init(sl, cat->bckg, cat->s_bckg, '0');
-	load_image_init(sl, cat->item_c, cat->s_item_c, 'C');
-	load_image_init(sl, cat->wall, cat->s_wall, '1');
-	load_image_init(sl, cat->exit, cat->s_exit, 'E');
-	load_image_init(sl, cat->item_o, cat->s_item_o, 'C');
-	load_image_init(sl, cat->mush, cat->s_mush, 'C');
-	load_image_init(sl, cat->hero_idle, cat->s_hero_idle, 'P');
-	load_image_init(sl, cat->hero_idle_m, cat->sm_hero_idle, 'P');
-	load_image_init(sl, cat->hero_dead, cat->s_hero_dead, 'P');
-	load_image_init(sl, cat->hero_dead_m, cat->sm_hero_dead, 'P');
-	load_image_init(sl, cat->mons, cat->s_mons, 'M');
-	load_image_init(sl, cat->mons_dead, cat->s_mons_dead, 'M');
-	load_image_init(sl, cat->arrow_up, cat->s_arrow_up, 'P');
-	load_image_init(sl, cat->arrow_down, cat->s_arrow_down, 'P');
-	load_image_init(sl, cat->arrow_r, cat->s_arrow_r, 'P');
-	load_image_init(sl, cat->arrow_l, cat->s_arrow_l, 'P');
+	load_img_init(sl, cat->bckg, cat->s_bckg, '0');
+	load_img_init(sl, cat->item_c, cat->s_item_c, 'C');
+	load_img_init(sl, cat->wall, cat->s_wall, '1');
+	load_img_init(sl, cat->exit, cat->s_exit, 'E');
+	load_img_init(sl, cat->item_o, cat->s_item_o, 'C');
+	load_img_init(sl, cat->mush, cat->s_mush, 'C');
+	load_img_init(sl, cat->hero_idle, cat->s_hero_idle, 'P');
+	load_img_init(sl, cat->hero_idle_m, cat->sm_hero_idle, 'P');
+	load_img_init(sl, cat->hero_dead, cat->s_hero_dead, 'P');
+	load_img_init(sl, cat->hero_dead_m, cat->sm_hero_dead, 'P');
+	load_img_init(sl, cat->mons, cat->s_mons, 'M');
+	load_img_init(sl, cat->mons_dead, cat->s_mons_dead, 'M');
+	load_img_init(sl, cat->arrow_up, cat->s_arrow_up, 'P');
+	load_img_init(sl, cat->arrow_down, cat->s_arrow_down, 'P');
+	load_img_init(sl, cat->arrow_r, cat->s_arrow_r, 'P');
+	load_img_init(sl, cat->arrow_l, cat->s_arrow_l, 'P');
 	sl->str_move = mlx_put_string(sl->mlx, "Movements :", 0, 0);
 }
 
@@ -73,11 +73,18 @@ static void	anime_creation_sequence(t_win *sl, t_cat *cat)
 	cat->arrow_l = create_anime(sl, 0, 3, "arrow_l");
 }
 
-static void	window_init(t_win *sl)
+static void	map_sequence(t_win *sl, char *path)
 {
-	uint32_t h_win;
-	uint32_t w_win;
-	
+	uint32_t	h_win;
+	uint32_t	w_win;
+
+	sl->mlx = NULL;
+	sl->dir = 'R';
+	sl->move_cnt = 0;
+	get_map_size(sl, path);
+	map_alloc(sl);
+	map_fill(sl, path);
+	check_init(sl, sl->map);
 	sl->cat = (t_cat *)ft_calloc(sizeof(t_cat), 1);
 	if (sl->cat == NULL)
 		unexpected_close(ERR_MALLOC, sl);
@@ -90,21 +97,6 @@ static void	window_init(t_win *sl)
 	//	unexpected_close(ERR_MAP_SIZE, sl);
 }
 
-static void	map_sequence(t_win *sl, char *path)
-{
-	
-	sl->mlx = NULL;
-	sl->dir = 'R';
-	sl->move_cnt = 0;
-	get_map_size(sl, path);
-	map_alloc(sl);
-	sl_map_fill(sl, path);
-	check_forbid_value(sl, sl->map);
-	if (map_check_walls(sl->map, sl->w_map - 1, sl->h_map - 1) == -1)
-		unexpected_close(ERR_MAP_WALLS, sl);
-	check_path_init(sl, sl->map);
-}
-
 int	main(int argc, char *argv[])
 {
 	t_win	*sl;
@@ -113,18 +105,16 @@ int	main(int argc, char *argv[])
 	if (argc != 2)
 		unexpected_close(ERR_MISS_ARG, sl);
 	map_sequence(sl, argv[1]);
-	window_init(sl);
 	texture_load_sequence(sl, sl->cat);
 	anime_creation_sequence(sl, sl->cat);
 	image_load_sequence(sl, sl->cat);
-	mlx_close_hook(sl->mlx, &exp_close, sl);
-	mlx_key_hook(sl->mlx, &keyhook, sl);
-	mlx_loop_hook(sl->mlx, hook_mush, sl);
-	mlx_loop_hook(sl->mlx, hook_weapon, sl);
-	mlx_loop_hook(sl->mlx, hook_idle, sl);
-	mlx_loop_hook(sl->mlx, hook_mons, sl);
-	mlx_loop_hook(sl->mlx, hook_mons_dead, sl);
-	//manage NULL value for hooks parameters
+	mlx_close_hook(sl->mlx, &hook_close, sl);
+	mlx_key_hook(sl->mlx, &hook_key, sl);
+	mlx_loop_hook(sl->mlx, &hook_mush, sl);
+	mlx_loop_hook(sl->mlx, &hook_weapon, sl);
+	mlx_loop_hook(sl->mlx, &hook_idle, sl);
+	mlx_loop_hook(sl->mlx, &hook_mons, sl);
+	mlx_loop_hook(sl->mlx, &hook_mons_dead, sl);
 	mlx_loop(sl->mlx);
 	mlx_terminate(sl->mlx);
 	return (free(sl), 0);

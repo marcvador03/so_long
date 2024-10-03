@@ -6,13 +6,13 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:22 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 14:02:26 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 21:24:31 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-static void	free_img(mlx_t *mlx, t_anim *a)
+void	free_img(mlx_t *mlx, t_anim *a)
 {
 	size_t	i;
 
@@ -24,10 +24,10 @@ static void	free_img(mlx_t *mlx, t_anim *a)
 	}
 	free(a->frame);
 	free(a->img);
-	free(a);	
+	free(a);
 }
 
-static void	free_cat(mlx_t *mlx, t_cat *cat)
+void	free_cat(mlx_t *mlx, t_cat *cat)
 {
 	free_img(mlx, cat->wall);
 	free_img(mlx, cat->item_c);
@@ -48,7 +48,7 @@ static void	free_cat(mlx_t *mlx, t_cat *cat)
 	free(cat);
 }
 
-static void	free_map(t_win *sl)
+void	free_map(t_win *sl)
 {
 	size_t	i;
 
@@ -75,23 +75,8 @@ void	esc_close(t_win *sl, t_map **map)
 	exit(1);
 }
 
-void	exp_close(void *ptr)
-{
-	t_win	*sl;
-
-	sl = (t_win *)ptr;
-	if (sl->map != NULL)
-		free_map(sl);
-	if (sl->cat != NULL)
-		free_cat(sl->mlx, sl->cat);
-	if (sl->str_move != NULL)
-		mlx_delete_image(sl->mlx, sl->str_move);
-	mlx_delete_image(sl->mlx, sl->str_move);
-}
-
 void	unexpected_close(char *str, t_win *sl)
 {
-
 	if (sl->map != NULL)
 		free_map(sl);
 	if (sl->cat != NULL)
@@ -100,7 +85,6 @@ void	unexpected_close(char *str, t_win *sl)
 		mlx_delete_image(sl->mlx, sl->str_move);
 	ft_printf("%s\n", "Error");
 	ft_printf("%s\n", str);
-	//mlx_terminate(sl->mlx);
 	free(sl);
 	exit(2);
 }

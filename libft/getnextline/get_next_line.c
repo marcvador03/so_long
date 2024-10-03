@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:56:13 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/12 00:15:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 23:40:22 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*get_next_line(int fd)
 	static t_gnl_list	*lst;
 	char				*str;
 
-	str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	str = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (str == NULL || fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
 		return (free(str), NULL);
 	buffer = read(fd, str, BUFFER_SIZE);

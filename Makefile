@@ -10,19 +10,23 @@ LIB_DIR := lib
 NAME := so_long
 
 SRC_NAMES := so_long.c \
+			 actions.c \
+			 animations.c \
+			 checks.c \
+			 hooks.c \
+			 hooks2.c \
+			 loading.c \
 			 maps.c \
 			 movements.c \
-			 textures.c \
-			 animations.c \
-			 sprites.c \
-			 sprites_utils.c \
-			 utils.c \
-			 checks.c \
-			 actions.c \
-			 loading.c \
 			 path.c \
-			 physics.c
-
+			 physics.c \
+			 sprites.c \
+			 textures.c \
+			 actions_utils.c \
+			 map_utils.c \
+			 physics_utils.c \
+			 sprites_utils.c \
+			 utils.c
 
 INC_NAMES := so_long.h \
 			 animations.h \

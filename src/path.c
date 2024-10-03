@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:43:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 16:02:36 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 21:14:29 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	check_item(t_map map, uint32_t flag[3])
 		flag[2] = flag[2] + 1;
 }
 
-char	*check_all_items(t_win *sl, t_map **map)
+static char	*check_all_items(t_win *sl, t_map **map)
 {
 	unsigned int	h;
 	unsigned int	w;
@@ -59,7 +59,7 @@ static int	find_start_pos(t_win *sl, t_map **map, uint32_t *h, uint32_t *w)
 		while (*w < sl->w_map)
 		{
 			if (map[*h][*w].c == 'P')
-				return (1) ;
+				return (1);
 			*w = *w + 1;
 		}
 		*h = *h + 1;
@@ -67,7 +67,7 @@ static int	find_start_pos(t_win *sl, t_map **map, uint32_t *h, uint32_t *w)
 	return (0);
 }
 
-void	check_path_loop(t_win *sl, t_map **map, uint32_t h, uint32_t w)
+static void	check_path_loop(t_win *sl, t_map **map, uint32_t h, uint32_t w)
 {
 	if (w < sl->w_map && map[h][w + 1].c != '1' && map[h][w + 1].v != 1)
 	{

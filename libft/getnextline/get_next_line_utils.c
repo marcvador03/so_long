@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:25:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/09/12 00:14:32 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 00:29:26 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_gnl_list	*gnl_new(char *content, t_gnl_list *head, int fd)
 	t_gnl_list	*ptr;
 	int			len;
 
-	ptr = (t_gnl_list *)malloc(sizeof (t_gnl_list));
+	ptr = (t_gnl_list *)ft_calloc(sizeof (t_gnl_list), 1);
 	if (ptr == NULL)
 		return (NULL);
 	len = ft_strlen(content);
@@ -95,7 +95,7 @@ char	*gnl_substr(char const *s, unsigned int start, size_t len)
 		len = 0;
 	if (s_len - start < len)
 		len = s_len - start;
-	str = (char *)malloc((len + 2) * sizeof(char));
+	str = (char *)ft_calloc((len + 2),  sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	i = 0;

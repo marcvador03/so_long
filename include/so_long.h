@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 16:31:23 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 00:47:20 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "../libft/getnextline/get_next_line.h"
 # include "errors.h"
 # include "textures.h"
+# include "functions.h"
 # define TITLE "so_long mfleury"
 # define BPP 4
 # define MOVE 4
@@ -40,76 +41,18 @@
 # define INIT 3
 # define PX 4
 
-typedef struct	s_anim
-{
-	char			*name;
-	double			fps;
-	double			time;
-	size_t			count;
-	int32_t			**frame;
-	int32_t			depth;
-	//bool			enabled; //used ?
-	mlx_image_t		**img;
-}	t_anim;
-
-typedef struct s_img_cat
-{
-	t_sprite	*s_wall;
-	t_sprite	*s_item_c;
-	t_sprite	*s_exit;
-	t_sprite	*s_bckg;
-	t_sprite	*s_hero_idle;
-	t_sprite	*sm_hero_idle;
-	t_sprite	*s_hero_dead;
-	t_sprite	*sm_hero_dead;
-	t_sprite	*s_item_o;
-	t_sprite	*s_mush;
-	t_sprite	*s_mons;
-	t_sprite	*s_mons_dead;
-	t_sprite	*s_arrow_up;
-	t_sprite	*s_arrow_down;
-	t_sprite	*s_arrow_r;
-	t_sprite	*s_arrow_l;
-	t_anim		*wall;
-	t_anim		*item_c;
-	t_anim		*exit;
-	t_anim		*bckg;
-	t_anim		*hero_idle;
-	t_anim		*hero_idle_m;
-	t_anim		*hero_dead;
-	t_anim		*hero_dead_m;
-	t_anim		*item_o;
-	t_anim		*mush;
-	t_anim		*mons;
-	t_anim		*mons_dead;
-	t_anim		*arrow_up;
-	t_anim		*arrow_down;
-	t_anim		*arrow_r;
-	t_anim		*arrow_l;
-}	t_cat;
-
-typedef struct	s_map
+typedef struct s_map
 {
 	char	c;
 	char	v;
-	int32_t	x; //used?
-	int32_t	y; //used?
-	//t_anim	**a;
+	int32_t	x;
+	int32_t	y;
 	t_anim	*cur_a;
 	size_t	inst;
-	size_t	cnt; 
-} t_map;
+	size_t	cnt;
+}	t_map;
 
-/*typedef struct	s_hero // used??
-{
-	mlx_image_t	**img;
-	size_t	instance;
-	size_t	count_img; //to be updated
-	u_int32_t	w_hero;
-	u_int32_t	h_hero;
-} t_hero;
-*/
-typedef struct	s_win 
+typedef struct s_win
 {
 	int			fd;
 	t_map		**map;
@@ -124,8 +67,66 @@ typedef struct	s_win
 	mlx_image_t	*s_cnt;
 	t_anim		*hero;
 	char		dir;
-} t_win;
+}	t_win;
 
+/*Exit and basic functions */
+void			unexpected_close(char *str, t_win *sl);
+void			esc_close(t_win *sl, t_map **map);
+void			free_img(mlx_t *mlx, t_anim *a);
+void			free_cat(mlx_t *mlx, t_cat *cat);
+void			free_map(t_win *sl);
+/* Maps and map checks related functions */
+void			get_map_size(t_win *sl, char *path);
+void			map_alloc(t_win *sl);
+void			map_fill(t_win *sl, char *path);
+int32_t			map_len(int32_t move[2], int32_t hero[5]);
+void			check_init(t_win *sl, t_map **map);
+void			check_path_init(t_win *sl, t_map **map);
+void			check_file_ext(t_win *sl, char *path);
+void			free_line_err(t_win *sl, char *line, char *error);
+/* Animations related functions */
+t_anim			*create_anime(t_win *sl, double fps, int32_t z, char *name);
+void			switch_img(t_map *map, t_anim *out, t_anim *in);
+void			switch_direction(t_win *sl, int32_t move[2]);
+void			activate_anim(t_map *map, t_anim *out, t_anim *in);
+void			update_anim_frame(t_win *sl, t_anim *a);
+void			anime_object(t_win *sl, t_anim *a, int32_t i);
+/* Physics and movements related functions */
+int32_t			*fill_move(t_win *sl, t_anim *a, keys_t key);
+int32_t			*fill_coord(t_win *sl, t_anim *a, keys_t key);
+t_map			**identify_adj_map(t_win *sl, int32_t *move, int32_t *hero);
+size_t			move_auth_init(t_win *sl, keys_t key, t_anim *a);
+/* Actions related functions */
+void			collect_item(t_win *sl, t_map **map, t_map a);
+void			weapon_launch(t_win *sl, keys_t key);
+void			kill_monster(t_win *sl, t_map **map_adj);
+void			move_weapon_init(t_win *sl, t_anim *a);
+void			move_mush(t_win *sl, mlx_image_t *img, int32_t n);
+void			move_init(t_win *sl, keys_t key);
+/* Sprite related functions */
+t_sprite		*create_sprite(t_win *sl, mlx_texture_t *t, t_sprite in);
+void			sprite_init(t_sprite *s, t_sprite in);
+t_sprite		*create_sprite_m(t_win *sl, mlx_texture_t *t, t_sprite in);
+int				init_var(size_t **cnt, t_sprite **s, t_sprite in);
+void			free_sprite(size_t *cnt, t_sprite *s, mlx_texture_t *t);//
+void			s_err(t_win *sl, size_t *cnt, t_sprite *s, mlx_texture_t *t);
+void			set_var(size_t cnt[5], int32_t *q, t_sprite in, int32_t w);
+void			set_q(size_t cnt[5], int32_t *q);
+void			set_var_m(size_t cnt[5], int32_t *q, t_sprite in, int32_t w);
+/* Textures related functions */
+mlx_texture_t	*create_sub_txt(size_t w, size_t h);
+mlx_image_t		*load_txt(t_win *sl, mlx_texture_t *t_in, t_sprite in);
+mlx_image_t		*load_txt_m(t_win *sl, mlx_texture_t *t_in, t_sprite in);
+/* Loading related function */
+void			load_img_init(t_win *sl, t_anim *a, t_sprite *sprite, char c);
+void			attach_image(t_map *map, t_anim *a);
+/* Hook related functions*/
+void			hook_mush(void *ptr);
+void			hook_weapon(void *ptr);
+void			hook_idle(void *ptr);
+void			hook_mons_dead(void *ptr);
+void			hook_mons(void *ptr);
+void			hook_key(mlx_key_data_t k, void *param);
+void			hook_close(void *ptr);
 
 #endif
-
