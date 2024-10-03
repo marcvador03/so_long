@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 21:43:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:02:36 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*check_all_items(t_win *sl, t_map **map)
 	return (free(flag), NULL);
 }
 
-void	find_start_position(t_win *sl, t_map **map, uint32_t *h, uint32_t *w)
+static int	find_start_pos(t_win *sl, t_map **map, uint32_t *h, uint32_t *w)
 {
 	*h = 0;
 	while (*h < sl->h_map)
@@ -59,11 +59,12 @@ void	find_start_position(t_win *sl, t_map **map, uint32_t *h, uint32_t *w)
 		while (*w < sl->w_map)
 		{
 			if (map[*h][*w].c == 'P')
-				return ;
+				return (1) ;
 			*w = *w + 1;
 		}
 		*h = *h + 1;
 	}
+	return (0);
 }
 
 void	check_path_loop(t_win *sl, t_map **map, uint32_t h, uint32_t w)
@@ -97,7 +98,8 @@ void	check_path_init(t_win *sl, t_map **map)
 	uint32_t	w;
 	char		*error;
 
-	find_start_position(sl, map, &h, &w);
+	if (find_start_pos(sl, map, &h, &w) == 0)
+		unexpected_close(ERR_MAP_HERO, sl);
 	check_path_loop(sl, map, h, w);
 	error = check_all_items(sl, map);
 	if (error != NULL)

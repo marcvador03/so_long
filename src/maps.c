@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:35:58 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 14:17:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:20:09 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -45,17 +45,17 @@ void	get_map_size(t_win *sl, char *path)
 	if (sl->fd == -1)
 		unexpected_close(ERR_OPEN_FILE, sl);
 	tmp = get_next_line(sl->fd);
-	if (tmp == NULL || tmp[0] == '\n')
-		free_line_err(sl, tmp, ERR_FILE_EMPTY_LINE);
+	if (tmp == NULL)
+		free_line_err(sl, tmp, ERR_FILE_EMPTY);
 	sl->w_map = (uint32_t)(ft_strlen(tmp) - 1);
 	while (tmp != NULL)
 	{
 		free(tmp);
 		tmp = get_next_line(sl->fd);
-		if (tmp == NULL || tmp[0] == '\n')
+		/*if (tmp != NULL && tmp[0] == '\n')
 			free_line_err(sl, tmp, ERR_FILE_EMPTY_LINE);
 		if (tmp != NULL && sl->w_map != (uint32_t)(ft_strlen(tmp) - 1))
-			free_line_err(sl, tmp, ERR_MAP_NOT_RECT);
+			free_line_err(sl, tmp, ERR_MAP_NOT_RECT);*/
 		sl->h_map++ ;
 	}
 	free(tmp);
@@ -73,9 +73,10 @@ static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t *y)
 	item_cnt = 0;
 	while (line[i] != '\n')
 	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != 'M')
+	/*	if (line[i] != '0' && line[i] != '1' && line[i] != 'M')
 			if (line[i] != 'C' && line[i] != 'E' && line[i] != 'P')
-				unexpected_close(ERR_MAP_FORBID_VALUE, sl);
+				free_line_err(sl, line, ERR_MAP_FORBID_VALUE);
+				//unexpected_close(ERR_MAP_FORBID_VALUE, sl);*/
 		map[i].c = line[i];
 		map[i].x = i;
 		map[i].y = *y;
@@ -86,6 +87,11 @@ static unsigned int	sl_line_fill(t_win *sl, t_map *map, char *line, int32_t *y)
 		}*/		
 		if (line[i++] == 'C')
 			item_cnt++;
+	}
+	if (i == 0)
+	{
+		free(line);
+		unexpected_close(ERR_FILE_EMPTY_LINE, sl);
 	}
 	*y = *y + 1;
 	return (item_cnt);

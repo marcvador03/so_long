@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:22:35 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ static void	window_init(t_win *sl)
 	if (sl->mlx == NULL)
 		unexpected_close(ERR_MALLOC, sl);
 	mlx_get_monitor_size(0, (int32_t *)&w_win, (int32_t *)&h_win);
-	if (w_win < (sl->w_map * PPT) || h_win < (sl->h_map * PPT))
-		unexpected_close(ERR_MAP_SIZE, sl);
+	//if (w_win < (sl->w_map * PPT) || h_win < (sl->h_map * PPT))
+	//	unexpected_close(ERR_MAP_SIZE, sl);
 }
 
 static void	map_sequence(t_win *sl, char *path)
@@ -99,6 +99,7 @@ static void	map_sequence(t_win *sl, char *path)
 	get_map_size(sl, path);
 	map_alloc(sl);
 	sl_map_fill(sl, path);
+	check_forbid_value(sl, sl->map);
 	if (map_check_walls(sl->map, sl->w_map - 1, sl->h_map - 1) == -1)
 		unexpected_close(ERR_MAP_WALLS, sl);
 	check_path_init(sl, sl->map);

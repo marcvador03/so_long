@@ -6,11 +6,36 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:51:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 14:00:55 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:30:08 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+void	check_forbid_value(t_win *sl, t_map **map)
+{
+	uint32_t	cnt[2];
+	t_map		m;
+
+	cnt[H] = 0;
+	cnt[W] = 0;
+	while (cnt[H] < sl->h_map)
+	{
+		m = map[cnt[H]][cnt[W]];
+		if (m.c > 0 && m.c <= 32)
+			unexpected_close(ERR_FILE_EMPTY_LINE, sl);
+		while (cnt[W] < sl->w_map)
+		{
+			m = map[cnt[H]][cnt[W]];
+			if (m.c != '0' && m.c != '1' && m.c != 'C' && m.c != 'P')
+				if (m.c != 'M' && m.c != 'E')
+					unexpected_close(ERR_MAP_FORBID_VALUE, sl);
+			cnt[W]++;
+		}
+		cnt[W] = 0;
+		cnt[H]++;
+	}
+}
 
 void	check_file_ext(t_win *sl, char *path)
 {
@@ -46,38 +71,3 @@ int	map_check_walls(t_map **map, uint32_t w, uint32_t h)
 			return (-1);
 	return (0);
 }
-
-/*static int	check_flag(uint32_t flag[3])
-{
-	if (flag[0] > 1 || flag[1] > 1) // yet missing cnt[2]==0 for collectibles
-		return (-1);
-	return (0);
-}
-
-int	sl_map_check_dups(t_map **map, uint32_t w, uint32_t h)
-{
-	uint32_t	i;
-	uint32_t	j;
-	uint32_t	flag[3];
-
-	i = 0;
-	while (i <= 2)
-		flag[i++] = 0;
-	i = 0;
-	while (i <= h && (flag[0] <= 1 || flag[1] <= 1))
-	{
-		j = 0;
-		while (j <= w)
-		{
-			if (map[i][j].c == 'E')
-				flag[0]++;
-			else if (map[i][j].c == 'P')
-				flag[1]++;
-			else if (map[i][j].c == 'C')
-				flag[2]++;
-			j++;
-		}
-		i++;
-	}
-	return (check_flag(flag));
-}*/

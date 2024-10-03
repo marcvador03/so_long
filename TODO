@@ -6,7 +6,13 @@ fix list of malloc to clean (incl. frames) OK
 review error management:
 	avoid 'NULL' when possible - OK
 	review mlx functions requiring null check - OK
+
+------------------------------
 retest and fix map path check
+	empty line
+	window vs map size
+	extension file generating issues (when adding space!!)
+update textures
 implement animation hero (death?)
 clean struct
 clean .h
