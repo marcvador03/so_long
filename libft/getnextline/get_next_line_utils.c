@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:25:12 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 00:29:26 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 12:14:33 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*gnl_substr(char const *s, unsigned int start, size_t len)
 		len = 0;
 	if (s_len - start < len)
 		len = s_len - start;
-	str = (char *)ft_calloc((len + 2),  sizeof(char));
+	str = (char *)ft_calloc((len + 2), sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	i = 0;
