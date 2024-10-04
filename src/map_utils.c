@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:45:15 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 21:26:39 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 10:30:39 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/so_long.h"
@@ -39,4 +39,12 @@ int32_t	map_len(int32_t move[2], int32_t hero[5])
 	else
 		return (0);
 	return (len);
+}
+
+void	open_file(t_win *sl, char *path)
+{
+	check_file_ext(sl, path);
+	sl->fd = open(path, O_RDONLY);
+	if (sl->fd == -1)
+		unexpected_close(ERR_OPEN_FILE, sl);
 }

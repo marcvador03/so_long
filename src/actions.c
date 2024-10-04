@@ -6,17 +6,18 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:06:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 01:57:03 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 10:52:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	kill_monster(t_win *sl, t_map **map_adj)
+void	kill_monster(t_win *sl, t_map **map_adj, t_anim *a)
 {
 	int	i;
 
 	i = 0;
+	a->img[0]->instances[0].enabled = false;
 	while (map_adj[i] != NULL)
 	{
 		if (map_adj[i]->c == 'M')
@@ -26,6 +27,7 @@ void	kill_monster(t_win *sl, t_map **map_adj)
 		}
 		i++;
 	}
+	free(map_adj);
 }
 
 void	weapon_launch(t_win *sl, keys_t key)

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:58:22 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 01:57:03 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 11:30:05 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	esc_close(t_win *sl, t_map **map)
 		free(map);
 	}
 	free_cat(sl->mlx, sl->cat);
-	mlx_terminate(sl->mlx);
+	if (sl->mlx != NULL)
+		mlx_terminate(sl->mlx);
 	free(sl);
 	exit(1);
 }
@@ -83,6 +84,8 @@ void	unexpected_close(char *str, t_win *sl)
 		mlx_delete_image(sl->mlx, sl->str_move);
 	ft_printf("%s\n", "Error");
 	ft_printf("%s\n", str);
+	if (sl->mlx != NULL)
+		mlx_terminate(sl->mlx);
 	free(sl);
 	exit(2);
 }

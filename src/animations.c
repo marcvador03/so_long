@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 01:36:15 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 11:58:02 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	anime_object(t_win *sl, t_anim *a, int32_t i, int max)
 			*frame = (*frame + 1) % a->count;
 		else if (max == 1)
 		{
-			if ((size_t)*frame == a->count - 1)
+			if (((size_t)(*frame)) == a->count - 1)
 				a->img[*frame]->instances[i].enabled = false;
 			else
 				*frame = *frame + 1;

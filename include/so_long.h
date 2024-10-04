@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 01:58:23 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 11:59:41 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "../libft/getnextline/get_next_line.h"
 # include "errors.h"
 # include "textures.h"
-# include "functions.h"
+# include "collections.h"
 # define TITLE "so_long mfleury"
 # define BPP 4
 # define MOVE 8
@@ -75,6 +75,7 @@ void			esc_close(t_win *sl, t_map **map);
 void			free_img(mlx_t *mlx, t_anim *a);
 void			free_cat(mlx_t *mlx, t_cat *cat);
 void			free_map(t_win *sl);
+void			open_file(t_win *sl, char *path);
 /* Maps and map checks related functions */
 void			get_map_size(t_win *sl, char *path);
 void			map_alloc(t_win *sl);
@@ -91,7 +92,7 @@ void			switch_hero(t_anim *out, t_anim *in);
 void			switch_direction(t_win *sl, int32_t move[2]);
 void			activate_anim(t_map *map, t_anim *out, t_anim *in);
 void			update_anim_frame(t_win *sl, t_anim *a);
-void			anime_object(t_win *sl, t_anim *a, int32_t, int max);
+void			anime_object(t_win *sl, t_anim *a, int32_t i, int max);
 /* Physics and movements related functions */
 int32_t			*fill_move(t_win *sl, t_anim *a, keys_t key);
 int32_t			*fill_coord(t_win *sl, t_anim *a, keys_t key);
@@ -100,7 +101,7 @@ size_t			move_auth_init(t_win *sl, keys_t key, t_anim *a);
 /* Actions related functions */
 void			collect_item(t_win *sl, t_map **map, t_map a);
 void			weapon_launch(t_win *sl, keys_t key);
-void			kill_monster(t_win *sl, t_map **map_adj);
+void			kill_monster(t_win *sl, t_map **map_adj, t_anim *a);
 void			move_weapon_init(t_win *sl, t_anim *a);
 void			move_mush(t_win *sl, mlx_image_t *img, int32_t n);
 void			move_init(t_win *sl, keys_t key);

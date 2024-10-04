@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 02:11:52 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 11:58:49 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ static void	anime_creation_sequence(t_win *sl, t_cat *cat)
 
 static void	map_sequence(t_win *sl, char *path)
 {
-	//uint32_t	h_win;
-	//uint32_t	w_win;
+	uint32_t	h_win;
+	uint32_t	w_win;
 
 	sl->mlx = NULL;
 	sl->dir = 'R';
@@ -79,16 +79,16 @@ static void	map_sequence(t_win *sl, char *path)
 	map_alloc(sl);
 	map_fill(sl, path);
 	check_init(sl, sl->map);
+	sl->mlx = mlx_init(100, 100, TITLE, true);
+	if (sl->mlx == NULL)
+		unexpected_close(ERR_MLX_INIT, sl);
+	mlx_get_monitor_size(0, (int32_t *)&w_win, (int32_t *)&h_win);
+	if (w_win < (sl->w_map * PPT) || h_win < (sl->h_map * PPT))
+		unexpected_close(ERR_MAP_SIZE, sl);
+	mlx_set_window_size(sl->mlx, sl->w_map * PPT, sl->h_map * PPT);
 	sl->cat = (t_cat *)ft_calloc(sizeof(t_cat), 1);
 	if (sl->cat == NULL)
 		unexpected_close(ERR_MALLOC, sl);
-	//mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	sl->mlx = mlx_init(sl->w_map * PPT, sl->h_map * PPT, TITLE, true);
-	if (sl->mlx == NULL)
-		unexpected_close(ERR_MALLOC, sl);
-	//mlx_get_monitor_size(0, (int32_t *)&w_win, (int32_t *)&h_win);
-	//if (w_win < (sl->w_map * PPT) || h_win < (sl->h_map * PPT))
-	//	unexpected_close(ERR_MAP_SIZE, sl);
 }
 
 int	main(int argc, char *argv[])

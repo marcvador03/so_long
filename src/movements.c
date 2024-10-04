@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:17:46 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 01:57:03 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 10:55:51 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,26 @@ void	move_weapon_init(t_win *sl, t_anim *a)
 {
 	size_t		n;
 	int32_t		*move;
+	int32_t		*hero;
 
 	a->time += sl->mlx->delta_time * 1000;
 	move = fill_move(sl, a, 0);
+	hero = fill_coord(sl, a, 0);
 	if (a->time > a->fps)
 	{
 		a->time -= a->fps;
 		n = move_auth_init(sl, 0, a);
 		if (n == 0)
-		{
 			a->img[0]->instances[0].enabled = false;
-		}
 		else if (n == 3)
-		{
-			a->img[0]->instances[0].enabled = false;
-			kill_monster(sl, identify_adj_map(sl, move, fill_coord(sl, a, 0)));
-		}
+			kill_monster(sl, identify_adj_map(sl, move, hero), a);
 		else
 		{
 			a->img[0]->instances[0].x += move[X] * 4;
 			a->img[0]->instances[0].y += move[Y] * 4;
 		}
 		free(move);
+		free(hero);
 	}
 }
 
@@ -103,7 +101,7 @@ void	move_init(t_win *sl, keys_t key)
 		free(str);
 	}
 	else if (n == 2)
-		exit(1);
+		esc_close(sl, sl->map);
 	else if (n == 3)
-		exit(0);
+		esc_close(sl, sl->map);
 }

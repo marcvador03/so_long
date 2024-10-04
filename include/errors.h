@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:21:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 15:24:34 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 11:22:30 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@
 # define ERR_PPT "Error in Pixel per Tile (PPT) definition < 0" 
 # define ERR_EXT "Wrong map extension file (expected .ber)" 
 # define ERR_MAP_SIZE "Map is larger than screen resolution" 
+# define ERR_MLX_INIT "Error during Window initialization (MLX42)" 
 
 #endif

@@ -29,7 +29,7 @@ SRC_NAMES := so_long.c \
 			 utils.c
 
 INC_NAMES := so_long.h \
-			 animations.h \
+			 collections.h \
 			 textures.h \
 			 errors.h
 
@@ -91,15 +91,16 @@ flags:
 show:
 	@echo $(SOURCES)
 
-clean: 
+clean:
 	@$(MAKE) clean -C $(LIBFT_DIR)
-	$(MAKE) clean -C $(CUR_DIR)/$(LIB_DIR)
 	@rm -rf $(OBJ_DIR)
+	@$(MAKE) clean -C $(CUR_DIR)/$(LIB_DIR)
 
 fclean: clean
 	@rm -rf $(NAME)
 	@$(MAKE) fclean -C $(LIBFT_DIR)
 	@rm -rf $(LIB_DIR)/*
+	@rmdir $(LIB_DIR)
 
 re: fclean all
 ifneq ($(DEPS), )
