@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 16:30:42 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 22:03:17 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 01:57:03 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ typedef struct s_img_cat
 	t_sprite	*s_bckg;
 	t_sprite	*s_hero_idle;
 	t_sprite	*sm_hero_idle;
-	t_sprite	*s_hero_dead;
-	t_sprite	*sm_hero_dead;
 	t_sprite	*s_item_o;
 	t_sprite	*s_mush;
 	t_sprite	*s_mons;

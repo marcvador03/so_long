@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:36:27 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 21:14:58 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 01:36:15 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	anime_obj_loop(int32_t frame, int32_t cnt[3], t_anim *a, int32_t i)
 	}
 }
 
-void	anime_object(t_win *sl, t_anim *a, int32_t i)
+void	anime_object(t_win *sl, t_anim *a, int32_t i, int max)
 {
 	int32_t	*frame;
 	int32_t	cnt[3];
@@ -56,7 +56,15 @@ void	anime_object(t_win *sl, t_anim *a, int32_t i)
 		cnt[2] = a->count;
 		anime_obj_loop(*frame, cnt, a, i);
 		a->time -= a->fps;
-		*frame = (*frame + 1) % a->count;
+		if (max == 0)
+			*frame = (*frame + 1) % a->count;
+		else if (max == 1)
+		{
+			if ((size_t)*frame == a->count - 1)
+				a->img[*frame]->instances[i].enabled = false;
+			else
+				*frame = *frame + 1;
+		}
 	}
 }
 

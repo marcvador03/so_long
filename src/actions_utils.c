@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 16:36:26 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 21:12:13 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 01:51:42 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,26 @@ void	switch_img(t_map *map, t_anim *out, t_anim *in)
 	}
 	out->img[0]->instances[map->inst].enabled = true;
 	map->cur_a = out;
+}
+
+void	switch_hero(t_anim *out, t_anim *in)
+{
+	size_t	i;
+	int32_t	x;
+	int32_t	y;
+
+	i = 0;
+	while (i < in->count)
+		in->img[i++]->instances[0].enabled = false;
+	i = 0;
+	while (i < out->count)
+	{
+		x = in->img[0]->instances[0].x;
+		y = in->img[0]->instances[0].y;
+		out->img[i]->instances[0].x = x;
+		out->img[i++]->instances[0].y = y;
+	}
+	out->img[0]->instances[0].enabled = true;
 }
 
 static void	switch_direction_loop(t_anim *out, t_anim *in)

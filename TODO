@@ -1,3 +1,11 @@
+--------------------------------------
+retest and fix map path check
+	empty line --> get next line!!
+	window vs map size - to be retested
+why random fail
+norminette - few cleans + clean texture folder & lines long
+remove files not needed
+
 fix sprite count OK
 implement animation monster OK
 implement attack (all directions) OK
@@ -9,14 +17,14 @@ review error management:
 
 ------------------------------
 retest and fix map path check
-	empty line
-	window vs map size
-	extension file generating issues (when adding space!!)
-update textures
-implement animation hero (death?)
-clean struct
-clean .h
-norminette
+	empty line --> get next line!!
+	window vs map size - to be retested
+	extension file generating issues (when adding space!!) OK
+update textures not needed
+implement animation hero (death?) - no
+clean struct OK
+clean .h OK 
+norminettei - few cleans + clean texture folder & lines long
 
 
 

@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:29:04 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 01:01:24 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 01:02:37 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	set_var(size_t cnt[5], int32_t *q, t_sprite in, int32_t w)
 	*q = 0;
 	cnt[INIT] = (in.pos_x + (in.pos_y * w)) * BPP;
 	cnt[INIT] += cnt[H] * w * BPP;
-	cnt[INIT] += cnt[TXT] * in.width * BPP;
+	cnt[INIT] += cnt[TXT] * (in.width + in.dead_zone) * BPP;
 	cnt[W] = 0;
 	cnt[H]++;
 }
@@ -58,7 +58,7 @@ void	set_var_m(size_t cnt[5], int32_t *q, t_sprite in, int32_t w)
 	*q = 0;
 	cnt[INIT] = ((in.pos_x + (in.pos_y * w)) + in.width) * BPP - 4;
 	cnt[INIT] += cnt[H] * w * BPP;
-	cnt[INIT] += cnt[TXT] * in.width * BPP;
+	cnt[INIT] += cnt[TXT] * (in.width + in.dead_zone) * BPP;
 	cnt[W] = 0;
 	cnt[H]++;
 }

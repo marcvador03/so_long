@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 00:44:47 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 02:11:52 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static void	image_load_sequence(t_win *sl, t_cat *cat)
 	load_img_init(sl, cat->mush, cat->s_mush, 'C');
 	load_img_init(sl, cat->hero_idle, cat->s_hero_idle, 'P');
 	load_img_init(sl, cat->hero_idle_m, cat->sm_hero_idle, 'P');
-	load_img_init(sl, cat->hero_dead, cat->s_hero_dead, 'P');
-	load_img_init(sl, cat->hero_dead_m, cat->sm_hero_dead, 'P');
 	load_img_init(sl, cat->mons, cat->s_mons, 'M');
 	load_img_init(sl, cat->mons_dead, cat->s_mons_dead, 'M');
 	load_img_init(sl, cat->arrow_up, cat->s_arrow_up, 'P');
@@ -42,9 +40,7 @@ static void	texture_load_sequence(t_win *sl, t_cat *cat)
 	cat->s_item_o = create_sprite(sl, mlx_load_png(CHEST_O), g_chest_o);
 	cat->s_mush = create_sprite(sl, mlx_load_png(MUSH), g_mush);
 	cat->s_hero_idle = create_sprite(sl, mlx_load_png(HERO_I), g_hero_idle);
-	cat->s_hero_dead = create_sprite(sl, mlx_load_png(HERO_D), g_hero_dead);
 	cat->sm_hero_idle = create_sprite_m(sl, mlx_load_png(HERO_I), g_hero_idle);
-	cat->sm_hero_dead = create_sprite_m(sl, mlx_load_png(HERO_D), g_hero_dead);
 	cat->s_mons = create_sprite(sl, mlx_load_png(MONS), g_mons);
 	cat->s_mons_dead = create_sprite(sl, mlx_load_png(MONS_DEAD), g_mons_dead);
 	cat->s_arrow_down = create_sprite(sl, mlx_load_png(ARROW_UP), g_arrow_up);
@@ -63,10 +59,8 @@ static void	anime_creation_sequence(t_win *sl, t_cat *cat)
 	cat->mush = create_anime(sl, 0.5, 3, "mush");
 	cat->hero_idle = create_anime(sl, 100, 4, "hero_idle");
 	cat->hero_idle_m = create_anime(sl, 100, 4, "hero_idle_m");
-	cat->hero_dead = create_anime(sl, 100, 4, "hero_dead");
-	cat->hero_dead_m = create_anime(sl, 100, 4, "hero_dead_m");
 	cat->mons = create_anime(sl, 200, 3, "mons");
-	cat->mons_dead = create_anime(sl, 300, 3, "mons_dead");
+	cat->mons_dead = create_anime(sl, 100, 3, "mons_dead");
 	cat->arrow_up = create_anime(sl, 0, 3, "arrow_up");
 	cat->arrow_down = create_anime(sl, 0, 3, "arrow_down");
 	cat->arrow_r = create_anime(sl, 0, 3, "arrow_r");
@@ -75,8 +69,8 @@ static void	anime_creation_sequence(t_win *sl, t_cat *cat)
 
 static void	map_sequence(t_win *sl, char *path)
 {
-	uint32_t	h_win;
-	uint32_t	w_win;
+	//uint32_t	h_win;
+	//uint32_t	w_win;
 
 	sl->mlx = NULL;
 	sl->dir = 'R';
@@ -88,11 +82,11 @@ static void	map_sequence(t_win *sl, char *path)
 	sl->cat = (t_cat *)ft_calloc(sizeof(t_cat), 1);
 	if (sl->cat == NULL)
 		unexpected_close(ERR_MALLOC, sl);
-	mlx_set_setting(MLX_STRETCH_IMAGE, true);
+	//mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	sl->mlx = mlx_init(sl->w_map * PPT, sl->h_map * PPT, TITLE, true);
 	if (sl->mlx == NULL)
 		unexpected_close(ERR_MALLOC, sl);
-	mlx_get_monitor_size(0, (int32_t *)&w_win, (int32_t *)&h_win);
+	//mlx_get_monitor_size(0, (int32_t *)&w_win, (int32_t *)&h_win);
 	//if (w_win < (sl->w_map * PPT) || h_win < (sl->h_map * PPT))
 	//	unexpected_close(ERR_MAP_SIZE, sl);
 }

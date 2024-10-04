@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 16:37:55 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/03 21:27:46 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 01:33:38 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,18 @@ void	hook_mons_dead(void *ptr)
 	t_win	*sl;
 	size_t	i;
 	size_t	j;
+	size_t	x;
 
 	sl = (t_win *)ptr;
 	j = 0;
 	while (j < sl->cat->mons_dead->count)
 	{
 		i = 0;
-		while (i < sl->cat->mons_dead->img[j]->count)
+		x = sl->cat->mons_dead->img[j]->count;
+		while (i < x)
 		{
 			if (sl->cat->mons_dead->img[j]->instances[i].enabled == true)
-				anime_object(sl, sl->cat->mons_dead, i);
+				anime_object(sl, sl->cat->mons_dead, i, 1);
 			i++;
 		}
 		j++;
@@ -68,7 +70,7 @@ void	hook_idle(void *ptr)
 	t_win	*sl;
 
 	sl = (t_win *)ptr;
-	anime_object(sl, sl->hero, 0);
+	anime_object(sl, sl->hero, 0, 0);
 }
 
 void	hook_mons(void *ptr)
@@ -85,7 +87,7 @@ void	hook_mons(void *ptr)
 		while (i < sl->cat->mons->img[j]->count)
 		{
 			if (sl->cat->mons->img[j]->instances[i].enabled == true)
-				anime_object(sl, sl->cat->mons, i);
+				anime_object(sl, sl->cat->mons, i, 0);
 			i++;
 		}
 		j++;

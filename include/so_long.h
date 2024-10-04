@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:07 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 00:47:20 by mfleury          ###   ########.fr       */
+/*   Updated: 2024/10/04 01:58:23 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include "functions.h"
 # define TITLE "so_long mfleury"
 # define BPP 4
-# define MOVE 4
+# define MOVE 8
 # define H 0
 # define W 1
 # define X 0
@@ -87,10 +87,11 @@ void			free_line_err(t_win *sl, char *line, char *error);
 /* Animations related functions */
 t_anim			*create_anime(t_win *sl, double fps, int32_t z, char *name);
 void			switch_img(t_map *map, t_anim *out, t_anim *in);
+void			switch_hero(t_anim *out, t_anim *in);
 void			switch_direction(t_win *sl, int32_t move[2]);
 void			activate_anim(t_map *map, t_anim *out, t_anim *in);
 void			update_anim_frame(t_win *sl, t_anim *a);
-void			anime_object(t_win *sl, t_anim *a, int32_t i);
+void			anime_object(t_win *sl, t_anim *a, int32_t, int max);
 /* Physics and movements related functions */
 int32_t			*fill_move(t_win *sl, t_anim *a, keys_t key);
 int32_t			*fill_coord(t_win *sl, t_anim *a, keys_t key);
