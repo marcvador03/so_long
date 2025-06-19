@@ -18,7 +18,7 @@ This project uses the MLX Codam graphic library to draw window and pictures (htt
 However to compile with MLX you need to ensure you have installed GLFW and CMake on your computer. MLX Codam describes steps to follow here:https://github.com/codam-coding-college/MLX42?tab=readme-ov-file#for-linux.
 My own library "Libft" which was developed as part of the school to mimic C standard functions is shipped with this project. We are restricted by the school in the external functions we can use for each project, but allowed to use our own functions and library such as Libft.
 
-*Tested on Linux Debian Trixie*
+*Tested on Linux Debian Trixie and Ubuntu*
 
 **Additional information**
 
