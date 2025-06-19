@@ -6,7 +6,7 @@
 /*   By: mfleury <mfleury@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:40:11 by mfleury           #+#    #+#             */
-/*   Updated: 2024/10/04 02:11:52 by mfleury          ###   ########.fr       */
+/*   Updated: 2025/06/19 19:11:44 by mfleury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ static void	anime_creation_sequence(t_win *sl, t_cat *cat)
 
 static void	map_sequence(t_win *sl, char *path)
 {
-	//uint32_t	h_win;
-	//uint32_t	w_win;
-
 	sl->mlx = NULL;
 	sl->dir = 'R';
 	sl->move_cnt = 0;
@@ -82,13 +79,9 @@ static void	map_sequence(t_win *sl, char *path)
 	sl->cat = (t_cat *)ft_calloc(sizeof(t_cat), 1);
 	if (sl->cat == NULL)
 		unexpected_close(ERR_MALLOC, sl);
-	//mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	sl->mlx = mlx_init(sl->w_map * PPT, sl->h_map * PPT, TITLE, true);
 	if (sl->mlx == NULL)
 		unexpected_close(ERR_MALLOC, sl);
-	//mlx_get_monitor_size(0, (int32_t *)&w_win, (int32_t *)&h_win);
-	//if (w_win < (sl->w_map * PPT) || h_win < (sl->h_map * PPT))
-	//	unexpected_close(ERR_MAP_SIZE, sl);
 }
 
 int	main(int argc, char *argv[])
@@ -98,10 +91,22 @@ int	main(int argc, char *argv[])
 	sl = (t_win *)ft_calloc(sizeof(t_win), 1);
 	if (argc != 2)
 		unexpected_close(ERR_MISS_ARG, sl);
+	
+	/*Performs checks on the map file, and if valid loads the data into a
+	 * t_map structure. */
 	map_sequence(sl, argv[1]);
+	
+	/*Loads textures and sprites. In particular crop a single png sprite into 
+	 * different sub textures to manage animations later*/
 	texture_load_sequence(sl, sl->cat);
+
+	/*create image animations from sprites into dedicated structures*/
 	anime_creation_sequence(sl, sl->cat);
+	
+	/*load images following the map*/
 	image_load_sequence(sl, sl->cat);
+	
+	/*various hooks to manage animations, keyboard inputs*/
 	mlx_close_hook(sl->mlx, &hook_close, sl);
 	mlx_key_hook(sl->mlx, &hook_key, sl);
 	mlx_loop_hook(sl->mlx, &hook_mush, sl);
@@ -109,6 +114,8 @@ int	main(int argc, char *argv[])
 	mlx_loop_hook(sl->mlx, &hook_idle, sl);
 	mlx_loop_hook(sl->mlx, &hook_mons, sl);
 	mlx_loop_hook(sl->mlx, &hook_mons_dead, sl);
+	
+	/*mlx loop to draw everything into the screen*/
 	mlx_loop(sl->mlx);
 	mlx_terminate(sl->mlx);
 	return (free(sl), 0);
